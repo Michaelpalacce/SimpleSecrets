@@ -1,0 +1,9 @@
+apiVersion: "simplesecrets.local/v1"
+kind: SimpleSecret
+metadata:
+    name: test-secret
+spec:
+    - key: keyOne
+      value: valueOne
+    - key: keyTwo
+      value: valueTwo
