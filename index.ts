@@ -1,6 +1,6 @@
 // Framework Singleton instance
 const app						= require( 'event_request' )();
-import SimpleSecretsOperator	from "./operator/simpleSecretsOperator";
+import SimpleSecretsOperator	from "./api/main/operator/simpleSecretsOperator";
 import logger					from "./utils/logger";
 
 /**
@@ -13,6 +13,8 @@ async function startOperator() {
 
 	await operator.start();
 }
+
+require( "./api/main/server/kernel" );
 
 // Start Listening
 app.listen( 80, async () => {

@@ -16,10 +16,12 @@ const logLevels		= {
 	debug	: 400
 };
 
+Loggur.disableDefault();
+
 // Create a custom Logger
 const logger	= Loggur.createLogger({
-	serverName : 'SimpleSecretsOperator', // The name of the logger
-	logLevel : logLevels.debug, // The logLevel for which the logger should be fired
+	serverName : 'Default', // The name of the logger
+	logLevel : 500, // The logLevel for which the logger should be fired
 	logLevels : logLevels, // The logLevel for which the logger should be fired
 	capture : false, // Do not capture thrown errors
 	transports : [

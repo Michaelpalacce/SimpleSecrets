@@ -18,7 +18,8 @@
   "homepage": "https://github.com/Michaelpalacce/SimpleSecrets#readme",
   "dependencies": {
     "@dot-i/k8s-operator": "^1.2.2",
-    "event_request": "^34.0.0"
+    "event_request": "^34.0.0",
+    "sequelize": "^6.15.1"
   },
   "devDependencies": {
     "typescript": "^4.5.5"

@@ -1,6 +1,31 @@
 # SimpleSecrets
 
-A K8S secrets manager operator
+A K8S secrets manager operator. 
+
+
+## Example:
+After adding the SimpleSecret, create an empty SimpleSecret object:
+~~~yaml
+apiVersion: "simplesecrets.local/v1"
+kind: SimpleSecret
+metadata:
+    name: testsecret
+    namespace: simplesecrets
+~~~
+This will automatically resolve to:
+~~~yaml
+apiVersion: v1
+kind: Secret
+metadata:
+    name: testsecret
+    namespace: simplesecrets
+    annotations:
+        "simplesecrets.hash": {{HASH_VALUE}}
+data:
+    dataOne: {{BASE_64_VALUE}}
+    dataTwo: {{BASE_64_VALUE}}
+~~~
+
 
 ## Development Pre-reqs
 1. Have kubectl installed and have it configured to connect to the k8s cluster ( admin.yaml file )

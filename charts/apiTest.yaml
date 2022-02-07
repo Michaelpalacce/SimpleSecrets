@@ -1,5 +1,5 @@
 apiVersion: "simplesecrets.local/v1"
 kind: SimpleSecret
 metadata:
-    name: testsecret
+    name: apitest
     namespace: simplesecrets

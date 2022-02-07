@@ -18,14 +18,8 @@ spec:
                   type: object
                   properties:
                       spec:
-                          type: array
-                          items:
-                              type: object
-                              properties:
-                                  key:
-                                      type: string
-                                  value:
-                                      type: string
+                          type: object
+                          required:
 
     # either Namespaced or Cluster
     scope: Namespaced
