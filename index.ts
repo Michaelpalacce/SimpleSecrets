@@ -3,6 +3,10 @@ const app						= require( 'event_request' )();
 import SimpleSecretsOperator	from "./api/main/operator/simpleSecretsOperator";
 import logger					from "./utils/logger";
 
+if ( ! process.env.ENCRYPTION_KEY ) {
+	throw new Error( "Invalid Encryption Key" );
+}
+
 /**
  * @brief	Start the operator and give it a logger
  *

@@ -37,3 +37,5 @@ app.apply( app.er_timeout,					{ timeout	: 60000 } );
 app.apply( app.er_logger,					{ logger } );
 
 require( "../../controllers" );
+require( "../encryptor/encrypt" );
+

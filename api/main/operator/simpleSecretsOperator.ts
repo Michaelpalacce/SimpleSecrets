@@ -1,9 +1,10 @@
 import Operator, { ResourceEventType, ResourceEvent }	from '@dot-i/k8s-operator';
 import { KubernetesObject, V1Secret }					from '@kubernetes/client-node';
-import logger											from "../../../utils/logger";
+import logger, { OperatorLogger }						from "../../../utils/logger";
 import { apiClient }									from "../k8s/clients"
 import { createHash }									from "crypto"
 import Secret											from "../persistence/connector";
+import { decrypt }										from "../encryptor/encrypt";
 
 export interface SimpleSecrets extends KubernetesObject {
 	spec: SimpleSecretsSpec;
@@ -21,6 +22,13 @@ export interface SimpleSecretsStatus {
 
 export default class SimpleSecretsOperator extends Operator {
 	private ANNOTATION	= 'simplesecrets.hash';
+	private encryptionKey: string;
+
+	constructor( logger: OperatorLogger ) {
+		super( logger );
+
+		this.encryptionKey	= process.env.ENCRYPTION_KEY;
+	}
 
 	protected async init() {
 		// NOTE: we pass the plural name of the resource
@@ -124,6 +132,8 @@ export default class SimpleSecretsOperator extends Operator {
 			}
 		});
 
+		const dbData	= JSON.parse( decrypt( dbSecret.data ) );
+
 		logger.info( `Creating new secret ${name} in ${namespace}` );
 
 		const secret: V1Secret	= {
@@ -137,7 +147,7 @@ export default class SimpleSecretsOperator extends Operator {
 				}
 			},
 			type: dbSecret.type,
-			stringData: JSON.parse( dbSecret.data )[dbSecret.version]
+			stringData: dbData[dbSecret.version]
 		};
 
 		await apiClient.createNamespacedSecret( metadata.namespace, secret ).catch( e => {

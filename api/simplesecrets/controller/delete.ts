@@ -19,4 +19,21 @@ router.delete( '/simplesecrets', async ( event ) => {
 	event.send();
 });
 
+/**
+ * @brief	Adds a '/api/simplesecrets/:namespace:/:name:' route with method DELETE
+ */
+router.delete( '/simplesecrets/:namespace:/:name:', async ( event ) => {
+	const secret	= await Secret.findOne({
+		where: {
+			name: event.params.name,
+			namespace: event.params.namespace,
+		}
+	});
+
+	if ( secret )
+		await secret.destroy();
+
+	event.send();
+});
+
 module.exports	= router;
