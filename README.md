@@ -26,6 +26,12 @@ data:
     dataTwo: {{BASE_64_VALUE}}
 ~~~
 
+## Env Variables
+
+~~~
+DB_CONNECTION_STRING    -> Sequelize DB Connection string
+~~~
+
 
 ## Development Pre-reqs
 1. Have kubectl installed and have it configured to connect to the k8s cluster ( admin.yaml file )

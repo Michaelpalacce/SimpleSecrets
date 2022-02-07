@@ -19,7 +19,13 @@
   "dependencies": {
     "@dot-i/k8s-operator": "^1.2.2",
     "event_request": "^34.0.0",
-    "sequelize": "^6.15.1"
+    "mariadb": "^2.5.5",
+    "mysql2": "^2.3.3",
+    "pg": "^8.7.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.15.1",
+    "sqlite3": "^5.0.2",
+    "tedious": "^14.2.0"
   },
   "devDependencies": {
     "typescript": "^4.5.5"

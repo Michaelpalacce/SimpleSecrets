@@ -3,7 +3,7 @@ import { KubernetesObject, V1Secret }					from '@kubernetes/client-node';
 import logger											from "../../../utils/logger";
 import { apiClient }									from "../k8s/clients"
 import { createHash }									from "crypto"
-import db												from "./testDb";
+import Secret											from "../persistence/connector";
 
 export interface SimpleSecrets extends KubernetesObject {
 	spec: SimpleSecretsSpec;
@@ -118,7 +118,11 @@ export default class SimpleSecretsOperator extends Operator {
 		const metadata	= object.metadata;
 		const namespace	= metadata.namespace;
 		const name		= metadata.name;
-		const dbSecret	= db[namespace][name];
+		const dbSecret	= await Secret.findOne({
+			where: {
+				namespace, name
+			}
+		});
 
 		logger.info( `Creating new secret ${name} in ${namespace}` );
 
@@ -133,7 +137,7 @@ export default class SimpleSecretsOperator extends Operator {
 				}
 			},
 			type: dbSecret.type,
-			stringData: dbSecret.data
+			stringData: JSON.parse( dbSecret.data )[dbSecret.version]
 		};
 
 		await apiClient.createNamespacedSecret( metadata.namespace, secret ).catch( e => {
