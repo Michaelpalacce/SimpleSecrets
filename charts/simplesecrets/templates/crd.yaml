@@ -20,6 +20,9 @@ spec:
                       spec:
                           type: object
                           required:
+                          properties:
+                              version:
+                                  type: number
 
     # either Namespaced or Cluster
     scope: Namespaced

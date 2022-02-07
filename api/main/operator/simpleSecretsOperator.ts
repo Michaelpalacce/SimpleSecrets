@@ -12,8 +12,7 @@ export interface SimpleSecrets extends KubernetesObject {
 }
 
 export interface SimpleSecretsSpec {
-	foo: string;
-	bar?: number;
+	version: string;
 }
 
 export interface SimpleSecretsStatus {
@@ -78,6 +77,13 @@ export default class SimpleSecretsOperator extends Operator {
 		logger.warn( `Secret ${metadata.name} in ${metadata.namespace} hash values match` );
 	}
 
+	/**
+	 * @brief	Deletes the Associated Secret
+	 *
+	 * @param	{ResourceEvent} e
+	 *
+	 * @private
+	 */
 	private async resourceDeleted(e: ResourceEvent) {
 		const metadata	= e.meta;
 		await this.deleteSecret( metadata.name, metadata.namespace );
@@ -132,9 +138,20 @@ export default class SimpleSecretsOperator extends Operator {
 			}
 		});
 
+		if ( ! dbSecret ) {
+			logger.error( `Could not find Simples Secret ${name} in ${namespace}` );
+			return;
+		}
+
 		const dbData	= JSON.parse( decrypt( dbSecret.data ) );
+		const version	= typeof object.spec?.version !== 'undefined' ? object.spec.version : dbSecret.version;
 
 		logger.info( `Creating new secret ${name} in ${namespace}` );
+
+		if ( ! dbData[version] ) {
+			logger.error( `Secret ${name} in ${namespace} does not have version ${version}`)
+			return;
+		}
 
 		const secret: V1Secret	= {
 			apiVersion: "v1",
@@ -147,7 +164,7 @@ export default class SimpleSecretsOperator extends Operator {
 				}
 			},
 			type: dbSecret.type,
-			stringData: dbData[dbSecret.version]
+			stringData: dbData[version]
 		};
 
 		await apiClient.createNamespacedSecret( metadata.namespace, secret ).catch( e => {

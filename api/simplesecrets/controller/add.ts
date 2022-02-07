@@ -1,19 +1,17 @@
 'use strict';
 
 // Dependencies
-import App		from "event_request";
-import Secret	from "../../main/persistence/connector";
-import {encrypt} from "../../main/encryptor/encrypt";
-const app		= App();
-const router	= app.Router();
+import App					from "event_request";
+import Secret				from "../../main/persistence/connector";
+import { decrypt, encrypt }	from "../../main/encryptor/encrypt";
+const app					= App();
+const router				= app.Router();
 
 /**
  * @brief	Adds a '/api/simplesecrets' route with method POST
- *
- * @TODO	ADD VERSIONS
  */
 router.post( '/simplesecrets', async ( event ) => {
-	const body	= event.body;
+	const body								= event.body;
 	const { namespace, type, name, data }	= body;
 
 	const search	= await Secret.findOne({
@@ -22,12 +20,12 @@ router.post( '/simplesecrets', async ( event ) => {
 		}
 	});
 
-	const encryptedData	= encrypt( JSON.stringify( { 1: data } ) );
-
 	if ( ! search ) {
+		const encryptedData	= encrypt( JSON.stringify( { 1: data } ) );
+
 		const secret	= await Secret.create({
 			data: encryptedData,
-			version: "1",
+			version: 1,
 			type,
 			namespace,
 			name: name.toLowerCase()
@@ -36,6 +34,16 @@ router.post( '/simplesecrets', async ( event ) => {
 		event.send( secret );
 		return;
 	}
+
+	const decryptedData			= JSON.parse( decrypt( search.data ) );
+	const newVersion			= parseInt( search.version ) + 1;
+
+	decryptedData[newVersion]	= data;
+
+	search.data					= encrypt( JSON.stringify( decryptedData ) );
+	search.version				= newVersion.toString();
+
+	await search.save();
 
 	event.send( search )
 });
