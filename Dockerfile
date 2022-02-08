@@ -1,10 +1,6 @@
-FROM node:gallium-alpine
+FROM node:gallium-alpine as builder
 
 WORKDIR /app
-
-EXPOSE 80
-
-RUN apk
 
 # Install python/pip
 ENV PYTHONUNBUFFERED=1
@@ -17,7 +13,16 @@ RUN apk add make g++
 COPY . .
 
 RUN npm i && npm i -g sqlite3 && npm rebuild && npm run build \
-	&& rm -rf api charts utils index.ts  \
+	&& rm -rf api charts utils index.ts \
 	&& cp -R dist/* /app
+
+FROM node:gallium-alpine
+
+WORKDIR /app
+
+EXPOSE 80
+
+RUN npm i -g sqlite3
+COPY --from=builder /app /app
 
 CMD [ "node", "index.js" ]
