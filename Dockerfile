@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install python/pip
 ENV PYTHONUNBUFFERED=1
-RUN apt update -y && apt install -y python3 g++ make libsqlite3-dev && ln -sf python3 /usr/bin/python
+RUN apt update -y && apt install -y python3 g++ make libsqlite3-dev libsqlite3 && ln -sf python3 /usr/bin/python
 
 COPY . .
 
