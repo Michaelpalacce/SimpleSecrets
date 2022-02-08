@@ -22,7 +22,6 @@ WORKDIR /app
 
 EXPOSE 80
 
-RUN npm i -g sqlite3
 COPY --from=builder /app /app
 
 CMD [ "node", "index.js" ]

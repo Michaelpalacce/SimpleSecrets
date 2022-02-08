@@ -21,7 +21,7 @@ spec:
             containers:
                 - name: simplesecrets
                   image: {{ .image }}:{{ .tag }}
-                  imagePullPolicy: Always
+                  imagePullPolicy: IfNotPresent
 {{- if .resources }}
                   resources:
 {{ toYaml .resources | indent 22 }}
