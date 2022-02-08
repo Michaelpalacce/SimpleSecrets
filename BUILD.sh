@@ -1,14 +1,4 @@
-VERSION=1.0.3
-
-# Build Only for AMD ( arm takes 30 minutes, cause frick python )
-docker build \
--t stefangenov/simplesecretsbuild:latest \
--t stefangenov/simplesecretsbuild:"${VERSION}" \
--f Dockerfile.builder .
-
-# Push the image ( buildx does not use local images )
-docker push stefangenov/simplesecretsbuild:latest
-docker push stefangenov/simplesecretsbuild:"${VERSION}"
+VERSION=1.0.4
 
 # Build actual image with ready binaries
 docker buildx build --platform linux/amd64,linux/arm64 \
