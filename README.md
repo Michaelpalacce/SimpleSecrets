@@ -18,6 +18,7 @@ heavy? Well look no further!
 - [ ] Tests
 - [ ] Authentication 
 - [ ] Multiple Users
+- [ ] Docker images with other database dependencies
 
 ## How does it work?
 1. SimpleSecrets gets installed as a K8S operator in simplesecrets namespace.
@@ -75,6 +76,7 @@ data:
 ## Development Pre-reqs
 1. Have kubectl installed and have it configured to connect to the k8s cluster ( admin.yaml file )
 2. Run: `npm i`
+3. Install DB driver globally `npm i -g sqlite3`
 
 ## Development
 1. Go to `./charts/`
