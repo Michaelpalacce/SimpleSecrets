@@ -22,6 +22,9 @@ spec:
                 - name: simplesecrets
                   image: {{ .image }}:{{ .tag }}
                   imagePullPolicy: IfNotPresent
+                  env:
+                      - name: DB_PATH
+                        value: "/data"
 {{- if .resources }}
                   resources:
 {{ toYaml .resources | indent 22 }}
