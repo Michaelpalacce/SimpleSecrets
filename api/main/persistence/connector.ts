@@ -1,5 +1,5 @@
 import { Sequelize, Model, DataTypes }	from 'sequelize';
-import { parse }		from 'path';
+import { parse }						from 'path';
 
 const PROJECT_ROOT	= parse( require.main.filename ).dir;
 
@@ -9,7 +9,7 @@ const connectionString	= process.env.DB_CONNECTION_STRING;
 if ( ! connectionString )
 	sequelize	= new Sequelize({
 		dialect: 'sqlite',
-		storage: `${PROJECT_ROOT}/db.sqlite`
+		storage: process.env.DB_PATH || `${PROJECT_ROOT}/db.sqlite`
 	});
 else
 	sequelize	= new Sequelize( connectionString );
@@ -21,15 +21,16 @@ export default class Secret extends Model {
 	namespace: string;
 	version: string;
 }
-Secret.init({
-	data: DataTypes.TEXT,
-	type: DataTypes.STRING,
-	version: DataTypes.STRING,
-	name: DataTypes.STRING,
-	namespace: DataTypes.STRING,
-}, { sequelize, modelName: 'Secret' });
 
-(async () => {
+export async function initDb() {
+	Secret.init({
+		data: DataTypes.TEXT,
+		type: DataTypes.STRING,
+		version: DataTypes.STRING,
+		name: DataTypes.STRING,
+		namespace: DataTypes.STRING,
+	}, { sequelize, modelName: 'Secret' });
+
 	await sequelize.sync();
 	try {
 		await sequelize.authenticate();
@@ -37,4 +38,4 @@ Secret.init({
 	} catch (error) {
 		console.error('Unable to connect to the database:', error);
 	}
-})();
+}

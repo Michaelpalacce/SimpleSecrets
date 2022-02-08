@@ -1,8 +1,7 @@
 
-import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
+import { randomBytes, createCipheriv, createDecipheriv }	from "crypto";
 
 const ALGORITHM = {
-
 	/**
 	 * GCM is an authenticated encryption mode that
 	 * not only provides confidentiality but also
@@ -18,24 +17,21 @@ const ALGORITHM = {
 	IV_BYTE_LEN: 12,
 
 	/**
-	 * Note: 256 (in algorithm name) is key size.
-	 * Block size for AES is always 128
-	 */
-	KEY_BYTE_LEN: 32,
-
-	/**
 	 * 128 bit auth tag is recommended for GCM
 	 */
 	AUTH_TAG_BYTE_LEN: 16,
-
-	/**
-	 * To prevent rainbow table attacks
-	 * */
-	SALT_BYTE_LEN: 16
 }
 
-const getIV = () => randomBytes( ALGORITHM.IV_BYTE_LEN );
-const key	= Buffer.from( process.env.ENCRYPTION_KEY );
+const getIV	= () => randomBytes( ALGORITHM.IV_BYTE_LEN );
+
+/**
+ * @brief	Separated in a function because on start we don't have env variable ENCRYPTION_KEY
+ *
+ * @return	{Buffer}
+ */
+function getKey() {
+	return Buffer.from( process.env.ENCRYPTION_KEY );
+}
 
 /**
  * @param {String} toEncrypt - The clear text message to be encrypted
@@ -50,7 +46,7 @@ export function encrypt ( toEncrypt: string ): string {
 	// @ts-ignore
 	const cipher		= createCipheriv(
 		ALGORITHM.BLOCK_CIPHER,
-		key,
+		getKey(),
 		iv,
 		{ 'authTagLength': ALGORITHM.AUTH_TAG_BYTE_LEN }
 	);
@@ -76,7 +72,7 @@ export function decrypt ( toDecrypt: string ) : string {
 	// @ts-ignore
 	const decipher			= createDecipheriv(
 		ALGORITHM.BLOCK_CIPHER,
-		key,
+		getKey(),
 		iv,
 		{ 'authTagLength': ALGORITHM.AUTH_TAG_BYTE_LEN }
 	);

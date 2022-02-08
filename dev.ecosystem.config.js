@@ -21,7 +21,6 @@ module.exports	= {
 				followSymlinks: false,
 				usePolling: true
 			},
-			env: require( './env.js' )
 		}
 	]
 };
