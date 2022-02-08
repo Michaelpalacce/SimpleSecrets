@@ -1,10 +1,11 @@
 import Operator, { ResourceEventType, ResourceEvent }	from '@dot-i/k8s-operator';
 import { KubernetesObject, V1Secret }					from '@kubernetes/client-node';
 import logger, { OperatorLogger }						from "../../../utils/logger";
-import { apiClient }									from "../k8s/clients"
+import {apiClient, customObjectsApi} from "../k8s/clients"
 import { createHash }									from "crypto"
 import Secret											from "../persistence/connector";
 import { decrypt }										from "../encryptor/encrypt";
+import SimpleSecretsManager from "./SimpleSecretsManager";
 
 export interface SimpleSecrets extends KubernetesObject {
 	spec: SimpleSecretsSpec;
@@ -20,6 +21,10 @@ export interface SimpleSecretsStatus {
 }
 
 export default class SimpleSecretsOperator extends Operator {
+	static GROUP		= 'simplesecrets.local';
+	static VERSION		= 'v1';
+	static PLURAL		= 'simplesecrets';
+
 	private ANNOTATION	= 'simplesecrets.hash';
 	private encryptionKey: string;
 
@@ -31,7 +36,7 @@ export default class SimpleSecretsOperator extends Operator {
 
 	protected async init() {
 		// NOTE: we pass the plural name of the resource
-		await this.watchResource('simplesecrets.local', 'v1', 'simplesecrets', async ( e ) => {
+		await this.watchResource(SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, SimpleSecretsOperator.PLURAL, async ( e ) => {
 			try {
 				switch ( e.type ) {
 					case ResourceEventType.Modified:
@@ -139,7 +144,7 @@ export default class SimpleSecretsOperator extends Operator {
 		});
 
 		if ( ! dbSecret ) {
-			logger.error( `Could not find Simples Secret ${name} in ${namespace}` );
+			logger.error( `Could not find Simples Secret ${name} in ${namespace} in the DATABASE` );
 			return;
 		}
 

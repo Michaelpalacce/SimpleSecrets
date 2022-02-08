@@ -3,5 +3,3 @@ kind: SimpleSecret
 metadata:
     name: apitest
     namespace: simplesecrets
-spec:
-    version: 1

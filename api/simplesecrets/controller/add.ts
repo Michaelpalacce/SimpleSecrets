@@ -4,8 +4,12 @@
 import App					from "event_request";
 import Secret				from "../../main/persistence/connector";
 import { decrypt, encrypt }	from "../../main/encryptor/encrypt";
+import SimpleSecretsManager	from "../../main/operator/SimpleSecretsManager";
+
 const app					= App();
 const router				= app.Router();
+
+
 
 /**
  * @brief	Adds a '/api/simplesecrets' route with method POST
@@ -44,6 +48,12 @@ router.post( '/simplesecrets', async ( event ) => {
 	search.version				= newVersion.toString();
 
 	await search.save();
+
+	const simpleSecret	= await SimpleSecretsManager.getSimpleSecret( namespace, name );
+
+	if ( simpleSecret !== null )
+		if ( ! simpleSecret?.spec?.version )
+			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, `${newVersion}` ).catch( console.log );
 
 	event.send( search )
 });
