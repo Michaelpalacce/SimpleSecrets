@@ -1,4 +1,4 @@
-VERSION=1.0.7
+VERSION=1.0.8
 
 # Build actual image with ready binaries
 docker buildx build --platform linux/amd64,linux/arm64 \
