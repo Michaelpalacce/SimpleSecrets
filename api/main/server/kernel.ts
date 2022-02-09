@@ -2,7 +2,7 @@
 
 // Dependencies
 const app		= require( 'event_request' )();
-import logger	from '../../../utils/logger';
+import logger	from '../utils/logger';
 
 app.apply( app.er_cors, {
 	origin: 'er_dynamic',

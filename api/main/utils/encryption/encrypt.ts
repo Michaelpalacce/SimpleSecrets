@@ -1,4 +1,3 @@
-
 import { randomBytes, createCipheriv, createDecipheriv }	from "crypto";
 
 const ALGORITHM = {
@@ -34,14 +33,14 @@ function getKey() {
 }
 
 /**
- * @param {String} toEncrypt - The clear text message to be encrypted
+ * @param	{String} toEncrypt - The clear text message to be encrypted
  *
  * The caller of this function has the responsibility to clear
  * the Buffer after the encryption to prevent the message text
  * and the key from lingering in the memory
  */
 export function encrypt ( toEncrypt: string ): string {
-	const messagetext	= Buffer.from( toEncrypt );
+	const messageText	= Buffer.from( toEncrypt );
 	const iv			= getIV();
 	// @ts-ignore
 	const cipher		= createCipheriv(
@@ -50,7 +49,7 @@ export function encrypt ( toEncrypt: string ): string {
 		iv,
 		{ 'authTagLength': ALGORITHM.AUTH_TAG_BYTE_LEN }
 	);
-	let encryptedMessage	= cipher.update( messagetext );
+	let encryptedMessage	= cipher.update( messageText );
 	encryptedMessage		= Buffer.concat([encryptedMessage, cipher.final()]);
 
 	return Buffer.concat([iv, encryptedMessage, cipher.getAuthTag()]).toString( "base64" );
@@ -58,7 +57,7 @@ export function encrypt ( toEncrypt: string ): string {
 
 /**
  *
- * @param {String} toDecrypt - Cipher text
+ * @param	{String} toDecrypt - Cipher text
  *
  * The caller of this function has the responsibility to clear
  * the Buffer after the decryption to prevent the message text
@@ -77,7 +76,7 @@ export function decrypt ( toDecrypt: string ) : string {
 		{ 'authTagLength': ALGORITHM.AUTH_TAG_BYTE_LEN }
 	);
 	decipher.setAuthTag( authTag );
-	let messagetext	= decipher.update(encryptedMessage);
-	messagetext		= Buffer.concat([messagetext, decipher.final()]);
-	return messagetext.toString();
+	let messageText	= decipher.update(encryptedMessage);
+	messageText		= Buffer.concat([messageText, decipher.final()]);
+	return messageText.toString();
 }

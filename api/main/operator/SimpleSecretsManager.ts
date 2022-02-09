@@ -1,7 +1,20 @@
-import SimpleSecretsOperator, { SimpleSecrets }	from "./simpleSecretsOperator";
-import { customObjectsApi }						from "../k8s/clients";
-import { PatchUtils }							from "@kubernetes/client-node";
-import http										from "http";
+import SimpleSecretsOperator			from "./SimpleSecretsOperator";
+import { customObjectsApi }				from "../k8s/clients";
+import { KubernetesObject, PatchUtils }	from "@kubernetes/client-node";
+import http								from "http";
+import {PatchDirectiveOperation, V1Patch} from "../k8s/interfaces";
+
+export interface SimpleSecrets extends KubernetesObject {
+	spec: SimpleSecretsSpec;
+	status: SimpleSecretsStatus;
+}
+
+export interface SimpleSecretsSpec {
+	version: number;
+}
+
+export interface SimpleSecretsStatus {
+}
 
 /**
  * @brief	Class responsible for handling api calls for SimpleSecret CRDs
@@ -14,15 +27,15 @@ export default class SimpleSecretsManager {
 	 * @param	{String} key
 	 * @param	{String} value
 	 *
-	 * @return	Promise
+	 * @return	{Promise}
 	 */
-	static async patchSimpleSecretAnnotation ( simpleSecret: SimpleSecrets, key: string, value: any ): Promise<{
+	static async patchSimpleSecretAnnotation ( simpleSecret: SimpleSecrets, key: string, value: string ): Promise<{
 		response: http.IncomingMessage;
 		body: object;
 	} | void> {
 		const patch	= [
 			{
-				"op": "add",
+				"op": PatchDirectiveOperation.ADD,
 				"path": `/metadata/annotations/${key}`,
 				"value": value
 			}
@@ -34,11 +47,11 @@ export default class SimpleSecretsManager {
 	 * @brief	Patches annotations
 	 *
 	 * @param	{SimpleSecrets} simpleSecret
-	 * @param	{Object} patch
+	 * @param	{V1Patch} patch
 	 *
-	 * @return	Promise
+	 * @return	{Promise}
 	 */
-	static async patchSimpleSecret ( simpleSecret: SimpleSecrets, patch: object ): Promise<{
+	static async patchSimpleSecret ( simpleSecret: SimpleSecrets, patch: V1Patch ): Promise<{
 		response: http.IncomingMessage;
 		body: object;
 	} | void> {
@@ -57,7 +70,7 @@ export default class SimpleSecretsManager {
 	 * @param	{SimpleSecrets} simpleSecret
 	 * @param	{Number} version
 	 *
-	 * @return	Promise
+	 * @return	{Promise}
 	 */
 	static async patchSimpleSecretVersionAnnotation( simpleSecret: SimpleSecrets, version: string ): Promise<{
 		response: http.IncomingMessage;
@@ -81,9 +94,9 @@ export default class SimpleSecretsManager {
 		console.log( 'PATCHING' );
 		const patch	= [
 			{
-				"op": "add",
-				"path": `/spec/version`,
-				"value": version
+				op		: PatchDirectiveOperation.ADD,
+				path	: '/spec/version',
+				value	: version
 			}
 		];
 		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( console.log );

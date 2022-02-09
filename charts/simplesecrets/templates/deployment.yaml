@@ -8,7 +8,7 @@ metadata:
     labels:
         app: simplesecrets
 spec:
-    replicas: 1
+    replicas: 0
     selector:
         matchLabels:
             app: simplesecrets
@@ -46,8 +46,8 @@ spec:
             restartPolicy: Always
             volumes:
                 - name: data-config
-                  persistentVolumeClaim:
-                      claimName: simplesecrets-pvc
+                  hostPath:
+                      path: /opt/simplesecret
 
 ---
 
