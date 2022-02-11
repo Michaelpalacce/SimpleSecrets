@@ -1,7 +1,7 @@
 simplesecrets:
     image: stefangenov/simplesecrets
-    tag: 1.0.4-sqlite3
-    #    nodePort: 30125
+    tag: 1.0.7-sqlite3
+    nodePort: 30125
     port: 80
     resources:
         requests:
@@ -10,8 +10,3 @@ simplesecrets:
         limits:
             cpu: 500m
             memory: 1Gi
-
-storage:
-    dataLocality: "best-effort" # or disabled
-    numberOfReplicas: 1
-    configSize: 1Gi

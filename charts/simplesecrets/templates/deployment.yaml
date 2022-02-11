@@ -8,7 +8,7 @@ metadata:
     labels:
         app: simplesecrets
 spec:
-    replicas: 1
+    replicas: 0
     selector:
         matchLabels:
             app: simplesecrets
@@ -24,7 +24,7 @@ spec:
                   imagePullPolicy: IfNotPresent
                   env:
                       - name: DB_PATH
-                        value: "/data"
+                        value: "/data/db.sqlite"
 {{- if .resources }}
                   resources:
 {{ toYaml .resources | indent 22 }}
@@ -46,8 +46,8 @@ spec:
             restartPolicy: Always
             volumes:
                 - name: data-config
-                  persistentVolumeClaim:
-                      claimName: simplesecrets-pvc
+                  hostPath:
+                      path: /opt/simplesecret
 
 ---
 

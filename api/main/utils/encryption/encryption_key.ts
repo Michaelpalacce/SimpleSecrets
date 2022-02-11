@@ -1,5 +1,6 @@
 import { createHash }	from "crypto";
-import { apiClient }	from "../api/main/k8s/clients";
+import { apiClient }	from "../../k8s/clients";
+
 const VARIABLE_NAME		= "encryptionKey";
 const SECRET_NAME		= "encryptionkey";
 const SECRET_NAMESPACE	= "simplesecrets";

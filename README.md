@@ -3,15 +3,18 @@
 # SimpleSecrets
 
 A K8S secrets manager operator. A secure operator that gets installed in your kubernetes cluster and allows you to create 
-secrets on demand. This way you can commit your SimpleSecrets to source control without having to worry about them actually being exposed.
+secrets on demand. You can commit the SimpleSecrets which are nothing more than a reference to a database secret that will 
+be created automatically for you. Targeted for HomeLab environments and not Enterprise.
+
 Did you ever wonder, why am I paying AWS, Google, Microsoft, or why am I bothering with Hashicorp Vault when it's so unnecessarily 
 heavy? Well look no further!
 
-## Use Cases
+## Why SimpleSecrets?
 1. You want to commit your code to git, but not your secrets
-2. You are using HELM to provision your environment. Adding a secret to a helm chart doesn't really work, since your secrets will be exposed in the git repo.
+2. You are using HELM to provision your environment. Adding a secret to a helm chart means that chart cannot be committed to source
+    control. Removing the secret's values also doesn't really work since you gotta keep a local copy instead and add it and remove it every time.
 3. You don't want to pay money to cloud providers
-4. You want all your data safely stored on your local environment
+4. You want all your data safely stored on your local environment inside the very same cluster that needs the secrets
 
 ## Roadmap
 - [ ] UI - For now I have provided a postman collection that you can use to access the operator
@@ -19,6 +22,15 @@ heavy? Well look no further!
 - [ ] Authentication 
 - [ ] Multiple Users
 - [ ] Docker images with other database dependencies
+
+## Supported DBs:
+| db            | Supported          | Comments                                                                   |
+|---------------|--------------------|----------------------------------------------------------------------------|
+| sqlite3       | :heavy_check_mark: | Tested and working without any issue                                       |
+| PostgreSQL    | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
+| MySQL         | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
+| MariaDB       | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
+| Microsoft SQL | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
 
 ## How does it work?
 1. SimpleSecrets gets installed as a K8S operator in simplesecrets namespace.
@@ -50,6 +62,27 @@ metadata:
 data:
     dataOne: {{BASE_64_VALUE}}
     dataTwo: {{BASE_64_VALUE}}
+~~~
+
+## Versioning
+When creating a new secret with an api call, if that secret exists, a new version will be added. You can specify the version you want to use inside of the SimpleSecret `spec`
+~~~yaml
+apiVersion: "simplesecrets.local/v1"
+kind: SimpleSecret
+metadata:
+    name: testsecret
+    namespace: simplesecrets
+spec:
+    version: 3 # The Operator will provision version 3 of the secret. If that version does not exist, a secret will not be created
+~~~
+If you want to use the latest version ALWAYS ( the K8S Secret will be recreated every time you create a new version with the API ),
+then do not specify a version at all:
+~~~yaml
+apiVersion: "simplesecrets.local/v1"
+kind: SimpleSecret
+metadata:
+    name: testsecret
+    namespace: simplesecrets
 ~~~
 
 ## Env Variables

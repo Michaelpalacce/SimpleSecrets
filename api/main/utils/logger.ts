@@ -2,11 +2,11 @@ import { Logging }						from "event_request";
 const { Loggur, LOG_LEVELS, Console }	= Logging;
 
 export interface OperatorLogger {
-	log(message: string): void;
-	info(message: string): void;
-	debug(message: string): void;
-	warn(message: string): void;
-	error(message: string): void;
+	log( message: string ): void;
+	info( message: string ): void;
+	debug( message: string ): void;
+	warn( message: string ): void;
+	error( message: string ): void;
 }
 
 const logLevels		= {
@@ -21,12 +21,12 @@ Loggur.disableDefault();
 // Create a custom Logger
 const logger	= Loggur.createLogger({
 	serverName : 'Default', // The name of the logger
-	logLevel : 500, // The logLevel for which the logger should be fired
+	logLevel : 300, // The logLevel for which the logger should be fired
 	logLevels : logLevels, // The logLevel for which the logger should be fired
 	capture : false, // Do not capture thrown errors
 	transports : [
 		new Console( {
-			logLevel : LOG_LEVELS.notice,
+			logLevel : 300,
 		} ), // Console logger that logs everything below notice
 	]
 }) as OperatorLogger;

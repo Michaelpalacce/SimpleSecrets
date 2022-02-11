@@ -1,31 +1,21 @@
 import Operator, { ResourceEventType, ResourceEvent }	from '@dot-i/k8s-operator';
-import { KubernetesObject, V1Secret }					from '@kubernetes/client-node';
-import logger, { OperatorLogger }						from "../../../utils/logger";
-import {apiClient, customObjectsApi} from "../k8s/clients"
+import { V1Secret }										from '@kubernetes/client-node';
+import logger, { OperatorLogger }						from "../utils/logger";
 import { createHash }									from "crypto"
-import Secret											from "../persistence/connector";
-import { decrypt }										from "../encryptor/encrypt";
-import SimpleSecretsManager from "./SimpleSecretsManager";
+import { Secret }										from "../persistence/connector";
+import { decrypt }										from "../utils/encryption/encrypt";
+import { SimpleSecrets }								from "./SimpleSecretsManager";
+import SecretsManager									from "./SecretsManager";
 
-export interface SimpleSecrets extends KubernetesObject {
-	spec: SimpleSecretsSpec;
-	status: SimpleSecretsStatus;
-}
-
-export interface SimpleSecretsSpec {
-	version: string;
-}
-
-export interface SimpleSecretsStatus {
-	observedGeneration?: number;
-}
-
+/**
+ * @brief	Holds logic related to operating on SimpleSecret CRDs
+ */
 export default class SimpleSecretsOperator extends Operator {
-	static GROUP		= 'simplesecrets.local';
-	static VERSION		= 'v1';
-	static PLURAL		= 'simplesecrets';
+	static GROUP: string		= 'simplesecrets.local';
+	static VERSION: string		= 'v1';
+	static PLURAL: string		= 'simplesecrets';
 
-	private ANNOTATION	= 'simplesecrets.hash';
+	private ANNOTATION: string	= 'simplesecrets.hash';
 	private encryptionKey: string;
 
 	constructor( logger: OperatorLogger ) {
@@ -34,9 +24,9 @@ export default class SimpleSecretsOperator extends Operator {
 		this.encryptionKey	= process.env.ENCRYPTION_KEY;
 	}
 
-	protected async init() {
+	protected async init() : Promise<void> {
 		// NOTE: we pass the plural name of the resource
-		await this.watchResource(SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, SimpleSecretsOperator.PLURAL, async ( e ) => {
+		await this.watchResource( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, SimpleSecretsOperator.PLURAL, async ( e ) => {
 			try {
 				switch ( e.type ) {
 					case ResourceEventType.Modified:
@@ -61,14 +51,14 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async resourceAdded( e: ResourceEvent ) {
+	private async resourceAdded( e: ResourceEvent ): Promise<void> {
 		const object	= e.object as SimpleSecrets;
 		const metadata	= object.metadata;
 		const hash		= this.calculateHash( object );
-		const result	= await apiClient.readNamespacedSecret( metadata.name, metadata.namespace ).catch( e => e );
+		const result	= await SecretsManager.getSecret( metadata.name, metadata.namespace );
 
 		// Not found, create it
-		if ( result.statusCode === 404 )
+		if ( ! result )
 			return await this.createNewSecret( object, hash );
 
 		logger.warn( `Secret ${metadata.name} in ${metadata.namespace} already exists` );
@@ -89,7 +79,7 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async resourceDeleted(e: ResourceEvent) {
+	private async resourceDeleted( e: ResourceEvent ): Promise<void> {
 		const metadata	= e.meta;
 		await this.deleteSecret( metadata.name, metadata.namespace );
 	}
@@ -115,12 +105,12 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async recreateSecret( object: SimpleSecrets, hash: string = '' ) {
+	private async recreateSecret( object: SimpleSecrets, hash: string = '' ): Promise<void> {
 		logger.info( "Hash mismatch, recreating secret!" );
 		const metadata	= object.metadata;
 
 		await this.deleteSecret( metadata.name, metadata.namespace );
-		return await this.createNewSecret( object, hash );
+		await this.createNewSecret( object, hash );
 	}
 
 	/**
@@ -133,7 +123,7 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async createNewSecret( object: SimpleSecrets, hash: string = '' ) {
+	private async createNewSecret( object: SimpleSecrets, hash: string = '' ): Promise<void> {
 		const metadata	= object.metadata;
 		const namespace	= metadata.namespace;
 		const name		= metadata.name;
@@ -172,7 +162,7 @@ export default class SimpleSecretsOperator extends Operator {
 			stringData: dbData[version]
 		};
 
-		await apiClient.createNamespacedSecret( metadata.namespace, secret ).catch( e => {
+		await SecretsManager.createNewSecret( namespace, secret ).catch( e => {
 			logger.error( `Could not create secret, reason: ${JSON.stringify( e.body )}` );
 		});
 	}
@@ -185,9 +175,9 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async deleteSecret( name: string, namespace: string ) {
+	private async deleteSecret( name: string, namespace: string ): Promise<void> {
 		logger.info( `Deleting Secret ${name} in ${namespace}` );
-		await apiClient.deleteNamespacedSecret( name, namespace ).catch( e => {
+		await SecretsManager.deleteSecret( name, namespace ).catch( e => {
 			logger.error( `Could not delete secret, reason: ${JSON.stringify( e.body )}` );
 		});
 	}

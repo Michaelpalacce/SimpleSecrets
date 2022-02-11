@@ -14,7 +14,7 @@ if ( ! connectionString )
 else
 	sequelize	= new Sequelize( connectionString );
 
-export default class Secret extends Model {
+export class Secret extends Model {
 	data: string;
 	type: string;
 	name: string;
