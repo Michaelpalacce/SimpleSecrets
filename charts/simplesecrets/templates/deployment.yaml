@@ -8,7 +8,7 @@ metadata:
     labels:
         app: simplesecrets
 spec:
-    replicas: 0
+    replicas: 1
     selector:
         matchLabels:
             app: simplesecrets
@@ -87,6 +87,12 @@ spec:
           protocol: TCP
           port: {{ .web.port }}
           {{- with .web.nodePort }}
+          nodePort: {{ . }}
+          {{- end }}
+        - name: api
+          protocol: TCP
+          port: {{ .api.port }}
+          {{- with .api.nodePort }}
           nodePort: {{ . }}
           {{- end }}
 ---

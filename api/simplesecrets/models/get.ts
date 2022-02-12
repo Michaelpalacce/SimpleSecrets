@@ -18,6 +18,9 @@ export async function getOne( event ) {
 		}
 	});
 
+	if ( ! secret )
+		return await event.send();
+
 	secret.data	= JSON.parse( decrypt( secret.data ) );
 
 	event.send( secret );

@@ -12,6 +12,7 @@ RUN apt update -y  \
     npm i --build-from-source --sqlite=/usr/local &&  \
     npm rebuild &&  \
     npm run build && \
+    npm prune --production && \
     rm -rf api charts utils index.ts &&  \
     cp -R dist/* /app && \
     apt purge -y python3 g++ make && \

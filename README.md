@@ -1,7 +1,6 @@
 ## Notice: this project is in an alpha stage. It needs more testing
 
 # SimpleSecrets
-
 A K8S secrets manager operator. A secure operator that gets installed in your kubernetes cluster and allows you to create 
 secrets on demand. You can commit the SimpleSecrets which are nothing more than a reference to a database secret that will 
 be created automatically for you. Targeted for HomeLab environments and not Enterprise.
@@ -17,7 +16,7 @@ heavy? Well look no further!
 4. You want all your data safely stored on your local environment inside the very same cluster that needs the secrets
 
 ## Roadmap
-- [ ] UI - For now I have provided a postman collection that you can use to access the operator
+- [x] UI - For now I have provided a postman collection that you can use to access the operator -> https://github.com/Michaelpalacce/SimpleSecretsFrontend
 - [ ] Tests
 - [ ] Authentication 
 - [ ] Multiple Users

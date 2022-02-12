@@ -1,4 +1,4 @@
-VERSION=1.0.9
+VERSION=$(curl -s -XGET https://api.github.com/repos/Michaelpalacce/SimpleSecrets/tags | grep name -m 1 | awk '{print $2}' | cut -d'"' -f2)
 
 # Build actual image with ready binaries
 docker buildx build --platform linux/amd64,linux/arm64 \
