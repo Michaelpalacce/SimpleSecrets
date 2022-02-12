@@ -13,8 +13,13 @@ import SimpleSecretsManager	from "../../main/operator/SimpleSecretsManager";
  * @param	{EventRequest} event
  */
 export default async function add( event ) {
-	const body								= event.body;
-	const { namespace, type, name, data }	= body;
+	const body							= event.body;
+	let { namespace, type, name, data }	= body;
+
+	namespace	= namespace.trim();
+	type		= type.trim();
+	name		= name.trim();
+	data		= data.trim();
 
 	const search	= await Secret.findOne({
 		where: {
