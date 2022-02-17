@@ -19,7 +19,7 @@ export default async function add( event ) {
 	namespace	= typeof namespace !== 'undefined' ? namespace : 'default';
 	type		= typeof type !== 'undefined' ? type : '';
 	name		= typeof name !== 'undefined' ? name : '';
-	data		= typeof data !== 'undefined' ? data : {};
+	data		= typeof data !== 'undefined' ? data : '';
 
 	namespace	= namespace.trim();
 	type		= type.trim();
