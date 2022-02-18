@@ -91,7 +91,6 @@ export default class SimpleSecretsManager {
 		response: http.IncomingMessage;
 		body: object;
 	} | void> {
-		console.log( 'PATCHING' );
 		const patch	= [
 			{
 				op		: PatchDirectiveOperation.ADD,
