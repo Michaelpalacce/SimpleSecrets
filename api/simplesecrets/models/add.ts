@@ -16,15 +16,9 @@ export default async function add( event ) {
 	const body							= event.body;
 	let { namespace, type, name, data }	= body;
 
-	namespace	= typeof namespace !== 'undefined' ? namespace : 'default';
-	type		= typeof type !== 'undefined' ? type : '';
-	name		= typeof name !== 'undefined' ? name : '';
-	data		= typeof data !== 'undefined' ? data : '';
-
-	namespace	= namespace.trim();
-	type		= type.trim();
-	name		= name.trim();
-	data		= data.trim();
+	name		= typeof name === 'string' ? name.trim() : '';
+	namespace	= typeof namespace === 'string' ? namespace.trim() : 'default';
+	type		= typeof type === 'string' ? type.trim() : 'Opaque';
 
 	const search	= await Secret.findOne({
 		where: {
