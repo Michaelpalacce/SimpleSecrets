@@ -1,8 +1,8 @@
-import SimpleSecretsOperator			from "./SimpleSecretsOperator";
-import { customObjectsApi }				from "../k8s/clients";
-import { KubernetesObject, PatchUtils }	from "@kubernetes/client-node";
-import http								from "http";
-import {PatchDirectiveOperation, V1Patch} from "../k8s/interfaces";
+import SimpleSecretsOperator				from "./SimpleSecretsOperator";
+import { customObjectsApi }					from "../k8s/clients";
+import { KubernetesObject, PatchUtils }		from "@kubernetes/client-node";
+import http									from "http";
+import { PatchDirectiveOperation, V1Patch }	from "../k8s/interfaces";
 
 export interface SimpleSecrets extends KubernetesObject {
 	spec: SimpleSecretsSpec;
@@ -111,7 +111,7 @@ export default class SimpleSecretsManager {
 	 */
 	static async getSimpleSecret( namespace: string, name: string ): Promise<SimpleSecrets | null> {
 		const simpleSecretResponse	= await customObjectsApi.getNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name ).catch( e => e );
-		if ( simpleSecretResponse.status !== 'Failure' ) {
+		if ( simpleSecretResponse.statusCode !== 404 ) {
 			return simpleSecretResponse.body as SimpleSecrets;
 		}
 

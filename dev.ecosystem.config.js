@@ -6,6 +6,7 @@ module.exports	= {
 			watch: true,
 			ignore_watch : [
 				"node_modules",
+				"dist",
 				"cache",
 				"logs",
 				"*.log",
@@ -21,6 +22,6 @@ module.exports	= {
 				followSymlinks: false,
 				usePolling: true
 			},
-		}
+		},
 	]
 };

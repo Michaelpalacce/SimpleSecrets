@@ -2,7 +2,7 @@
 
 // Dependencies
 import App								from "event_request";
-import { Secret }						from "../../main/persistence/connector";
+import { Secret }						from "../../main/database/models/Secret";
 import { getAllInNamespace, getOne }	from "../models/get";
 const app								= App();
 const router							= app.Router();

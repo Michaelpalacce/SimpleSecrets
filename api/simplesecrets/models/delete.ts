@@ -1,4 +1,4 @@
-import { Secret }	from "../../main/persistence/connector";
+import { Secret }	from "../../main/database/models/Secret";
 
 /**
  * @brief	Deletes the entire Database. Use for testing purposes only
@@ -10,7 +10,7 @@ export async function deleteAll( event ) {
 
 	secrets.every( async ( secret ) => {
 		await secret.destroy()
-	})
+	});
 
 	event.send();
 }

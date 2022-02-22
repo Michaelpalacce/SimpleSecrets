@@ -1,5 +1,5 @@
-import { Secret }	from "../../main/persistence/connector";
-import { decrypt }	from "../../main/utils/encryption/encrypt";
+import { Secret }		from "../../main/database/models/Secret";
+import { decrypt }		from "../../main/utils/encryption/encrypt";
 
 /**
  * @brief	Gets a single SimpleSecret from the Database
@@ -11,12 +11,9 @@ import { decrypt }	from "../../main/utils/encryption/encrypt";
  * @param	{EventRequest} event
  */
 export async function getOne( event ) {
-	const secret	= await Secret.findOne({
-		where: {
-			name: event.params.name,
-			namespace: event.params.namespace,
-		}
-	});
+	const name		= event.params.name;
+	const namespace	= event.params.namespace;
+	const secret	= await Secret.findOne({ where: { name, namespace } });
 
 	if ( ! secret )
 		return await event.send();
@@ -32,9 +29,11 @@ export async function getOne( event ) {
  * @param	{EventRequest} event
  */
 export async function getAllInNamespace( event ) {
-	event.send( await Secret.findAll({
-		where: {
-			namespace: event.params.namespace
-		}
-	}) );
+	event.send(
+		await Secret.findAll({
+			where: {
+				namespace: event.params.namespace
+			}
+		})
+	);
 }

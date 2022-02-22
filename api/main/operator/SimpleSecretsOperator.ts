@@ -2,10 +2,10 @@ import Operator, { ResourceEventType, ResourceEvent }	from '@dot-i/k8s-operator'
 import { V1Secret }										from '@kubernetes/client-node';
 import logger, { OperatorLogger }						from "../utils/logger";
 import { createHash }									from "crypto"
-import { Secret }										from "../persistence/connector";
 import { decrypt }										from "../utils/encryption/encrypt";
 import { SimpleSecrets }								from "./SimpleSecretsManager";
 import SecretsManager									from "./SecretsManager";
+import { Secret }										from "../database/models/Secret";
 
 /**
  * @brief	Holds logic related to operating on SimpleSecret CRDs
@@ -25,6 +25,8 @@ export default class SimpleSecretsOperator extends Operator {
 	}
 
 	protected async init() : Promise<void> {
+		await this.syncState();
+
 		// NOTE: we pass the plural name of the resource
 		await this.watchResource( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, SimpleSecretsOperator.PLURAL, async ( e ) => {
 			try {
@@ -42,6 +44,15 @@ export default class SimpleSecretsOperator extends Operator {
 				logger.error( err );
 			}
 		});
+	}
+
+	private async syncState() {
+		const allSecrets	= await Secret.findAll();
+
+		for ( const secret of allSecrets ){
+			secret.inUse	= await SecretsManager.getSecret( secret.name, secret.namespace ) !== null;
+			await secret.save();
+		}
 	}
 
 	/**
@@ -165,6 +176,9 @@ export default class SimpleSecretsOperator extends Operator {
 		await SecretsManager.createNewSecret( namespace, secret ).catch( e => {
 			logger.error( `Could not create secret, reason: ${JSON.stringify( e.body )}` );
 		});
+
+		dbSecret.inUse	= true;
+		await dbSecret.save();
 	}
 
 	/**
@@ -180,6 +194,17 @@ export default class SimpleSecretsOperator extends Operator {
 		await SecretsManager.deleteSecret( name, namespace ).catch( e => {
 			logger.error( `Could not delete secret, reason: ${JSON.stringify( e.body )}` );
 		});
+		const dbSecret	= await Secret.findOne({
+			where: {
+				namespace, name
+			}
+		});
+
+		if ( ! dbSecret )
+			logger.error( `Could not find Simples Secret ${name} in ${namespace} in the DATABASE While deleting... possible desync may have occurred!` );
+
+		dbSecret.inUse	= false;
+		await dbSecret.save();
 	}
 
 	/**

@@ -1,5 +1,5 @@
-import { Secret }								from "../../main/persistence/connector";
 import { createEncryptionKeySecretIfNotExists }	from "../../main/utils/encryption/encryption_key";
+import { Secret }								from "../../main/database/models/Secret";
 
 /**
  * @brief	Will return a backup of the secrets as well as the encryption key
@@ -7,10 +7,12 @@ import { createEncryptionKeySecretIfNotExists }	from "../../main/utils/encryptio
  * @param	{EventRequest} event
  */
 export async function backup( event ) {
-	event.send( {
-		data: await Secret.findAll(),
-		encryptionKey: process.env.ENCRYPTION_KEY
-	} );
+	event.send(
+		{
+			data: await Secret.findAll(),
+			encryptionKey: process.env.ENCRYPTION_KEY
+		}
+	);
 }
 
 /**
@@ -21,6 +23,12 @@ export async function backup( event ) {
 export async function restore( event ) {
 	const backedUpData	= event.body.data;
 	const encryptionKey	= event.body.encryptionKey;
+
+	const secrets	= await Secret.findAll();
+
+	secrets.every( async ( secret ) => {
+		await secret.destroy();
+	});
 
 	for ( const data of backedUpData ) {
 		delete data['id'];

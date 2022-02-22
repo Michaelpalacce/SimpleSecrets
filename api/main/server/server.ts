@@ -3,7 +3,7 @@
 const app						= require( 'event_request' )();
 import SimpleSecretsOperator	from "../operator/SimpleSecretsOperator";
 import logger					from "../utils/logger";
-import { initDb }				from "../persistence/connector";
+import { initDb }				from "../database/connector";
 import getEncryptionKey			from "../utils/encryption/encryption_key";
 
 /**
