@@ -55,7 +55,6 @@ export default async function add( event ) {
 
 	const simpleSecret	= await SimpleSecretsManager.getSimpleSecret( namespace, name );
 
-	console.log( simpleSecret );
 	if ( simpleSecret !== null )
 		if ( ! simpleSecret?.spec?.version )
 			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, `${newVersion}` ).catch( console.log );
