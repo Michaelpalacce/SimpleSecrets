@@ -14,10 +14,11 @@ heavy? Well look no further!
     control. Removing the secret's values also doesn't really work since you gotta keep a local copy instead and add it and remove it every time.
 3. You don't want to pay money to cloud providers
 4. You want all your data safely stored on your local environment inside the very same cluster that needs the secrets
+5. It's simple to backup and restore 
 
 ## Roadmap
 - [x] UI - For now I have provided a postman collection that you can use to access the operator -> https://github.com/Michaelpalacce/SimpleSecretsFrontend
-- [ ] Tests
+- [ ] 100% Test coverage
 - [ ] Authentication 
 - [ ] Multiple Users
 - [ ] Docker images with other database dependencies
@@ -85,11 +86,17 @@ metadata:
 ~~~
 
 ## Env Variables
-~~~
-DB_CONNECTION_STRING    -> Sequelize DB Connection string
-APP_PORT                -> Port the app should be running on
-DB_PATH                 -> ABSOLUTE path to the DB file ( for sqlite3 )
-~~~
+
+| Variable         | Description                                | Default                     |
+|------------------|--------------------------------------------|-----------------------------|
+| APP_PORT         | The Port on which the app will run         | 80                          |
+| DB_PATH          | The path to the sqlite3 database           | `${PROJECT_ROOT}/db.sqlite` |
+| PROD_DB_USERNAME | Check the available options from sequelize | undefined                   |
+| PROD_DB_PASSWORD | Check the available options from sequelize | undefined                   |
+| PROD_DB_NAME     | Check the available options from sequelize | undefined                   |
+| PROD_DB_HOSTNAME | Check the available options from sequelize | undefined                   |
+| PROD_DB_PORT     | Check the available options from sequelize | undefined                   |
+| PROD_DB_DIALECT  | Check the available options from sequelize | undefined                   |
 
 ## Installation
 1. Create namespace simplesecrets
@@ -104,9 +111,10 @@ metadata:
 data:
     encryptionKey: {{BASE_64_VALUE}}
 ~~~
+### Checkout: [Working installation with Longhorn](https://github.com/Michaelpalacce/HomeLab/tree/master/Helm/apps/simplesecrets)
 
 ## Development Pre-reqs
-1. Have kubectl installed and have it configured to connect to the k8s cluster ( admin.yaml file )
+1. Have kubernetes context configured to connect to a kubernetes cluster
 2. Run: `npm i`
 3. Install DB driver globally `npm i -g sqlite3`
 
