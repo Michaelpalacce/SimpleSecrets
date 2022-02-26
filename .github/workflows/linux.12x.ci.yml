@@ -5,7 +5,7 @@ name: linux-12.x
 
 on:
   push:
-    branches: master
+    branches: main
 
 jobs:
   build:
