@@ -1,10 +1,8 @@
 import "jasmine";
-import SecretsManager			from "../../../../../api/main/operator/SecretsManager";
-import { apiClient }			from "../../../../../api/main/k8s/clients";
-import { V1Secret, HttpError }	from "@kubernetes/client-node";
-import ObjectMocks				from "../../../helpers/ObjectMocks";
-import http from "http";
-
+import SecretsManager	from "../../../../../api/main/operator/SecretsManager";
+import { apiClient }	from "../../../../../api/main/k8s/clients";
+import { V1Secret }		from "@kubernetes/client-node";
+import ObjectMocks		from "../../../helpers/ObjectMocks";
 
 describe("SecretsManager", () => {
 	it("getSecret should return an existing secret", async () => {
@@ -39,5 +37,34 @@ describe("SecretsManager", () => {
 		spyOn( apiClient, "readNamespacedSecret" ).withArgs( name, namespace ).and.returnValue( Promise.reject( body ) );
 		const secret	= await SecretsManager.getSecret( name, namespace );
 		expect( secret ).toBeNull();
+	});
+
+	it("createNewSecret creates a new secret", async () => {
+		const name				= "test";
+		const namespace			= "test";
+		const secretMocks		= ObjectMocks.getSecretMocks();
+
+		const secret: V1Secret	= secretMocks.getV1Secret( name, namespace );
+
+		spyOn( apiClient, "createNamespacedSecret" ).withArgs( namespace, secret ).and.returnValue( Promise.resolve( { response: null, body: secret } ) );
+		const result	= await SecretsManager.createNewSecret( namespace, secret )
+		expect( result ).not.toBeNull();
+	});
+
+	it("createNewSecret returns an error if error", async () => {
+		const name				= "test";
+		const namespace			= "test";
+		const secretMocks		= ObjectMocks.getSecretMocks();
+
+		const secret: V1Secret	= secretMocks.getV1Secret( name, namespace );
+
+		spyOn( apiClient, "createNamespacedSecret" ).withArgs( namespace, secret ).and.returnValue( Promise.reject( { response: null, body: {
+				message: "some error"
+			} } )
+		);
+		const result	= await SecretsManager.createNewSecret( namespace, secret ).catch( msg => msg );
+
+		expect( result ).not.toBeNull();
+		expect( result ).toBe( "some error" );
 	});
 });

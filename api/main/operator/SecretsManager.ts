@@ -17,7 +17,9 @@ export default class SecretsManager {
 	}
 
 	/**
-	 * @brief	Creates a new secret. Error handling is left for the callee
+	 * @brief	Creates a new secret.
+	 *
+	 * @details	Returns the error message in case of error
 	 *
 	 * @param	{String} namespace
 	 * @param	{V1Secret} secret
@@ -26,11 +28,13 @@ export default class SecretsManager {
 		response: http.IncomingMessage;
 		body: V1Secret;
 	}> {
-		return await apiClient.createNamespacedSecret( namespace, secret );
+		return await apiClient.createNamespacedSecret( namespace, secret ).catch( e => e.body.message );
 	}
 
 	/**
-	 * @brief	Delets a namespaced secret. Error handling is left for the callee
+	 * @brief	Deletes a namespaced secret.
+	 *
+	 * @details	Returns the error message in case of error
 	 *
 	 * @param	{String} name
 	 * @param	{String} namespace
@@ -39,6 +43,6 @@ export default class SecretsManager {
 		response: http.IncomingMessage;
 		body: V1Secret;
 	}> {
-		return await apiClient.deleteNamespacedSecret( name, namespace );
+		return await apiClient.deleteNamespacedSecret( name, namespace ).catch( e => e.body.message );
 	}
 }
