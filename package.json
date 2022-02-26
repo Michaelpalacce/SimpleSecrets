@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "ts-node node_modules/jasmine/bin/jasmine",
-    "coverage": "tsc && nyc --require ts-node/register jasmine",
+    "coverage": "tsc && nyc --reporter=lcov --reporter=text-summary --require ts-node/register jasmine",
     "build": "tsc",
     "run": "node dist/index.js"
   },
