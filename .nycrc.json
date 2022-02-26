@@ -1,0 +1,14 @@
+{
+  "all": true,
+  "include": [
+    "api/**"
+  ],
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "exclude": [
+    "dist/**",
+    "charts/**",
+    "tests/**",
+    ".github/**",
+    "kube/**"
+  ]
+}

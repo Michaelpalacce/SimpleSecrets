@@ -13,7 +13,7 @@ export default class SecretsManager {
 		response: http.IncomingMessage;
 		body: V1Secret;
 	} | null> {
-		return await apiClient.readNamespacedSecret( name, namespace ).catch( e => { return null } );
+		return await apiClient.readNamespacedSecret( name, namespace ).catch( e => null );
 	}
 
 	/**
