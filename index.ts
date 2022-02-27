@@ -1,1 +1,3 @@
-require( "./api/main/server/server" );
+const start	= require( "./api/main/server/server" );
+
+start();

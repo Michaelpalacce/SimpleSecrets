@@ -1,7 +1,7 @@
 import { decrypt, encrypt }	from "../../main/utils/encryption/encrypt";
 import SimpleSecretsManager	from "../../main/operator/SimpleSecretsManager";
 import { Secret }			from "../../main/database/models/Secret";
-import SecretsManager from "../../main/operator/SecretsManager";
+import SecretsManager		from "../../main/operator/SecretsManager";
 
 /**
  * @brief	Adds a new secret to the database
@@ -30,16 +30,16 @@ export default async function add( event ) {
 	if ( ! search ) {
 		const encryptedData	= encrypt( JSON.stringify( { 1: data } ) );
 
-		const secret	= await Secret.create({
-			data: encryptedData,
-			version: 1,
-			type,
-			namespace,
-			name: name,
-			inUse: await SecretsManager.getSecret( name, namespace ) !== null
-		});
-
-		event.send( secret );
+		event.send(
+			await Secret.create({
+				data: encryptedData,
+				version: 1,
+				type,
+				namespace,
+				name,
+				inUse: await SecretsManager.getSecret( name, namespace ) !== null
+			})
+		);
 		return;
 	}
 

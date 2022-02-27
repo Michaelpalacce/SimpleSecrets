@@ -1,10 +1,14 @@
 // Framework Singleton instance
 
 const app						= require( 'event_request' )();
+import Operator					from "@dot-i/k8s-operator";
 import SimpleSecretsOperator	from "../operator/SimpleSecretsOperator";
 import logger					from "../utils/logger";
 import { initDb }				from "../database/connector";
 import getEncryptionKey			from "../utils/encryption/encryption_key";
+
+let operator: Operator;
+let server: { close():void; };
 
 /**
  * @brief	Initializes important components
@@ -16,25 +20,31 @@ import getEncryptionKey			from "../utils/encryption/encryption_key";
  * @async
  */
 async function init() {
+	await logger.info( `Starting initialization` );
 	process.env.ENCRYPTION_KEY	= await getEncryptionKey();
 	await logger.info( `Encryption Key: ${process.env.ENCRYPTION_KEY}` );
 
 	await initDb();
-	const operator	= new SimpleSecretsOperator( logger );
-	await operator.start();
+
+	// Testing purposes, check stop function documentation
+	if ( ! operator ) {
+		operator	= new SimpleSecretsOperator( logger );
+		await operator.start();
+	}
 }
 
 require( "./kernel" );
 
 const port	= process.env.APP_PORT || 80;
 
-/**
- * @brief	Start server after initial steps
- */
-init().then(() => {
-	// Start Listening
-	app.listen( port, async () => {
-		logger.log( `Server started on port: ${port}` );
-	});
-})
+export default async function () {
+	/**
+	 * @brief	Start server after initial steps
+	 */
+	await init();
+	await logger.log( `Finished with Initialization` );
 
+	server	= app.listen( port, async () => {
+		await logger.log( `Server started on port: ${port}` );
+	});
+}

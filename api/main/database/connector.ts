@@ -1,8 +1,8 @@
-import {DataTypes, Sequelize} from 'sequelize';
-import { parse }		from 'path';
-import { Dialect }		from 'sequelize/types';
-import {Secret} from "./models/Secret";
-import Migration from "./models/Migration";
+import { DataTypes, Sequelize }	from 'sequelize';
+import { parse }				from 'path';
+import { Dialect }				from 'sequelize/types';
+import { Secret }				from "./models/Secret";
+import Migration				from "./models/Migration";
 
 const PROJECT_ROOT	= parse( require.main.filename ).dir;
 
@@ -13,7 +13,8 @@ let sequelize		= new Sequelize( {
 		host: process.env.PROD_DB_HOSTNAME,
 		port: parseInt( process.env.PROD_DB_PORT || "80" ),
 		dialect: process.env.PROD_DB_DIALECT as Dialect || 'sqlite',
-		storage: process.env.DB_PATH || `${PROJECT_ROOT}/db.sqlite`
+		storage: process.env.DB_PATH || `${PROJECT_ROOT}/db.sqlite`,
+		logging: false
 	}
 );
 

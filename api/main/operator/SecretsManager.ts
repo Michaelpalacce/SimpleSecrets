@@ -1,6 +1,6 @@
-import { V1Secret }		from '@kubernetes/client-node';
-import { apiClient }	from "../k8s/clients"
-import http				from "http";
+import { V1Secret, V1Status }	from '@kubernetes/client-node';
+import { apiClient }			from "../k8s/clients"
+import http						from "http";
 
 export default class SecretsManager {
 	/**
@@ -41,7 +41,7 @@ export default class SecretsManager {
 	 */
 	static async deleteSecret( name: string, namespace: string ): Promise<{
 		response: http.IncomingMessage;
-		body: V1Secret;
+		body: V1Status;
 	}> {
 		return await apiClient.deleteNamespacedSecret( name, namespace ).catch( e => e.body.message );
 	}

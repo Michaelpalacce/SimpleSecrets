@@ -13,7 +13,7 @@ RUN apt update -y  \
     npm rebuild &&  \
     npm run build && \
     npm prune --production && \
-    rm -rf api charts utils index.ts &&  \
+    rm -rf api charts mocks index.ts &&  \
     cp -R dist/* /app && \
     apt purge -y python3 g++ make && \
     apt autoremove -y

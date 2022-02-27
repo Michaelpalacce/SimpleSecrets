@@ -2,7 +2,7 @@ import "jasmine";
 import SecretsManager	from "../../../../../api/main/operator/SecretsManager";
 import { apiClient }	from "../../../../../api/main/k8s/clients";
 import { V1Secret }		from "@kubernetes/client-node";
-import ObjectMocks		from "../../../helpers/ObjectMocks";
+import ObjectMocks		from "../../../mocks/ObjectMocks";
 
 describe("SecretsManager", () => {
 	it("getSecret should return an existing secret", async () => {
@@ -66,5 +66,33 @@ describe("SecretsManager", () => {
 
 		expect( result ).not.toBeNull();
 		expect( result ).toBe( "some error" );
+	});
+
+	it("deleteNamespacedSecret when secret exists", async () => {
+		const name				= "test";
+		const namespace			= "test";
+
+		spyOn( apiClient, "deleteNamespacedSecret" ).withArgs( name, namespace ).and.returnValue( Promise.resolve( { response: null, body: {
+				status: "Success"
+			} } )
+		);
+		const result	= await SecretsManager.deleteSecret( name, namespace ).catch( msg => msg );
+
+		expect( result ).not.toBeNull();
+		expect( result.body.status ).toBe( "Success" );
+	});
+
+	it("deleteNamespacedSecret when secret does not exist", async () => {
+		const name		= "test";
+		const namespace	= "test";
+
+		spyOn( apiClient, "deleteNamespacedSecret" ).withArgs( name, namespace ).and.returnValue( Promise.reject( { response: null, body: {
+				message: `secrets "${name}" not found`
+			} } )
+		);
+		const result	= await SecretsManager.deleteSecret( name, namespace ).catch( msg => msg );
+
+		expect( result ).not.toBeNull();
+		expect( result ).toBe( `secrets "${name}" not found` );
 	});
 });

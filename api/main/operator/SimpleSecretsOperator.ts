@@ -18,7 +18,7 @@ export default class SimpleSecretsOperator extends Operator {
 	private ANNOTATION: string	= 'simplesecrets.hash';
 	private encryptionKey: string;
 
-	constructor( logger: OperatorLogger ) {
+	constructor( logger?: OperatorLogger ) {
 		super( logger );
 
 		this.encryptionKey	= process.env.ENCRYPTION_KEY;
@@ -69,8 +69,10 @@ export default class SimpleSecretsOperator extends Operator {
 		const result	= await SecretsManager.getSecret( metadata.name, metadata.namespace );
 
 		// Not found, create it
-		if ( ! result )
+		if ( ! result ) {
+			logger.debug( `Secret ${metadata.name} in ${metadata.namespace} does not exists, creating` );
 			return await this.createNewSecret( object, hash );
+		}
 
 		logger.warn( `Secret ${metadata.name} in ${metadata.namespace} already exists` );
 
