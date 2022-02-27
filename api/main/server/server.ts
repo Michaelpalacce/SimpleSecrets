@@ -35,7 +35,7 @@ async function init() {
 
 require( "./kernel" );
 
-const port	= 80;
+const port	= process.env.APP_PORT || 80;
 
 export default async function () {
 	/**
