@@ -33,7 +33,7 @@ export default async function add( event ) {
 		event.send(
 			await Secret.create({
 				data: encryptedData,
-				version: 1,
+				version: "1",
 				type,
 				namespace,
 				name,

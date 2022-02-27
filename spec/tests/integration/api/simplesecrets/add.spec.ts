@@ -24,7 +24,7 @@ describe( "Adding New Secrets", () => {
 
 		const body	= JSON.parse( response.body.toString() );
 		expect( response.statusCode ).toEqual( 200 );
-		expect( body.version ).toBe( 1 );
+		expect( body.version ).toBe( "1" );
 		expect( body.type ).toBe( "Opaque" );
 		expect( body.name ).toBe( name );
 		expect( body.namespace ).toBe( namespace );
@@ -62,8 +62,8 @@ describe( "Adding New Secrets", () => {
 
 		const firstBody		= JSON.parse( firstVersion.body.toString() );
 		const secondBody	= JSON.parse( secondVersion.body.toString() );
-		expect( firstBody.version ).toBe( 1 );
-		expect( secondBody.version ).toBe( 1 );
+		expect( firstBody.version ).toBe( "1" );
+		expect( secondBody.version ).toBe( "2" );
 		expect( firstBody.type ).toBe( "Opaque" );
 		expect( secondBody.type ).toBe( "Opaque" );
 		expect( firstBody.name ).toBe( name );
