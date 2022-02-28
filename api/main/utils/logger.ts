@@ -22,7 +22,7 @@ Loggur.disableDefault();
 const logger	= Loggur.createLogger({
 	serverName : "Default", // The name of the logger
 	logLevel : 300, // The logLevel for which the logger should be fired
-	logLevels : logLevels, // The logLevel for which the logger should be fired
+	logLevels, // The logLevel for which the logger should be fired
 	capture : false, // Do not capture thrown errors
 	transports : [
 		new Console( {

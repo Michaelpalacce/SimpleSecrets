@@ -1,5 +1,5 @@
 import { V1Secret, V1Status }	from "@kubernetes/client-node";
-import { apiClient }			from "../k8s/clients"
+import { apiClient }			from "../k8s/clients";
 import http						from "http";
 
 export default class SecretsManager {

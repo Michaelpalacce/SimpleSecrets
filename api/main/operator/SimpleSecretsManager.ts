@@ -3,17 +3,18 @@ import { customObjectsApi }					from "../k8s/clients";
 import { KubernetesObject, PatchUtils }		from "@kubernetes/client-node";
 import http									from "http";
 import { PatchDirectiveOperation, V1Patch }	from "../k8s/interfaces";
-
-export interface SimpleSecrets extends KubernetesObject {
-	spec: SimpleSecretsSpec;
-	status: SimpleSecretsStatus;
-}
+import logger from "../utils/logger";
 
 export interface SimpleSecretsSpec {
 	version: number;
 }
 
 export interface SimpleSecretsStatus {
+}
+
+export interface SimpleSecrets extends KubernetesObject {
+	spec: SimpleSecretsSpec;
+	status: SimpleSecretsStatus;
 }
 
 /**
@@ -37,11 +38,11 @@ export default class SimpleSecretsManager {
 			{
 				"op": PatchDirectiveOperation.ADD,
 				"path": `/metadata/annotations/${key}`,
-				"value": value
+				value
 			}
 		];
 
-		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( console.log );
+		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( logger.log );
 	}
 	/**
 	 * @brief	Patches annotations
@@ -61,7 +62,7 @@ export default class SimpleSecretsManager {
 
 		const options	= { headers: { "Content-type": PatchUtils.PATCH_FORMAT_JSON_PATCH } };
 
-		return await customObjectsApi.patchNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name, patch, undefined, undefined, undefined, options ).catch( err => { console.log( err.body );} );
+		return await customObjectsApi.patchNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name, patch, null, null, null, options ).catch( err => { logger.log( err.body );} );
 	}
 
 	/**
@@ -76,7 +77,7 @@ export default class SimpleSecretsManager {
 		response: http.IncomingMessage;
 		body: object;
 	} | void> {
-		return await SimpleSecretsManager.patchSimpleSecretAnnotation( simpleSecret, "currentVersion", version ).catch( console.log );
+		return await SimpleSecretsManager.patchSimpleSecretAnnotation( simpleSecret, "currentVersion", version ).catch( logger.log );
 	}
 
 	/**
@@ -98,7 +99,7 @@ export default class SimpleSecretsManager {
 				value	: version
 			}
 		];
-		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( console.log );
+		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( logger.log );
 	}
 
 	/**

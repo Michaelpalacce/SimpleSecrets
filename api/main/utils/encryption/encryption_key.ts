@@ -1,11 +1,19 @@
 import { createHash }	from "crypto";
 import { apiClient }	from "../../k8s/clients";
+import logger from "../logger";
 
 const VARIABLE_NAME		= "encryptionKey";
 const SECRET_NAME		= "encryptionkey";
 const SECRET_NAMESPACE	= "simplesecrets";
 
 let encryptionKey	= "";
+
+/**
+ * @brief	Deletes the encryption key secret
+ */
+export async function deleteEncryptionKeySecret() {
+	await apiClient.deleteNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( logger.log );
+}
 
 /**
  * @brief	Returns the secret encryption key or creates it and then returns it
@@ -20,6 +28,7 @@ export async function createEncryptionKeySecretIfNotExists( encryptionKey: strin
 		await deleteEncryptionKeySecret();
 
 	return await apiClient.readNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( async e => {
+		await logger.warn( "No namespaced secret found, will create a new encryption key." );
 		return await apiClient.createNamespacedSecret( SECRET_NAMESPACE, {
 			apiVersion: "v1",
 			kind: "Secret",
@@ -33,13 +42,6 @@ export async function createEncryptionKeySecretIfNotExists( encryptionKey: strin
 			}
 		});
 	});
-}
-
-/**
- * @brief	Deletes the encryption key secret
- */
-export async function deleteEncryptionKeySecret() {
-	await apiClient.deleteNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( console.log );
 }
 
 /**

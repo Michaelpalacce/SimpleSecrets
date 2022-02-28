@@ -19,7 +19,7 @@ const ALGORITHM = {
 	 * 128 bit auth tag is recommended for GCM
 	 */
 	AUTH_TAG_BYTE_LEN: 16,
-}
+};
 
 const getIV	= () => randomBytes( ALGORITHM.IV_BYTE_LEN );
 

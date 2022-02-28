@@ -9,7 +9,7 @@ interface IncomingMessageWithBody extends IncomingMessage {
  *
  * @param	{String} path
  * @param	{String} [method="GET"]
- * @param	{*} [data='']
+ * @param	{*} [data=""]
  * @param	{Object} [headers={}]
  *
  * @return	Promise

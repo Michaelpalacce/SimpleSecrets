@@ -21,7 +21,7 @@ const port	= process.env.APP_PORT || 8080;
  * @async
  */
 async function init() {
-	await logger.info( `Starting initialization` );
+	await logger.info( "Starting initialization" );
 	process.env.ENCRYPTION_KEY	= await getEncryptionKey();
 	await logger.info( `Encryption Key: ${process.env.ENCRYPTION_KEY}` );
 
@@ -41,7 +41,7 @@ export default async function () {
 	 * @brief	Start server after initial steps
 	 */
 	await init();
-	await logger.log( `Finished with Initialization` );
+	await logger.log( "Finished with Initialization" );
 	await logger.log( `Starting on port: ${port}` );
 
 	server	= app.listen( port, async () => {

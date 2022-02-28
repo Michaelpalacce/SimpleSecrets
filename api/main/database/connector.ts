@@ -3,6 +3,7 @@ import { parse }				from "path";
 import { Dialect }				from "sequelize/types";
 import { Secret }				from "./models/Secret";
 import Migration				from "./models/Migration";
+import logger from "../utils/logger";
 
 const PROJECT_ROOT	= parse( require.main.filename ).dir;
 
@@ -43,9 +44,9 @@ export async function initDb() {
 
 	try {
 		await sequelize.authenticate();
-		console.log( "Connection has been established successfully." );
+		await logger.log( "Connection has been established successfully." );
 	} catch (error) {
-		console.error( `Unable to connect to the database: ${error}` );
+		await logger.error( `Unable to connect to the database: ${error}` );
 	}
 
 	const migrations	= ["20220222-create-secret", "20220222-addInUse"];

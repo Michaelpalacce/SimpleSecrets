@@ -37,7 +37,7 @@ export default class SimpleSecretsOperator extends Operator {
 						break;
 
 					case ResourceEventType.Deleted:
-						await this.resourceDeleted( e )
+						await this.resourceDeleted( e );
 						break;
 				}
 			} catch (err) {
@@ -46,6 +46,13 @@ export default class SimpleSecretsOperator extends Operator {
 		});
 	}
 
+	/**
+	 * @brief	Syncs the state of all teh secrets ( inUse or not )
+	 *
+	 * @details	Useful after restart to check up on state of SimpleSecrets and secrets
+	 *
+	 * @private
+	 */
 	private async syncState() {
 		const allSecrets	= await Secret.findAll();
 
@@ -118,7 +125,7 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async recreateSecret( object: SimpleSecrets, hash: string = '' ): Promise<void> {
+	private async recreateSecret( object: SimpleSecrets, hash: string = "" ): Promise<void> {
 		logger.info( "Hash mismatch, recreating secret!" );
 		const metadata	= object.metadata;
 
@@ -136,7 +143,7 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async createNewSecret( object: SimpleSecrets, hash: string = '' ): Promise<void> {
+	private async createNewSecret( object: SimpleSecrets, hash: string = "" ): Promise<void> {
 		const metadata	= object.metadata;
 		const namespace	= metadata.namespace;
 		const name		= metadata.name;
@@ -165,10 +172,10 @@ export default class SimpleSecretsOperator extends Operator {
 			apiVersion: "v1",
 			kind: "Secret",
 			metadata: {
-				name: name,
-				namespace: namespace,
+				name,
+				namespace,
 				annotations: {
-					[this.ANNOTATION]: hash === '' ? this.calculateHash( object ) : hash
+					[this.ANNOTATION]: hash === "" ? this.calculateHash( object ) : hash
 				}
 			},
 			type: dbSecret.type,
