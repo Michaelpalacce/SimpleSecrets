@@ -12,6 +12,11 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
+            - name: Start minikube
+              uses: medyagh/setup-minikube@master
+            - name: Deploy to minikube
+              run:
+                    kubectl apply -f k8s/simplesecrets.yaml
             - name: Use Node.js 16.x
               uses: actions/setup-node@v1
               with:

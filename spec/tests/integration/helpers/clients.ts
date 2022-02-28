@@ -1,6 +1,6 @@
-import { KubeConfig, CoreV1Api, AppsV1Api, CustomObjectsApi }		from "@kubernetes/client-node";
+import { KubeConfig, CoreV1Api, AppsV1Api, CustomObjectsApi }	from "@kubernetes/client-node";
 
-export const config		= new KubeConfig();
+export const config	= new KubeConfig();
 config.loadFromDefault();
 
 export const apiClient			= config.makeApiClient( CoreV1Api );
