@@ -9,6 +9,7 @@ import getEncryptionKey			from "../utils/encryption/encryption_key";
 
 let operator: Operator;
 let server: { close():void; };
+const port	= process.env.APP_PORT || 8080;
 
 /**
  * @brief	Initializes important components
@@ -26,7 +27,6 @@ async function init() {
 
 	await initDb();
 
-	// Testing purposes, check stop function documentation
 	if ( ! operator ) {
 		operator	= new SimpleSecretsOperator( logger );
 		await operator.start();
@@ -35,7 +35,6 @@ async function init() {
 
 require( "./kernel" );
 
-const port	= process.env.APP_PORT || 80;
 
 export default async function () {
 	/**

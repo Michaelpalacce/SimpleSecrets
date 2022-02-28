@@ -87,16 +87,17 @@ metadata:
 
 ## Env Variables
 
-| Variable         | Description                                | Default                     |
-|------------------|--------------------------------------------|-----------------------------|
-| APP_PORT         | The Port on which the app will run         | 80                          |
-| DB_PATH          | The path to the sqlite3 database           | `${PROJECT_ROOT}/db.sqlite` |
-| PROD_DB_USERNAME | Check the available options from sequelize | undefined                   |
-| PROD_DB_PASSWORD | Check the available options from sequelize | undefined                   |
-| PROD_DB_NAME     | Check the available options from sequelize | undefined                   |
-| PROD_DB_HOSTNAME | Check the available options from sequelize | undefined                   |
-| PROD_DB_PORT     | Check the available options from sequelize | undefined                   |
-| PROD_DB_DIALECT  | Check the available options from sequelize | undefined                   |
+| Variable         | Description                                                                                                              | Default                     |
+|------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------|
+| APP_PORT         | The Port on which the app will run                                                                                       | 8080                        |
+| ENCRYPTION_KEY   | Will be used in case there is no secret `encryptionkey` in `simplesecrets` namespace. If not provided, will be generated | undefined                   |
+| DB_PATH          | The path to the sqlite3 database                                                                                         | `${PROJECT_ROOT}/db.sqlite` |
+| PROD_DB_USERNAME | Check the available options from sequelize                                                                               | undefined                   |
+| PROD_DB_PASSWORD | Check the available options from sequelize                                                                               | undefined                   |
+| PROD_DB_NAME     | Check the available options from sequelize                                                                               | undefined                   |
+| PROD_DB_HOSTNAME | Check the available options from sequelize                                                                               | undefined                   |
+| PROD_DB_PORT     | Check the available options from sequelize                                                                               | undefined                   |
+| PROD_DB_DIALECT  | Check the available options from sequelize                                                                               | undefined                   |
 
 ## Installation
 1. Create namespace simplesecrets

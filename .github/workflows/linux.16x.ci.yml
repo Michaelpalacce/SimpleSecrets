@@ -15,8 +15,9 @@ jobs:
             - name: Start minikube
               uses: medyagh/setup-minikube@master
             - name: Deploy to minikube
-              run:
-                    kubectl apply -f k8s/simplesecrets.yaml
+              run: |
+                  kubectl create namespace simplesecrets
+                  kubectl apply -f charts/simplesecrets/templates/crd.yaml
             - name: Use Node.js 16.x
               uses: actions/setup-node@v1
               with:

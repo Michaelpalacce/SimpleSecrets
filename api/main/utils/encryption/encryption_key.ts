@@ -49,9 +49,10 @@ export async function deleteEncryptionKeySecret() {
  */
 export default async function (): Promise<string> {
 	if ( ! encryptionKey ) {
-		const secret	= await createEncryptionKeySecretIfNotExists( createHash( 'md5' ).update( Date.now().toString() ).digest( 'hex' ) );
+		const fallbackEncryptionKey	= process.env.ENCRYPTION_KEY || createHash( 'md5' ).update( Date.now().toString() ).digest( 'hex' );
+		const secret				= await createEncryptionKeySecretIfNotExists( fallbackEncryptionKey );
 
-		encryptionKey	= Buffer.from( secret.body.data[VARIABLE_NAME], 'base64' ).toString();
+		encryptionKey				= Buffer.from( secret.body.data[VARIABLE_NAME], 'base64' ).toString();
 	}
 
 	return encryptionKey;
