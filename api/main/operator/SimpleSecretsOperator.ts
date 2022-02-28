@@ -1,7 +1,7 @@
 import Operator, { ResourceEventType, ResourceEvent }	from "@dot-i/k8s-operator";
 import { V1Secret }										from "@kubernetes/client-node";
 import logger, { OperatorLogger }						from "../utils/logger";
-import { createHash }									from "crypto"
+import { createHash }									from "crypto";
 import { decrypt }										from "../utils/encryption/encrypt";
 import { SimpleSecrets }								from "./SimpleSecretsManager";
 import SecretsManager									from "./SecretsManager";
@@ -164,7 +164,7 @@ export default class SimpleSecretsOperator extends Operator {
 		logger.info( `Creating new secret ${name} in ${namespace}` );
 
 		if ( ! dbData[version] ) {
-			logger.error( `Secret ${name} in ${namespace} does not have version ${version}`)
+			logger.error( `Secret ${name} in ${namespace} does not have version ${version}` );
 			return;
 		}
 

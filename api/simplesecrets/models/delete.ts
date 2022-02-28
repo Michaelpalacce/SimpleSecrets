@@ -9,7 +9,7 @@ export async function deleteAll( event ) {
 	const secrets	= await Secret.findAll();
 
 	secrets.every( async ( secret ) => {
-		await secret.destroy()
+		await secret.destroy();
 	});
 
 	event.send();
