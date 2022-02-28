@@ -45,14 +45,9 @@ export async function deleteEncryptionKeySecret() {
 /**
  * @brief	Ensures the encryption key secret is created in K8S and returns it
  *
- * @details	encKeyToUse is used during tests only
- *
  * @return	{String}
  */
-export default async function ( encKeyToUse?: string ): Promise<string> {
-	if ( encKeyToUse )
-		encryptionKey	= encKeyToUse;
-
+export default async function (): Promise<string> {
 	if ( ! encryptionKey ) {
 		const secret	= await createEncryptionKeySecretIfNotExists( createHash( 'md5' ).update( Date.now().toString() ).digest( 'hex' ) );
 
