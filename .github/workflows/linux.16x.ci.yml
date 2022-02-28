@@ -17,6 +17,7 @@ jobs:
             - name: Deploy to minikube
               run: |
                   kubectl create namespace simplesecrets
+                  kubectl create namespace test
                   kubectl apply -f charts/simplesecrets/templates/crd.yaml
             - name: Use Node.js 16.x
               uses: actions/setup-node@v1
