@@ -1,7 +1,12 @@
 ## Notice: this project is in an alpha stage. It needs more testing
 
 # SimpleSecrets
-A K8S secrets manager operator. A secure operator that gets installed in your kubernetes cluster and allows you to create 
+A K8S secrets manager operator.
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/7583adec8aca4c0a868fbf92ccd05706)](https://www.codacy.com/gh/Michaelpalacce/SimpleSecrets/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Michaelpalacce/SimpleSecrets&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7583adec8aca4c0a868fbf92ccd05706)](https://www.codacy.com/gh/Michaelpalacce/SimpleSecrets/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Michaelpalacce/SimpleSecrets&utm_campaign=Badge_Coverage)
+
+A secure operator that gets installed in your kubernetes cluster and allows you to create 
 secrets on demand. You can commit the SimpleSecrets which are nothing more than a reference to a database secret that will 
 be created automatically for you. Targeted for HomeLab environments and not Enterprise.
 
