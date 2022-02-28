@@ -52,6 +52,6 @@ export default class SimpleSecretsHelper {
 			}
 		};
 
-		await customObjectsApi.createNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, simpleSecret );
+		await customObjectsApi.createNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, simpleSecret ).catch( console.log );
 	}
 }
