@@ -1,5 +1,5 @@
-import Operator, { ResourceEventType, ResourceEvent }	from '@dot-i/k8s-operator';
-import { V1Secret }										from '@kubernetes/client-node';
+import Operator, { ResourceEventType, ResourceEvent }	from "@dot-i/k8s-operator";
+import { V1Secret }										from "@kubernetes/client-node";
 import logger, { OperatorLogger }						from "../utils/logger";
 import { createHash }									from "crypto"
 import { decrypt }										from "../utils/encryption/encrypt";
@@ -11,11 +11,11 @@ import { Secret }										from "../database/models/Secret";
  * @brief	Holds logic related to operating on SimpleSecret CRDs
  */
 export default class SimpleSecretsOperator extends Operator {
-	static GROUP: string		= 'simplesecrets.local';
-	static VERSION: string		= 'v1';
-	static PLURAL: string		= 'simplesecrets';
+	static GROUP: string		= "simplesecrets.local";
+	static VERSION: string		= "v1";
+	static PLURAL: string		= "simplesecrets";
 
-	private ANNOTATION: string	= 'simplesecrets.hash';
+	private ANNOTATION: string	= "simplesecrets.hash";
 	private encryptionKey: string;
 
 	constructor( logger?: OperatorLogger ) {
@@ -152,7 +152,7 @@ export default class SimpleSecretsOperator extends Operator {
 		}
 
 		const dbData	= JSON.parse( decrypt( dbSecret.data ) );
-		const version	= typeof object.spec?.version !== 'undefined' ? object.spec.version : dbSecret.version;
+		const version	= typeof object.spec?.version !== "undefined" && object.spec?.version !== 0 ? object.spec.version : dbSecret.version;
 
 		logger.info( `Creating new secret ${name} in ${namespace}` );
 
@@ -163,7 +163,7 @@ export default class SimpleSecretsOperator extends Operator {
 
 		const secret: V1Secret	= {
 			apiVersion: "v1",
-			kind: 'Secret',
+			kind: "Secret",
 			metadata: {
 				name: name,
 				namespace: namespace,
@@ -203,7 +203,7 @@ export default class SimpleSecretsOperator extends Operator {
 		});
 
 		if ( ! dbSecret )
-			logger.error( `Could not find Simples Secret ${name} in ${namespace} in the DATABASE While deleting... possible desync may have occurred!` );
+			return ;
 
 		dbSecret.inUse	= false;
 		await dbSecret.save();
@@ -219,6 +219,6 @@ export default class SimpleSecretsOperator extends Operator {
 	 * @return	{String}
 	 */
 	private calculateHash( object: SimpleSecrets ): string {
-		return createHash( 'sha256' ).update( JSON.stringify( object ) ).digest( 'hex' );
+		return createHash( "sha256" ).update( JSON.stringify( object ) ).digest( "hex" );
 	}
 }

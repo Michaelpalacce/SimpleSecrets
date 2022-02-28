@@ -8,7 +8,7 @@ import SecretsManager		from "../../main/operator/SecretsManager";
  *
  * @details	This will check if the secret exists already and add a new version if so.
  * 			If it does not exist it is created and assigned version one.
- * 			If it does exist it will also patch the SimpleSecret with annotation that will trigger a recreate of the secret
+ * 			If it does exist it will also patch the SimpleSecret with annotation that will trigger a recreation of the secret
  * 				in case the SimpleSecret is created without a version specified, so we can always keep the latest version.
  *
  * @param	{EventRequest} event
@@ -17,9 +17,9 @@ export default async function add( event ) {
 	const body							= event.body;
 	let { namespace, type, name, data }	= body;
 
-	name		= (typeof name === 'string' ? name.trim() : '').toLowerCase();
-	namespace	= (typeof namespace === 'string' ? namespace.trim() : 'default').toLowerCase();
-	type		= typeof type === 'string' ? type.trim() : 'Opaque';
+	name		= (typeof name === "string" ? name.trim() : "").toLowerCase();
+	namespace	= (typeof namespace === "string" ? namespace.trim() : "default").toLowerCase();
+	type		= typeof type === "string" ? type.trim() : "Opaque";
 
 	const search	= await Secret.findOne({
 		where: {
@@ -56,7 +56,7 @@ export default async function add( event ) {
 	const simpleSecret	= await SimpleSecretsManager.getSimpleSecret( namespace, name );
 
 	if ( simpleSecret !== null )
-		if ( ! simpleSecret?.spec?.version )
+		if ( ! simpleSecret?.spec?.version || simpleSecret?.spec?.version === 0 )
 			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, `${newVersion}` ).catch( console.log );
 
 	event.send( search )

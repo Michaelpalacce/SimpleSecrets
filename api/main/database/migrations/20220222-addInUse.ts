@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 import { Sequelize, DataTypes }	from "sequelize";
 import { Secret }				from "../models/Secret";
 import Migration				from "../models/Migration";
@@ -9,19 +9,19 @@ module.exports	= {
 			where: {
 				name: migrationName
 			}
-		})
+		});
 		if ( migration !== null )
 			return;
 
 		const queryInterface	= sequelize.getQueryInterface();
-		const tableDefinition	= await queryInterface.describeTable(Secret.getTableName())
+		const tableDefinition	= await queryInterface.describeTable( Secret.getTableName() );
 
 		if (tableDefinition.inUse)
 			return;
 
 		await queryInterface.addColumn(
 			Secret.getTableName(),
-			'inUse',
+			"inUse",
 			{ type: DataTypes.BOOLEAN, defaultValue: false }
 		);
 
@@ -30,12 +30,12 @@ module.exports	= {
 		});
 	},
 	async down ( sequelize: Sequelize, migrationName: string ) {
-		await sequelize.getQueryInterface().removeColumn(Secret.getTableName(), 'inUse');
+		await sequelize.getQueryInterface().removeColumn( Secret.getTableName(), "inUse" );
 		const migration	= await Migration.findOne<Migration>({
 			where: {
 				name: migrationName
 			}
-		})
+		});
 		if ( migration === null )
 			return;
 

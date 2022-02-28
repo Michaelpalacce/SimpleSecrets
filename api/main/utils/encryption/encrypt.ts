@@ -6,7 +6,7 @@ const ALGORITHM = {
 	 * not only provides confidentiality but also
 	 * provides integrity in a secured way
 	 * */
-	BLOCK_CIPHER: 'aes-256-gcm',
+	BLOCK_CIPHER: "aes-256-gcm",
 
 	/**
 	 * NIST recommends 96 bits or 12 bytes IV for GCM
@@ -24,7 +24,7 @@ const ALGORITHM = {
 const getIV	= () => randomBytes( ALGORITHM.IV_BYTE_LEN );
 
 /**
- * @brief	Separated in a function because on start we don't have env variable ENCRYPTION_KEY
+ * @brief	Separated in a function because on start we don"t have env variable ENCRYPTION_KEY
  *
  * @return	{Buffer}
  */
@@ -47,7 +47,7 @@ export function encrypt ( toEncrypt: string ): string {
 		ALGORITHM.BLOCK_CIPHER,
 		getKey(),
 		iv,
-		{ 'authTagLength': ALGORITHM.AUTH_TAG_BYTE_LEN }
+		{ "authTagLength": ALGORITHM.AUTH_TAG_BYTE_LEN }
 	);
 	let encryptedMessage	= cipher.update( messageText );
 	encryptedMessage		= Buffer.concat([encryptedMessage, cipher.final()]);
@@ -64,7 +64,7 @@ export function encrypt ( toEncrypt: string ): string {
  * and the key from lingering in the memory
  */
 export function decrypt ( toDecrypt: string ) : string {
-	const ciphertext		= Buffer.from( toDecrypt, 'base64' );
+	const ciphertext		= Buffer.from( toDecrypt, "base64" );
 	const authTag			= ciphertext.slice(-16);
 	const iv				= ciphertext.slice(0, ALGORITHM.IV_BYTE_LEN);
 	const encryptedMessage	= ciphertext.slice(ALGORITHM.IV_BYTE_LEN, -16);
@@ -73,7 +73,7 @@ export function decrypt ( toDecrypt: string ) : string {
 		ALGORITHM.BLOCK_CIPHER,
 		getKey(),
 		iv,
-		{ 'authTagLength': ALGORITHM.AUTH_TAG_BYTE_LEN }
+		{ "authTagLength": ALGORITHM.AUTH_TAG_BYTE_LEN }
 	);
 	decipher.setAuthTag( authTag );
 	let messageText	= decipher.update(encryptedMessage);

@@ -1,6 +1,6 @@
 // Framework Singleton instance
 
-const app						= require( 'event_request' )();
+const app						= require( "event_request" )();
 import Operator					from "@dot-i/k8s-operator";
 import SimpleSecretsOperator	from "../operator/SimpleSecretsOperator";
 import logger					from "../utils/logger";

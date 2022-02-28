@@ -22,12 +22,12 @@ export async function createEncryptionKeySecretIfNotExists( encryptionKey: strin
 	return await apiClient.readNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( async e => {
 		return await apiClient.createNamespacedSecret( SECRET_NAMESPACE, {
 			apiVersion: "v1",
-			kind: 'Secret',
+			kind: "Secret",
 			metadata: {
 				name: SECRET_NAME,
 				namespace: SECRET_NAMESPACE,
 			},
-			type: 'Opaque',
+			type: "Opaque",
 			stringData: {
 				[VARIABLE_NAME]: encryptionKey
 			}
@@ -49,10 +49,10 @@ export async function deleteEncryptionKeySecret() {
  */
 export default async function (): Promise<string> {
 	if ( ! encryptionKey ) {
-		const fallbackEncryptionKey	= process.env.ENCRYPTION_KEY || createHash( 'md5' ).update( Date.now().toString() ).digest( 'hex' );
+		const fallbackEncryptionKey	= process.env.ENCRYPTION_KEY || createHash( "md5" ).update( Date.now().toString() ).digest( "hex" );
 		const secret				= await createEncryptionKeySecretIfNotExists( fallbackEncryptionKey );
 
-		encryptionKey				= Buffer.from( secret.body.data[VARIABLE_NAME], 'base64' ).toString();
+		encryptionKey				= Buffer.from( secret.body.data[VARIABLE_NAME], "base64" ).toString();
 	}
 
 	return encryptionKey;

@@ -61,7 +61,7 @@ export default class SimpleSecretsManager {
 
 		const options	= { headers: { "Content-type": PatchUtils.PATCH_FORMAT_JSON_PATCH } };
 
-		return await customObjectsApi.patchNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name, patch, undefined, undefined, undefined, options ).catch( console.log );
+		return await customObjectsApi.patchNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name, patch, undefined, undefined, undefined, options ).catch( err => { console.log( err.body );} );
 	}
 
 	/**
@@ -76,7 +76,7 @@ export default class SimpleSecretsManager {
 		response: http.IncomingMessage;
 		body: object;
 	} | void> {
-		return await SimpleSecretsManager.patchSimpleSecretAnnotation( simpleSecret, 'currentVersion', version ).catch( console.log );
+		return await SimpleSecretsManager.patchSimpleSecretAnnotation( simpleSecret, "currentVersion", version ).catch( console.log );
 	}
 
 	/**
@@ -94,7 +94,7 @@ export default class SimpleSecretsManager {
 		const patch	= [
 			{
 				op		: PatchDirectiveOperation.ADD,
-				path	: '/spec/version',
+				path	: "/spec/version",
 				value	: version
 			}
 		];

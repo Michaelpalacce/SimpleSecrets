@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 import { Sequelize }	from "sequelize";
 import Migration from "../models/Migration";
 
@@ -7,7 +7,7 @@ module.exports	= {
 		await sequelize.sync();
 	},
 	async down( sequelize: Sequelize ) {
-		await sequelize.getQueryInterface().dropTable('Secrets');
-		await sequelize.getQueryInterface().dropTable('Migration');
+		await sequelize.getQueryInterface().dropTable("Secrets");
+		await sequelize.getQueryInterface().dropTable("Migration");
 	}
 };

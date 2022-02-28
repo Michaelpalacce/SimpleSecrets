@@ -76,13 +76,24 @@ spec:
     version: 3 # The Operator will provision version 3 of the secret. If that version does not exist, a secret will not be created
 ~~~
 If you want to use the latest version ALWAYS ( the K8S Secret will be recreated every time you create a new version with the API ),
-then do not specify a version at all:
+then do not specify a version at all, or specify 0:
 ~~~yaml
 apiVersion: "simplesecrets.local/v1"
 kind: SimpleSecret
 metadata:
     name: testsecret
     namespace: simplesecrets
+
+---
+
+apiVersion: "simplesecrets.local/v1"
+kind: SimpleSecret
+metadata:
+    name: testsecret
+    namespace: simplesecrets
+spec:
+    version: 0
+
 ~~~
 
 ## Env Variables

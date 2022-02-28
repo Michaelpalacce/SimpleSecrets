@@ -24,13 +24,13 @@ export default class SecretMocks {
 
 	public getV1SecretErrorNotFoundBody( name: string = "test" ) {
 		return {
-			kind: 'Status',
-			apiVersion: 'v1',
+			kind: "Status",
+			apiVersion: "v1",
 			metadata: {},
-			status: 'Failure',
+			status: "Failure",
 			message: `secrets "${name}" not found`,
-			reason: 'NotFound',
-			details: { name, kind: 'secrets' },
+			reason: "NotFound",
+			details: { name, kind: "secrets" },
 			code: 404
 		}
 	}

@@ -20,7 +20,7 @@ Loggur.disableDefault();
 
 // Create a custom Logger
 const logger	= Loggur.createLogger({
-	serverName : 'Default', // The name of the logger
+	serverName : "Default", // The name of the logger
 	logLevel : 300, // The logLevel for which the logger should be fired
 	logLevels : logLevels, // The logLevel for which the logger should be fired
 	capture : false, // Do not capture thrown errors
@@ -31,6 +31,6 @@ const logger	= Loggur.createLogger({
 	]
 }) as OperatorLogger;
 
-Loggur.addLogger( 'SimpleSecretsOperator', logger );
+Loggur.addLogger( "SimpleSecretsOperator", logger );
 
 export default logger;

@@ -31,7 +31,7 @@ export async function restore( event ) {
 	});
 
 	for ( const data of backedUpData ) {
-		delete data['id'];
+		delete data["id"];
 		await new Secret( data ).save();
 	}
 

@@ -1,4 +1,3 @@
-import { V1Secret } from "@kubernetes/client-node";
 import SecretMocks from "./objects/SecretMocks";
 
 export default class ObjectMocks {
