@@ -43,6 +43,7 @@ export default async function () {
 	 */
 	await init();
 	await logger.log( `Finished with Initialization` );
+	await logger.log( `Starting on port: ${port}` );
 
 	server	= app.listen( port, async () => {
 		await logger.log( `Server started on port: ${port}` );
