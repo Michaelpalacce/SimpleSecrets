@@ -123,5 +123,8 @@ describe( "Adding New Secrets", () => {
 		expect( secondBody.inUse ).toBeTrue();
 		expect( firstBody.data ).not.toBe( secondBody.data );
 		expect( initialSecret.body.data ).not.toBe( afterChangeSecret.body.data );
+
+		await SecretsHelper.ensureSecretIsMissing( name, namespace );
+		await new Promise( resolve => setTimeout( resolve, 100 ) );
 	}, 10000);
 });

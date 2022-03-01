@@ -57,7 +57,7 @@ export default async function add( event ) {
 
 	if ( simpleSecret !== null )
 		if ( ! simpleSecret?.spec?.version || simpleSecret?.spec?.version === 0 )
-			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, `${newVersion}` ).catch( console.log );
+			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, newVersion.toString() ).catch( console.log );
 
 	event.send( search );
 }
