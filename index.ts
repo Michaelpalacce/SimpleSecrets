@@ -1,3 +1,3 @@
-const start	= require( "./api/main/server/server" );
+import start from "./api/main/server/server";
 
 start();
