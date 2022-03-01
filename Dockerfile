@@ -16,7 +16,7 @@ RUN apt update -y  \
     rm -rf api charts mocks index.ts &&  \
     cp -R dist/* /app && \
     apt purge -y python3 g++ make && \
-    apt autoremove -y \
+    apt autoremove -y
 
 ENV DB_PATH=/data/db.sqlite
 ENV APP_PORT=8080
