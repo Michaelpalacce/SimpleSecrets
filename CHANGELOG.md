@@ -1,3 +1,8 @@
+## [1.13.0]
+* Improvements to the documentation
+* Added more tests. 
+* Test related fixes
+
 ## [1.12.0]
 * Started working on tests and test coverage
 * Removed obsolete code

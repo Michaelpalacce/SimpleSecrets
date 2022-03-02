@@ -9,7 +9,7 @@ import getEncryptionKey			from "../utils/encryption/encryption_key";
 
 let operator: Operator;
 let server: { close():void; };
-const port	= process.env.APP_PORT || 8080;
+const port	= process.env.APP_PORT || 3000;
 
 /**
  * @brief	Initializes important components
@@ -34,7 +34,6 @@ async function init() {
 }
 
 require( "./kernel" );
-
 
 export default async function () {
 	/**

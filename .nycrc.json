@@ -9,6 +9,8 @@
     "charts/**",
     "tests/**",
     ".github/**",
+    "api/**/*.migration.ts",
+    "api/**/connector.ts",
     "kube/**"
   ]
 }

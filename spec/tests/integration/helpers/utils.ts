@@ -24,7 +24,7 @@ export async function sendServerRequest( path, method = "GET", data = {}, header
 
 		const options	= {
 			hostname	: "localhost",
-			port: 8080,
+			port: 3000,
 			path,
 			method,
 			headers

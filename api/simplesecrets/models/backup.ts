@@ -26,9 +26,8 @@ export async function restore( event ) {
 
 	const secrets	= await Secret.findAll();
 
-	secrets.every( async ( secret ) => {
+	for ( const secret of secrets )
 		await secret.destroy();
-	});
 
 	for ( const data of backedUpData ) {
 		delete data["id"];

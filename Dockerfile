@@ -19,6 +19,6 @@ RUN apt update -y  \
     apt autoremove -y
 
 ENV DB_PATH=/data/db.sqlite
-ENV APP_PORT=8080
+ENV APP_PORT=3000
 
 CMD [ "node", "index.js" ]

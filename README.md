@@ -7,6 +7,8 @@ A K8S secrets manager operator.
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7583adec8aca4c0a868fbf92ccd05706)](https://www.codacy.com/gh/Michaelpalacce/SimpleSecrets/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Michaelpalacce/SimpleSecrets&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7583adec8aca4c0a868fbf92ccd05706)](https://www.codacy.com/gh/Michaelpalacce/SimpleSecrets/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Michaelpalacce/SimpleSecrets&utm_campaign=Badge_Coverage)
 
+<img src="resources/favicon.png" width="150px" alt="">
+
 A secure operator that gets installed in your kubernetes cluster and allows you to create 
 secrets on demand. You can commit the SimpleSecrets which are nothing more than a reference to a database secret that will 
 be created automatically for you. Targeted for HomeLab environments and not Enterprise.
@@ -30,13 +32,13 @@ heavy? Well look no further!
 - [ ] Docker images with other database dependencies
 
 ## Supported DBs:
-| db            | Supported          | Comments                                                                   |
-|---------------|--------------------|----------------------------------------------------------------------------|
-| sqlite3       | :heavy_check_mark: | Tested and working without any issue                                       |
-| PostgreSQL    | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
-| MySQL         | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
-| MariaDB       | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
-| Microsoft SQL | :x:                | Untested, should work with the correct DB_CONNECTION_STRING and dependency |
+| db            | Supported          | Comments                                                              |
+|---------------|--------------------|-----------------------------------------------------------------------|
+| sqlite3       | :heavy_check_mark: | Tested and working without any issue                                  |
+| PostgreSQL    | :x:                | Untested, should work with the correct env variables and dependencies |
+| MySQL         | :x:                | Untested, should work with the correct env variables and dependencies |
+| MariaDB       | :x:                | Untested, should work with the correct env variables and dependencies |
+| Microsoft SQL | :x:                | Untested, should work with the correct env variables and dependencies |
 
 ## How does it work?
 1. SimpleSecrets gets installed as a K8S operator in simplesecrets namespace.
@@ -44,7 +46,7 @@ heavy? Well look no further!
 3. During first start a new secret is created in the simplesecrets namespace containing the encryption key ( used to encrypt the secrets )
 4. Using the API, you create a new secret that will get stored in the database
 5. Create a new SimpleSecret object, stating the version of the secret you want to use ( optional ) and a new secret will be created in the same namespace with the same name
-6. If you do changes to the SimpleSecret Resource, like patch a version, the changes will be reflected in the Secret. 
+6. If you change a SimpleSecret Object, like patch a version, the change will be reflected in the Secret. 
 7. If you delete the SimpleSecret Resource, the Secret will also get deleted.
 
 ## Example:
@@ -71,7 +73,7 @@ data:
 ~~~
 
 ## Versioning
-When creating a new secret with an api call, if that secret exists, a new version will be added. You can specify the version you want to use inside of the SimpleSecret `spec`
+When creating a new secret with an api call, if that secret exists, a new version will be added. You can specify the version you want to use inside the SimpleSecret `spec`
 ~~~yaml
 apiVersion: "simplesecrets.local/v1"
 kind: SimpleSecret
@@ -106,7 +108,7 @@ spec:
 
 | Variable         | Description                                                                                                              | Default                     |
 |------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------|
-| APP_PORT         | The Port on which the app will run                                                                                       | 8080                        |
+| APP_PORT         | The Port on which the app will run                                                                                       | 80                        |
 | ENCRYPTION_KEY   | Will be used in case there is no secret `encryptionkey` in `simplesecrets` namespace. If not provided, will be generated | undefined                   |
 | DB_PATH          | The path to the sqlite3 database                                                                                         | `${PROJECT_ROOT}/db.sqlite` |
 | PROD_DB_USERNAME | Check the available options from sequelize                                                                               | undefined                   |
@@ -118,7 +120,7 @@ spec:
 
 ## Installation
 1. Create namespace simplesecrets
-2. (Optional) Create a new secret called encryptionkey. If you don't do this manually the secret will be generated for you.
+2. (Optional) Create a new secret called `encryptionkey`. If you don't do this manually the secret will be generated for you.
 3. Apply the Helm charts in simplesecrets namespace
 ~~~yaml
 apiVersion: v1

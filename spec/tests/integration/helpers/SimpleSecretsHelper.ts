@@ -38,8 +38,9 @@ export default class SimpleSecretsHelper {
 	 *
 	 * @param	{String} name
 	 * @param	{String} namespace
+	 * @param	{Number} version
 	 */
-	static async createSimpleSecret( name: string, namespace: string ): Promise<void> {
+	static async createSimpleSecret( name: string, namespace: string, version?: number ): Promise<void> {
 		const simpleSecret	= {
 			"apiVersion": "simplesecrets.local/v1",
 			"kind": "SimpleSecret",
@@ -52,6 +53,9 @@ export default class SimpleSecretsHelper {
 			}
 		};
 
-		await customObjectsApi.createNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, simpleSecret ).catch( console.log );
+		if ( version )
+			simpleSecret["spec"]	= { version };
+
+		await customObjectsApi.createNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, simpleSecret );
 	}
 }

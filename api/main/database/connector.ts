@@ -49,7 +49,7 @@ export async function initDb() {
 		await logger.error( `Unable to connect to the database: ${error}` );
 	}
 
-	const migrations	= ["20220222-create-secret", "20220222-addInUse"];
+	const migrations	= ["20220222-create-secret.migration", "20220222-addInUse.migration"];
 
 	for ( const migration of migrations )
 		await doMigration( migration );

@@ -8,6 +8,9 @@ const app					= App();
 const router				= app.Router();
 
 router.get( "/simplesecrets/backup", backup );
-router.post( "/simplesecrets/restore", restore );
+router.post(
+	"/simplesecrets/restore",
+	restore
+);
 
 module.exports	= router;

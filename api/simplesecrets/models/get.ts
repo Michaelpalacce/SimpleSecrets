@@ -16,7 +16,7 @@ export async function getOne( event ) {
 	const secret	= await Secret.findOne({ where: { name, namespace } });
 
 	if ( ! secret )
-		return await event.send();
+		return await event.next( "Not Found", 404 );
 
 	secret.data	= JSON.parse( decrypt( secret.data ) );
 

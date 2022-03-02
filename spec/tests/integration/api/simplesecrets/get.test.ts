@@ -1,8 +1,8 @@
 import "jasmine";
 import SecretsHelper			from "../../helpers/SecretsHelper";
 import { sendServerRequest }	from "../../helpers/utils";
-import SimpleSecretsHelper from "../../helpers/SimpleSecretsHelper";
-import {decrypt, encrypt} from "../../../../../api/main/utils/encryption/encrypt";
+import SimpleSecretsHelper		from "../../helpers/SimpleSecretsHelper";
+import { decrypt }				from "../../../../../api/main/utils/encryption/encrypt";
 
 describe( "Get Secrets", () => {
 	it("should getAll secrets", async function () {
@@ -139,6 +139,21 @@ describe( "Get Secrets", () => {
 		expect( body.data ).toEqual( { 1: data } );
 	});
 
+	it("should get specific secret when not exists", async function () {
+		const name		= "test";
+		const namespace	= "test";
+
+		// Remove If exists
+		await SecretsHelper.ensureSecretIsMissing( name, namespace );
+		await SimpleSecretsHelper.ensureSimpleSecretIsMissing( name, namespace );
+
+		const response	= await sendServerRequest( "/api/simplesecrets/test/test", "GET" );
+
+		const body		= JSON.parse( response.body.toString() );
+		expect( response.statusCode ).toEqual( 404 );
+		expect( body.error.code ).toEqual( "app.general" );
+		expect( body.error.message ).toEqual( "Not Found" );
+	});
 
 	it("should get specific secret returns all versions", async function () {
 		const name		= "test";

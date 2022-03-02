@@ -3,7 +3,7 @@ import { customObjectsApi }					from "../k8s/clients";
 import { KubernetesObject, PatchUtils }		from "@kubernetes/client-node";
 import http									from "http";
 import { PatchDirectiveOperation, V1Patch }	from "../k8s/interfaces";
-import logger from "../utils/logger";
+import logger								from "../utils/logger";
 
 export interface SimpleSecretsSpec {
 	version: number;
@@ -42,7 +42,7 @@ export default class SimpleSecretsManager {
 			}
 		];
 
-		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( logger.log );
+		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( logger.error );
 	}
 	/**
 	 * @brief	Patches annotations
@@ -62,7 +62,7 @@ export default class SimpleSecretsManager {
 
 		const options	= { headers: { "Content-type": PatchUtils.PATCH_FORMAT_JSON_PATCH } };
 
-		return await customObjectsApi.patchNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name, patch, null, null, null, options ).catch( err => { logger.log( err.body );} );
+		return await customObjectsApi.patchNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name, patch, undefined, undefined, undefined, options );
 	}
 
 	/**
@@ -77,29 +77,7 @@ export default class SimpleSecretsManager {
 		response: http.IncomingMessage;
 		body: object;
 	} | void> {
-		return await SimpleSecretsManager.patchSimpleSecretAnnotation( simpleSecret, "currentVersion", version ).catch( logger.log );
-	}
-
-	/**
-	 * @brief	Patches the version annotation of the SimpleSecret
-	 *
-	 * @param	{SimpleSecrets} simpleSecret
-	 * @param	{Number} version
-	 *
-	 * @return	{Promise}
-	 */
-	static async patchSimpleSecretVersion( simpleSecret: SimpleSecrets, version: string ): Promise<{
-		response: http.IncomingMessage;
-		body: object;
-	} | void> {
-		const patch	= [
-			{
-				op		: PatchDirectiveOperation.ADD,
-				path	: "/spec/version",
-				value	: version
-			}
-		];
-		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( logger.log );
+		return await SimpleSecretsManager.patchSimpleSecretAnnotation( simpleSecret, "currentVersion", version ).catch( logger.error );
 	}
 
 	/**

@@ -2,6 +2,7 @@ import { decrypt, encrypt }	from "../../main/utils/encryption/encrypt";
 import SimpleSecretsManager	from "../../main/operator/SimpleSecretsManager";
 import { Secret }			from "../../main/database/models/Secret";
 import SecretsManager		from "../../main/operator/SecretsManager";
+import logger from "../../main/utils/logger";
 
 /**
  * @brief	Adds a new secret to the database
@@ -17,8 +18,8 @@ export default async function add( event ) {
 	const body							= event.body;
 	let { namespace, type, name, data }	= body;
 
-	name		= (typeof name === "string" ? name.trim() : "").toLowerCase();
-	namespace	= (typeof namespace === "string" ? namespace.trim() : "default").toLowerCase();
+	name		= ( typeof name === "string" ? name.trim() : "default" ).toLowerCase();
+	namespace	= ( typeof namespace === "string" ? namespace.trim() : "default" ).toLowerCase();
 	type		= typeof type === "string" ? type.trim() : "Opaque";
 
 	const search	= await Secret.findOne({
@@ -56,8 +57,8 @@ export default async function add( event ) {
 	const simpleSecret	= await SimpleSecretsManager.getSimpleSecret( namespace, name );
 
 	if ( simpleSecret !== null )
-		if ( ! simpleSecret?.spec?.version || simpleSecret?.spec?.version === 0 )
-			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, newVersion.toString() ).catch( console.log );
+		if ( ! simpleSecret.spec?.version || simpleSecret.spec?.version === 0 )
+			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, newVersion.toString() ).catch( logger.log );
 
 	event.send( search );
 }

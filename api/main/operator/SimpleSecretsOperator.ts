@@ -29,19 +29,15 @@ export default class SimpleSecretsOperator extends Operator {
 
 		// NOTE: we pass the plural name of the resource
 		await this.watchResource( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, SimpleSecretsOperator.PLURAL, async ( e ) => {
-			try {
-				switch ( e.type ) {
-					case ResourceEventType.Modified:
-					case ResourceEventType.Added:
-						await this.resourceAdded( e );
-						break;
+			switch ( e.type ) {
+				case ResourceEventType.Modified:
+				case ResourceEventType.Added:
+					await this.resourceAdded( e );
+					break;
 
-					case ResourceEventType.Deleted:
-						await this.resourceDeleted( e );
-						break;
-				}
-			} catch (err) {
-				logger.error( err );
+				case ResourceEventType.Deleted:
+					await this.resourceDeleted( e );
+					break;
 			}
 		});
 	}
@@ -125,7 +121,7 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async recreateSecret( object: SimpleSecrets, hash: string = "" ): Promise<void> {
+	private async recreateSecret( object: SimpleSecrets, hash: string ): Promise<void> {
 		logger.info( "Hash mismatch, recreating secret!" );
 		const metadata	= object.metadata;
 
@@ -143,7 +139,7 @@ export default class SimpleSecretsOperator extends Operator {
 	 *
 	 * @private
 	 */
-	private async createNewSecret( object: SimpleSecrets, hash: string = "" ): Promise<void> {
+	private async createNewSecret( object: SimpleSecrets, hash: string ): Promise<void> {
 		const metadata	= object.metadata;
 		const namespace	= metadata.namespace;
 		const name		= metadata.name;
@@ -158,8 +154,18 @@ export default class SimpleSecretsOperator extends Operator {
 			return;
 		}
 
-		const dbData	= JSON.parse( decrypt( dbSecret.data ) );
-		const version	= typeof object.spec?.version !== "undefined" && object.spec?.version !== 0 ? object.spec.version : dbSecret.version;
+		let decryptedData;
+
+		try {
+			decryptedData	= decrypt( dbSecret.data );
+		}
+		catch ( e ) {
+			logger.error( "Could not decrypt data, probably due to invalid encryption key" );
+			return ;
+		}
+
+		const dbData	= JSON.parse( decryptedData );
+		const version	= typeof object.spec?.version !== "undefined" && object.spec.version !== 0 ? object.spec.version : dbSecret.version;
 
 		logger.info( `Creating new secret ${name} in ${namespace}` );
 
@@ -175,7 +181,7 @@ export default class SimpleSecretsOperator extends Operator {
 				name,
 				namespace,
 				annotations: {
-					[this.ANNOTATION]: hash === "" ? this.calculateHash( object ) : hash
+					[this.ANNOTATION]: hash
 				}
 			},
 			type: dbSecret.type,
