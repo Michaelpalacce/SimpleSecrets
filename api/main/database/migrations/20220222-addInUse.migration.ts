@@ -28,7 +28,7 @@ module.exports	= {
 		if ( tableDefinition.inUse ) {
 			await Migration.create({
 				name: migrationName,
-			})
+			});
 			return;
 		}
 
