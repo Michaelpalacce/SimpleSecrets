@@ -115,7 +115,7 @@ spec:
 
 | Variable         | Description                                                                                                              | Default                     |
 |------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------|
-| APP_PORT         | The Port on which the app will run                                                                                       | 80                        |
+| APP_PORT         | The Port on which the app will run                                                                                       | 3000                        |
 | ENCRYPTION_KEY   | Will be used in case there is no secret `encryptionkey` in `simplesecrets` namespace. If not provided, will be generated | undefined                   |
 | DB_PATH          | The path to the sqlite3 database                                                                                         | `${PROJECT_ROOT}/db.sqlite` |
 | PROD_DB_USERNAME | Check the available options from sequelize                                                                               | undefined                   |
