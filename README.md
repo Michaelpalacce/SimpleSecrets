@@ -30,9 +30,9 @@ heavy? Well look no further!
 
 ## Roadmap
 - [x] UI - For now I have provided a postman collection that you can use to access the operator -> https://github.com/Michaelpalacce/SimpleSecretsFrontend
-- [ ] 100% Test coverage ( almost there ! )
+- [x] Docker images with other database dependencies
+- [x] 100% Test coverage ( I mean not exactly 100% but... I'll take it! )
 - [ ] Authentication -> By supplying the encryption key
-- [ ] Docker images with other database dependencies
 - [ ] Dynamic secrets
 - [ ] External secrets
 - [ ] Watch secret annotation to restart deployments when a secret is changed
@@ -40,13 +40,12 @@ heavy? Well look no further!
 - [ ] Better Helm Chart
 
 ## Supported DBs:
-| db            | Supported          | Comments                                                              |
-|---------------|--------------------|-----------------------------------------------------------------------|
-| sqlite3       | :heavy_check_mark: | Tested and working without any issue                                  |
-| PostgreSQL    | :x:                | Untested, should work with the correct env variables and dependencies |
-| MySQL         | :x:                | Untested, should work with the correct env variables and dependencies |
-| MariaDB       | :x:                | Untested, should work with the correct env variables and dependencies |
-| Microsoft SQL | :x:                | Untested, should work with the correct env variables and dependencies |
+| db            | Supported          | Comments                                                                                        |
+|---------------|--------------------|-------------------------------------------------------------------------------------------------|
+| sqlite3       | :heavy_check_mark: | Tested and working without any issue                                                            |
+| PostgreSQL    | :heavy_check_mark: | Tested and working without any issue. Set the correct environment variables and it will work :) |
+| MySQL         | :heavy_check_mark: | Tested and working without any issue. Set the correct environment variables and it will work :) |
+| MariaDB       | :heavy_check_mark: | Tested and working without any issue. Set the correct environment variables and it will work :) |
 
 ## How does it work?
 1. SimpleSecrets gets installed as a K8S operator in simplesecrets namespace.

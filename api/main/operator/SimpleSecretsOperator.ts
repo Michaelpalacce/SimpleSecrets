@@ -3,17 +3,15 @@ import { V1Secret }										from "@kubernetes/client-node";
 import logger, { OperatorLogger }						from "../utils/logger";
 import { createHash }									from "crypto";
 import { decrypt }										from "../utils/encryption/encrypt";
-import { SimpleSecrets }								from "./SimpleSecretsManager";
 import SecretsManager									from "./SecretsManager";
 import { Secret }										from "../database/models/Secret";
+import SimpleSecrets									from "../interfaces/simpleSecret";
+import { GROUP, PLURAL, VERSION }						from "./operatorConstants";
 
 /**
  * @brief	Holds logic related to operating on SimpleSecret CRDs
  */
 export default class SimpleSecretsOperator extends Operator {
-	static GROUP: string		= "simplesecrets.local";
-	static VERSION: string		= "v1";
-	static PLURAL: string		= "simplesecrets";
 
 	private ANNOTATION: string	= "simplesecrets.hash";
 	private encryptionKey: string;
@@ -28,7 +26,7 @@ export default class SimpleSecretsOperator extends Operator {
 		await this.syncState();
 
 		// NOTE: we pass the plural name of the resource
-		await this.watchResource( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, SimpleSecretsOperator.PLURAL, async ( e ) => {
+		await this.watchResource( GROUP, VERSION, PLURAL, async ( e ) => {
 			switch ( e.type ) {
 				case ResourceEventType.Modified:
 				case ResourceEventType.Added:

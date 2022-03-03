@@ -1,6 +1,6 @@
 import server			from "../../../api/main/server/server";
 import DatabaseHelpers	from "./helpers/DatabaseHelpers";
-import {apiClient} from "./helpers/clients";
+import { apiClient }	from "./helpers/clients";
 
 beforeAll(async () => {
 	await server();

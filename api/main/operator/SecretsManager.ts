@@ -2,6 +2,9 @@ import { V1Secret, V1Status }	from "@kubernetes/client-node";
 import { apiClient }			from "../k8s/clients";
 import http						from "http";
 
+/**
+ * @brief	Secrets manager that is used to manage Secret objects in K8S
+ */
 export default class SecretsManager {
 	/**
 	 * @brief	Gets an existing secret, or returns null in case of error

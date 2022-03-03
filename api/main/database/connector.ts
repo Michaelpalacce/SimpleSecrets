@@ -22,6 +22,8 @@ let sequelize		= new Sequelize( {
 async function doMigration( migrationName: string ) {
 	const migration	= await import( `./migrations/${migrationName}` );
 
+	logger.log( `Performing migration : ${migrationName}` );
+
 	await migration.up( sequelize, migrationName ).catch( async () => {
 		await migration.down( sequelize, migrationName );
 		throw new Error( `Error while executing migration ${migrationName}` );

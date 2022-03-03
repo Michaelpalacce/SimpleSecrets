@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+    postgres:
+        image: postgres
+        ports:
+            - "5432:5432"
+        restart: always
+        volumes:
+            - ./docker-data/postgres/dshm:/dev/shm
+            - ./docker-data/data/dshm:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+    pgadmin:
+        image: dpage/pgadmin4:6.4
+        ports:
+            - "5555:80"
+        restart: always
+        volumes:
+            - ./docker-data/postgres/pgadmin:/var/lib/pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: postgres@local.dev
+            PGADMIN_DEFAULT_PASSWORD: postgres

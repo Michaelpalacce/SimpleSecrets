@@ -1,21 +1,12 @@
-import SimpleSecretsOperator				from "./SimpleSecretsOperator";
 import { customObjectsApi }					from "../k8s/clients";
-import { KubernetesObject, PatchUtils }		from "@kubernetes/client-node";
+import { PatchUtils }						from "@kubernetes/client-node";
 import http									from "http";
 import { PatchDirectiveOperation, V1Patch }	from "../k8s/interfaces";
 import logger								from "../utils/logger";
+import SimpleSecrets						from "../interfaces/simpleSecret";
+import { GROUP, PLURAL, VERSION }			from "./operatorConstants";
 
-export interface SimpleSecretsSpec {
-	version: number;
-}
 
-export interface SimpleSecretsStatus {
-}
-
-export interface SimpleSecrets extends KubernetesObject {
-	spec: SimpleSecretsSpec;
-	status: SimpleSecretsStatus;
-}
 
 /**
  * @brief	Class responsible for handling api calls for SimpleSecret CRDs
@@ -62,7 +53,7 @@ export default class SimpleSecretsManager {
 
 		const options	= { headers: { "Content-type": PatchUtils.PATCH_FORMAT_JSON_PATCH } };
 
-		return await customObjectsApi.patchNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name, patch, undefined, undefined, undefined, options );
+		return await customObjectsApi.patchNamespacedCustomObject( GROUP, VERSION, namespace, PLURAL, name, patch, undefined, undefined, undefined, options );
 	}
 
 	/**
@@ -89,7 +80,7 @@ export default class SimpleSecretsManager {
 	 * @return	{Promise}
 	 */
 	static async getSimpleSecret( namespace: string, name: string ): Promise<SimpleSecrets | null> {
-		const simpleSecretResponse	= await customObjectsApi.getNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name ).catch( e => e );
+		const simpleSecretResponse	= await customObjectsApi.getNamespacedCustomObject( GROUP, VERSION, namespace, PLURAL, name ).catch( e => e );
 		if ( simpleSecretResponse.statusCode !== 404 ) {
 			return simpleSecretResponse.body as SimpleSecrets;
 		}

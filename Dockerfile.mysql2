@@ -1,0 +1,25 @@
+FROM node:gallium-slim
+
+WORKDIR /app
+
+COPY . .
+
+RUN apt update -y && \
+    npm i --save mysql2@2.3 &&  \
+    npm i &&  \
+    npm rebuild &&  \
+    npm run build && \
+    npm prune --production && \
+    rm -rf api charts mocks index.ts &&  \
+    cp -R dist/* /app && \
+    apt autoremove -y
+
+ENV APP_PORT=3000
+ENV PROD_DB_USERNAME="simplesecrets"
+ENV PROD_DB_PASSWORD="simplesecrets"
+ENV PROD_DB_NAME="simplesecrets"
+ENV PROD_DB_HOSTNAME="mysql"
+ENV PROD_DB_PORT="3306"
+ENV PROD_DB_DIALECT="mysql"
+
+CMD [ "node", "index.js" ]

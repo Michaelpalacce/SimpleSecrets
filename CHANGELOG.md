@@ -1,3 +1,10 @@
+## [1.15.0]
+* Small improvements
+* Documentation improvements
+* Introduced docker-compose to test other databases
+* Tested other databases, improved docker process for dependencies
+* Added other Docker containers with dependencies to other databases
+
 ## [1.14.0]
 * Documentation improvements
 * Newer version of the UI

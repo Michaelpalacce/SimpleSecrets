@@ -1,17 +1,19 @@
-import { createHash }	from "crypto";
-import { apiClient }	from "../../k8s/clients";
-import logger			from "../logger";
+import { createHash }		from "crypto";
+import { apiClient }		from "../../k8s/clients";
+import logger				from "../logger";
+import { V1Secret }			from "@kubernetes/client-node";
+import { IncomingMessage }	from "http";
 
-const VARIABLE_NAME		= "encryptionKey";
-const SECRET_NAME		= "encryptionkey";
-const SECRET_NAMESPACE	= "simplesecrets";
+const VARIABLE_NAME			= "encryptionKey";
+const SECRET_NAME			= "encryptionkey";
+const SECRET_NAMESPACE		= "simplesecrets";
 
-let encryptionKey	= "";
+let encryptionKey			= "";
 
 /**
  * @brief	Deletes the encryption key secret
  */
-export async function deleteEncryptionKeySecret() {
+export async function deleteEncryptionKeySecret(): Promise<void> {
 	await apiClient.deleteNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( e => {
 		logger.error( e.body );
 	} );
@@ -25,7 +27,10 @@ export async function deleteEncryptionKeySecret() {
  * @param	{String} encryptionKey
  * @param	{Boolean} forceDelete
  */
-export async function createEncryptionKeySecretIfNotExists( encryptionKey: string, forceDelete = false ) {
+export async function createEncryptionKeySecretIfNotExists( encryptionKey: string, forceDelete = false ): Promise<{
+	body: V1Secret,
+	response: IncomingMessage
+}> {
 	if ( forceDelete )
 		await deleteEncryptionKeySecret();
 

@@ -9,7 +9,8 @@ ENV PYTHONUNBUFFERED=1
 RUN apt update -y  \
     && apt install -y python3 g++ make libsqlite3-dev &&  \
     ln -sf python3 /usr/bin/python && \
-    npm i --build-from-source --sqlite=/usr/local &&  \
+    npm i --build-from-source --sqlite=/usr/local --save sqlite3@5.0 &&  \
+    npm i &&  \
     npm rebuild &&  \
     npm run build && \
     npm prune --production && \

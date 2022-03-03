@@ -5,3 +5,4 @@ env.js
 kube
 .nyc_output
 coverage
+docker-data

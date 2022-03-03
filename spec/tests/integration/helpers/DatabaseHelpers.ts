@@ -1,5 +1,5 @@
-import {Secret } from "../../../../api/main/database/models/Secret";
-import Migration from "../../../../api/main/database/models/Migration";
+import { Secret }	from "../../../../api/main/database/models/Secret";
+import Migration	from "../../../../api/main/database/models/Migration";
 
 export default class DatabaseHelpers {
 	/**

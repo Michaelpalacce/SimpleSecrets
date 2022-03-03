@@ -1,6 +1,6 @@
-import {customObjectsApi} from "../../../../api/main/k8s/clients";
-import SimpleSecretsOperator from "../../../../api/main/operator/SimpleSecretsOperator";
-import {SimpleSecrets} from "../../../../api/main/operator/SimpleSecretsManager";
+import SimpleSecrets				from "../../../../api/main/interfaces/simpleSecret";
+import { customObjectsApi }			from "./clients";
+import { GROUP, PLURAL, VERSION }	from "../../../../api/main/operator/operatorConstants";
 
 export default class SimpleSecretsHelper {
 	/**
@@ -12,7 +12,7 @@ export default class SimpleSecretsHelper {
 	 * @return	{Promise}
 	 */
 	static async getSimpleSecret( namespace: string, name: string ): Promise<SimpleSecrets | null> {
-		const simpleSecretResponse	= await customObjectsApi.getNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name ).catch( e => e );
+		const simpleSecretResponse	= await customObjectsApi.getNamespacedCustomObject( GROUP, VERSION, namespace, PLURAL, name ).catch( e => e );
 		if ( simpleSecretResponse.statusCode !== 404 ) {
 			return simpleSecretResponse.body as SimpleSecrets;
 		}
@@ -27,7 +27,7 @@ export default class SimpleSecretsHelper {
 	 * @param	{String} namespace
 	 */
 	static async ensureSimpleSecretIsMissing(name: string, namespace: string ): Promise<void> {
-		await customObjectsApi.deleteNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, name ).catch( e => {
+		await customObjectsApi.deleteNamespacedCustomObject( GROUP, VERSION, namespace, PLURAL, name ).catch( e => {
 			if ( e.statusCode !== 404 )
 				throw e;
 		});
@@ -56,6 +56,6 @@ export default class SimpleSecretsHelper {
 		if ( version )
 			simpleSecret["spec"]	= { version };
 
-		await customObjectsApi.createNamespacedCustomObject( SimpleSecretsOperator.GROUP, SimpleSecretsOperator.VERSION, namespace, SimpleSecretsOperator.PLURAL, simpleSecret );
+		await customObjectsApi.createNamespacedCustomObject( GROUP, VERSION, namespace, PLURAL, simpleSecret );
 	}
 }
