@@ -140,6 +140,10 @@ data:
 ~~~
 ### Checkout: [Working installation with Longhorn](https://github.com/Michaelpalacce/HomeLab/tree/master/Helm/apps/simplesecrets)
 
+## Backup and Restore
+* You can do a GET request to {{FQDN}}/api/simplesecrets/backup to get all the data needed for a backup
+* You can do a POST request to {{FQDN}}/api/simplesecrets/restore with the data retrieved from /backup to do a full restore ( will overwrite your ENCRYPTION KEY too )
+
 ## Development Pre-reqs
 1. Have kubernetes context configured to connect to a kubernetes cluster
 2. Run: `npm i`
