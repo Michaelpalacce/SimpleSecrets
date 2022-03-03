@@ -1,7 +1,7 @@
 # This workflow will do a clean install of NodeJS 16.x on linux for every push or pull request on master
 # It will then run the tests of the app. After the tests have been run it will upload coverage reports for codacy and codecov
 
-name: linux-16.x
+name: CI/CD
 
 on:
     push:
