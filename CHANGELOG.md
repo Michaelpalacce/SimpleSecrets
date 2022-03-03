@@ -1,3 +1,7 @@
+## [1.14.0]
+* Documentation improvements
+* Newer version of the UI
+
 ## [1.13.0]
 * Improvements to the documentation
 * Added more tests. 

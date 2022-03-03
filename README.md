@@ -9,6 +9,10 @@ A K8S secrets manager operator.
 
 <img src="resources/favicon.png" width="150px" alt="">
 
+### Note: This is just the API/Operator. Check the link below for the Frontend
+
+## [Frontend Github Page](https://github.com/Michaelpalacce/SimpleSecretsFrontend)
+
 A secure operator that gets installed in your kubernetes cluster and allows you to create 
 secrets on demand. You can commit the SimpleSecrets which are nothing more than a reference to a database secret that will 
 be created automatically for you. Targeted for HomeLab environments and not Enterprise.
@@ -26,10 +30,14 @@ heavy? Well look no further!
 
 ## Roadmap
 - [x] UI - For now I have provided a postman collection that you can use to access the operator -> https://github.com/Michaelpalacce/SimpleSecretsFrontend
-- [ ] 100% Test coverage
-- [ ] Authentication 
-- [ ] Multiple Users
+- [ ] 100% Test coverage ( almost there ! )
+- [ ] Authentication -> By supplying the encryption key
 - [ ] Docker images with other database dependencies
+- [ ] Dynamic secrets
+- [ ] External secrets
+- [ ] Watch secret annotation to restart deployments when a secret is changed
+- [ ] Api Documentation
+- [ ] Better Helm Chart
 
 ## Supported DBs:
 | db            | Supported          | Comments                                                              |

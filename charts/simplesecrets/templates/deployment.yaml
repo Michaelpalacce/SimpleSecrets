@@ -24,20 +24,20 @@ spec:
                   image: {{ .image }}:{{ .tag }}
                   imagePullPolicy: IfNotPresent
                   env:
-                          -   name: DB_PATH
-                              value: "/data/db.sqlite"
-                          -   name: APP_PORT
-                              value: 80
+                          - name: DB_PATH
+                            value: "/data/db.sqlite"
+                          - name: APP_PORT
+                            value: "80"
 {{- if .resources }}
                   resources:
 {{ toYaml .resources | indent 22 }}
 {{- end }}
                   ports:
-                      -   name: api
-                          containerPort: {{ .port }}
+                      - name: api
+                        containerPort: {{ .port }}
                   volumeMounts:
-                      -   name: data-config
-                          mountPath: /data
+                      - name: data-config
+                        mountPath: /data
                   livenessProbe:
                       failureThreshold: 2
                       initialDelaySeconds: 120

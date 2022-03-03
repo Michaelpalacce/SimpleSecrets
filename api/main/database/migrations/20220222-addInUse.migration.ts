@@ -4,7 +4,13 @@ import { Secret }				from "../models/Secret";
 import Migration				from "../models/Migration";
 
 module.exports	= {
-	async up ( sequelize: Sequelize, migrationName: string ) {
+	/**
+	 * @brief	Add a new column inUse to Secrets
+	 *
+	 * @param	{Sequelize} sequelize
+	 * @param	{String} migrationName
+	 */
+	async up ( sequelize: Sequelize, migrationName: string ): Promise<void> {
 		const migration	= await Migration.findOne<Migration>({
 			where: {
 				name: migrationName
