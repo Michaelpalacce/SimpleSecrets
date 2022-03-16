@@ -25,5 +25,4 @@ jobs:
             - run: npm i
             - run: npm i --save sqlite3
             - run: npm run build --if-present
-            - run: export INSECURE=1
-            - run: npm run test
+            - run: export INSECURE=1 npm run test
