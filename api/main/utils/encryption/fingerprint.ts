@@ -26,11 +26,11 @@ export async function ensureFingerprintExists(): Promise<void>{
 		});
 
 		fingerprint	= data;
-		logger.log( "Fingerprint generated!" )
+		logger.log( "Fingerprint generated!" );
 		return;
 	}
 
-	logger.log( "Existing Fingerprint found!" )
+	logger.log( "Existing Fingerprint found!" );
 	fingerprint	= foundFingerprint.data;
 }
 
@@ -43,5 +43,5 @@ export default async function (): Promise<string> {
 	if ( fingerprint === null )
 		await ensureFingerprintExists();
 
-	return fingerprint
+	return fingerprint;
 }

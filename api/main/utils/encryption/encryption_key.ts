@@ -33,7 +33,7 @@ export async function createEncryptionKeySecretIfNotExists( encryptionKey: strin
 		await deleteEncryptionKeySecret();
 
 	return await apiClient.readNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( async e => {
-		await logger.warn( `Creating a new encryption key secret.` );
+		await logger.warn( "Creating a new encryption key secret." );
 		return await apiClient.createNamespacedSecret( SECRET_NAMESPACE, {
 			apiVersion: "v1",
 			kind: "Secret",

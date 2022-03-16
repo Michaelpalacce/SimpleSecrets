@@ -39,23 +39,8 @@ function getFingerprint(): Buffer { return Buffer.from( process.env.FINGERPRINT 
 
 /**
  * @param	{String} toEncrypt - The clear text message to be encrypted
- * @param	{Boolean} includeFingerprint - Should use the fingerprint from the Database for encryption?
- *
- * The caller of this function has the responsibility to clear
- * the Buffer after the encryption to prevent the message text
- * and the key from lingering in the memory
+ * @param	{Buffer} key - Encryption key
  */
-export function encrypt ( toEncrypt: string, includeFingerprint: boolean = true ): string {
-	let message;
-	if ( includeFingerprint ) {
-		message	= _encrypt( toEncrypt, getFingerprint() );
-	}
-
-	message	= _encrypt( includeFingerprint ? message : toEncrypt );
-
-	return message;
-}
-
 function _encrypt( toEncrypt: string, key: Buffer = getKey() ): string {
 	const messageText	= Buffer.from( toEncrypt );
 	const iv			= getIV();
@@ -97,6 +82,25 @@ function _decrypt( toDecrypt:string, key: Buffer = getKey() ): string {
 }
 
 /**
+ * @param	{String} toEncrypt - The clear text message to be encrypted
+ * @param	{Boolean} includeFingerprint - Should use the fingerprint from the Database for encryption?
+ *
+ * The caller of this function has the responsibility to clear
+ * the Buffer after the encryption to prevent the message text
+ * and the key from lingering in the memory
+ */
+export function encrypt ( toEncrypt: string, includeFingerprint: boolean = true ): string {
+	let message;
+	if ( includeFingerprint ) {
+		message	= _encrypt( toEncrypt, getFingerprint() );
+	}
+
+	message	= _encrypt( includeFingerprint ? message : toEncrypt );
+
+	return message;
+}
+
+/**
  *
  * @param	{String} toDecrypt - Cipher text
  * @param	{Boolean} includeFingerprint - Should we double decrypt using the fingerprint from the database
@@ -110,7 +114,7 @@ export function decrypt ( toDecrypt: string, includeFingerprint: boolean = true 
 	let message	= _decrypt( toDecrypt );
 
 	if ( includeFingerprint ){
-		message	= _decrypt( message, getFingerprint() )
+		message	= _decrypt( message, getFingerprint() );
 	}
 
 	return message;

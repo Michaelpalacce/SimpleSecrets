@@ -8,5 +8,5 @@ import { randomBytes } from "crypto";
  * @param	{Number} length
  */
 export function getRandomString( length: number = 32 ): string {
-	return randomBytes( length / 2 ).toString( "hex" )
+	return randomBytes( length / 2 ).toString( "hex" );
 }
