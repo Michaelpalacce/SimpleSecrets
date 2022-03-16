@@ -5,13 +5,15 @@ import SimpleSecretsOperator	from "../operator/SimpleSecretsOperator";
 import logger					from "../utils/logger";
 import { initDb }				from "../database/connector";
 import getEncryptionKey			from "../utils/encryption/encryption_key";
+import getFingerprint			from "../utils/encryption/fingerprint";
 
 const port	= process.env.APP_PORT || 3000;
 
 /**
  * @brief	Initializes important components
  *
- * @details	Ensures We have an Encryption Key secret and sets it to an env variable
+ * @details	Ensures we have an Encryption Key secret and sets it to an env variable
+ * 			Ensures we have a Fingerprint set in the database
  * 			Start the operator and give it a logger.
  * 			Initializes the DB
  *
@@ -20,9 +22,10 @@ const port	= process.env.APP_PORT || 3000;
 async function init() {
 	await logger.info( "Starting initialization" );
 	process.env.ENCRYPTION_KEY	= await getEncryptionKey();
-	await logger.info( `Encryption Key: ${process.env.ENCRYPTION_KEY}` );
 
 	await initDb();
+
+	process.env.FINGERPRINT		= await getFingerprint();
 
 	const operator	= new SimpleSecretsOperator( logger );
 	await operator.start();

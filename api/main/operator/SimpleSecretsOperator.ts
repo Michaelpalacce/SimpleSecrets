@@ -148,7 +148,7 @@ export default class SimpleSecretsOperator extends Operator {
 		});
 
 		if ( ! dbSecret ) {
-			logger.error( `Could not find Simples Secret ${name} in ${namespace} in the DATABASE` );
+			logger.error( `Could not find Simples Secret ${name} in ${namespace} in the database` );
 			return;
 		}
 

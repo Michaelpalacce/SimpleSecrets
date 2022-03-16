@@ -3,7 +3,8 @@ import { parse }				from "path";
 import { Dialect }				from "sequelize/types";
 import { Secret }				from "./models/Secret";
 import Migration				from "./models/Migration";
-import logger from "../utils/logger";
+import logger					from "../utils/logger";
+import { Fingerprint }			from "./models/Fingerprint";
 
 const PROJECT_ROOT	= parse( require.main.filename ).dir;
 
@@ -44,6 +45,14 @@ export async function initDb() {
 		name: DataTypes.STRING,
 	}, { sequelize, modelName: "Migration" });
 
+	Fingerprint.init({
+		data: DataTypes.STRING,
+		name: {
+			type: DataTypes.STRING,
+			unique: true
+		}
+	}, { sequelize, modelName: "Fingerprint" });
+
 	try {
 		await sequelize.authenticate();
 		await logger.log( "Connection has been established successfully." );
@@ -51,7 +60,7 @@ export async function initDb() {
 		await logger.error( `Unable to connect to the database: ${error}` );
 	}
 
-	const migrations	= ["20220222-create-secret.migration", "20220222-addInUse.migration"];
+	const migrations	= ["20220222-create-secret.migration", "20220222-addInUse.migration", "20220316-fingerprint.migration"];
 
 	for ( const migration of migrations )
 		await doMigration( migration );

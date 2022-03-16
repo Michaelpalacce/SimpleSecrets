@@ -1,8 +1,8 @@
-import { createHash }		from "crypto";
 import { apiClient }		from "../../k8s/clients";
 import logger				from "../logger";
 import { V1Secret }			from "@kubernetes/client-node";
 import { IncomingMessage }	from "http";
+import { getRandomString }	from "./utils";
 
 const VARIABLE_NAME			= "encryptionKey";
 const SECRET_NAME			= "encryptionkey";
@@ -14,9 +14,7 @@ let encryptionKey			= "";
  * @brief	Deletes the encryption key secret
  */
 export async function deleteEncryptionKeySecret(): Promise<void> {
-	await apiClient.deleteNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( e => {
-		logger.error( e.body );
-	} );
+	await apiClient.deleteNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE );
 }
 
 /**
@@ -35,7 +33,7 @@ export async function createEncryptionKeySecretIfNotExists( encryptionKey: strin
 		await deleteEncryptionKeySecret();
 
 	return await apiClient.readNamespacedSecret( SECRET_NAME, SECRET_NAMESPACE ).catch( async e => {
-		await logger.warn( `Creating a new encryption key secret: ${encryptionKey}` );
+		await logger.warn( `Creating a new encryption key secret.` );
 		return await apiClient.createNamespacedSecret( SECRET_NAMESPACE, {
 			apiVersion: "v1",
 			kind: "Secret",
@@ -58,12 +56,11 @@ export async function createEncryptionKeySecretIfNotExists( encryptionKey: strin
  */
 export default async function (): Promise<string> {
 	if ( ! encryptionKey ) {
-		const fallbackEncryptionKey	= process.env.ENCRYPTION_KEY || createHash( "md5" ).update( Date.now().toString() ).digest( "hex" );
+		const fallbackEncryptionKey	= process.env.ENCRYPTION_KEY || getRandomString( 32 );
 		const secret				= await createEncryptionKeySecretIfNotExists( fallbackEncryptionKey );
 
 		encryptionKey				= Buffer.from( secret.body.data[VARIABLE_NAME], "base64" ).toString();
 	}
 
 	return encryptionKey;
-
 }

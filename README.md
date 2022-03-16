@@ -32,6 +32,9 @@ heavy? Well look no further!
 - [x] UI - For now I have provided a postman collection that you can use to access the operator -> https://github.com/Michaelpalacce/SimpleSecretsFrontend
 - [x] Docker images with other database dependencies
 - [x] 100% Test coverage ( I mean not exactly 100% but... I'll take it! )
+- [x] Fingerprint in database for extra security
+- [ ] Cli tool for decryption on demand and restoring backups
+- [ ] Kubernetes native way of storing backups ( ETCD perhaps, or an object that can be created? )
 - [ ] Authentication -> By supplying the encryption key
 - [ ] Dynamic secrets
 - [ ] External secrets
@@ -51,10 +54,11 @@ heavy? Well look no further!
 1. SimpleSecrets gets installed as a K8S operator in simplesecrets namespace.
 2. During first start a new database file is created ( for sqlite3 )
 3. During first start a new secret is created in the simplesecrets namespace containing the encryption key ( used to encrypt the secrets )
-4. Using the API, you create a new secret that will get stored in the database
-5. Create a new SimpleSecret object, stating the version of the secret you want to use ( optional ) and a new secret will be created in the same namespace with the same name
-6. If you change a SimpleSecret Object, like patch a version, the change will be reflected in the Secret. 
-7. If you delete the SimpleSecret Resource, the Secret will also get deleted.
+4. As a secondary measure a Fingerprint is generated and stored in the database, so if the secrets are ever exported and the encryption key is stolen, the fingerprint will be still preventing a decryption
+5. Using the API, you create a new secret that will get stored in the database
+6. Create a new SimpleSecret object, stating the version of the secret you want to use ( optional ) and a new secret will be created in the same namespace with the same name
+7. If you change a SimpleSecret Object, like patch a version, the change will be reflected in the Secret. 
+8. If you delete the SimpleSecret Resource, the Secret will also get deleted.
 
 ## Example:
 After adding the SimpleSecret, create an empty SimpleSecret object:
@@ -117,6 +121,7 @@ spec:
 |------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | APP_PORT         | The Port on which the app will run                                                                                       | 3000                        |
 | ENCRYPTION_KEY   | Will be used in case there is no secret `encryptionkey` in `simplesecrets` namespace. If not provided, will be generated | undefined                   |
+| INSECURE         | Should http requests to the API be accepted. Do not set this to true unless you know what you are doing                  | false                       |
 | DB_PATH          | The path to the sqlite3 database                                                                                         | `${PROJECT_ROOT}/db.sqlite` |
 | PROD_DB_USERNAME | Check the available options from sequelize                                                                               | undefined                   |
 | PROD_DB_PASSWORD | Check the available options from sequelize                                                                               | undefined                   |
@@ -142,20 +147,23 @@ data:
 
 ## Backup and Restore
 * You can do a GET request to {{FQDN}}/api/simplesecrets/backup to get all the data needed for a backup
-* You can do a POST request to {{FQDN}}/api/simplesecrets/restore with the data retrieved from /backup to do a full restore ( will overwrite your ENCRYPTION KEY too )
+* You can do a POST request to {{FQDN}}/api/simplesecrets/restore with the data retrieved from /backup to do a full restore ( will overwrite your ENCRYPTION KEY and FINGERPRINT too )
 
 ## Development Pre-reqs
 1. Have kubernetes context configured to connect to a kubernetes cluster
 2. Run: `npm i`
-3. Install DB driver globally `npm i -g sqlite3`
 
 ## Development
 1. Go to `./charts/`
 2. Run `helm install simplesecrets simplesecrets -n simplesecrets --create-namespace`
 3. in the main directory run `tsc --watch`
 4. In the `./dist` directory run `nodemon index.js`
+5. Run: `export INSECURE=1` to enable insecure requests
 
-
+## Testing
+1. Run: `export INSECURE=1` to enable insecure requests
+2. Run: `npm run test`
+3. Run: `npm run coverage` for test coverage
 
 
 

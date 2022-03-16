@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN apt update -y && \
+    npm uninstall --save sqlite3 &&  \
     npm i --save mysql2@2.3 &&  \
     npm i &&  \
     npm rebuild &&  \

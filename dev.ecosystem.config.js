@@ -23,6 +23,9 @@ module.exports	= {
 				followSymlinks: false,
 				usePolling: true
 			},
+			env: {
+				INSECURE: true
+			}
 		},
 	]
 };
