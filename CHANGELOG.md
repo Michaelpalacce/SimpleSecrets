@@ -1,3 +1,10 @@
+## [2.0.0]
+* Removed unnecessary logs
+* By default works over HTTPS only
+* Generating of encryption keys is now more secure
+* Added Fingerprint in the database, so data will be double encrypted and leaking the encryption key will not be enough.
+* Fixed an issue with the migrations
+
 ## [1.15.0]
 * Small improvements
 * Documentation improvements

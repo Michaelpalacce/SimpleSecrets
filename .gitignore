@@ -6,3 +6,4 @@ kube
 .nyc_output
 coverage
 docker-data
+test

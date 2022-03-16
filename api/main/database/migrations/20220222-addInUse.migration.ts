@@ -37,6 +37,10 @@ module.exports	= {
 			"inUse",
 			{ type: DataTypes.BOOLEAN, defaultValue: false }
 		);
+
+		await Migration.create({
+			name: migrationName,
+		});
 	},
 
 	async down ( sequelize: Sequelize, migrationName: string ) {

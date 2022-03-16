@@ -1,7 +1,7 @@
 simplesecrets:
     api:
         image: stefangenov/simplesecrets
-        tag: 1.15.0-sqlite3
+        tag: 2.0.0-sqlite3
         nodePort: 30001
         port: 80
         resources:
