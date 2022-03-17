@@ -1,3 +1,9 @@
+## [2.0.2]
+* Removed INSECURE
+
+## [2.0.1]
+* Fixed a bug with INSECURE
+
 ## [2.0.0]
 * Removed unnecessary logs
 * By default works over HTTPS only

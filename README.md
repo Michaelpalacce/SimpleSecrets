@@ -122,7 +122,6 @@ spec:
 |------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | APP_PORT         | The Port on which the app will run                                                                                       | 3000                        |
 | ENCRYPTION_KEY   | Will be used in case there is no secret `encryptionkey` in `simplesecrets` namespace. If not provided, will be generated | undefined                   |
-| INSECURE         | Should http requests to the API be accepted. Do not set this to true unless you know what you are doing                  | false                       |
 | DB_PATH          | The path to the sqlite3 database                                                                                         | `${PROJECT_ROOT}/db.sqlite` |
 | PROD_DB_USERNAME | Check the available options from sequelize                                                                               | undefined                   |
 | PROD_DB_PASSWORD | Check the available options from sequelize                                                                               | undefined                   |
@@ -130,6 +129,9 @@ spec:
 | PROD_DB_HOSTNAME | Check the available options from sequelize                                                                               | undefined                   |
 | PROD_DB_PORT     | Check the available options from sequelize                                                                               | undefined                   |
 | PROD_DB_DIALECT  | Check the available options from sequelize                                                                               | undefined                   |
+
+[//]: # (| INSECURE         | Should http requests to the API be accepted. Do not set this to true unless you know what you are doing                  | false                       |)
+
 
 ## Installation
 1. Create namespace simplesecrets
@@ -159,10 +161,10 @@ data:
 2. Run `helm install simplesecrets simplesecrets -n simplesecrets --create-namespace`
 3. in the main directory run `tsc --watch`
 4. In the `./dist` directory run `nodemon index.js`
-5. Run: `export INSECURE=1` to enable insecure requests
+5. Run: `export INSECURE=1` to enable insecure requests ( WIP )
 
 ## Testing
-1. Run: `export INSECURE=1` to enable insecure requests
+1. Run: `export INSECURE=1` to enable insecure requests ( WIP )
 2. Run: `npm run test`
 3. Run: `npm run coverage` for test coverage
 
