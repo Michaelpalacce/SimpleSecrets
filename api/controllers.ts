@@ -9,7 +9,7 @@ const apiRouter	= app.Router();
 /* istanbul ignore next */
 if ( ! process.env.INSECURE ){
 	apiRouter.add( ( event ) => {
-		if ( ! event.request.secure ){
+		if ( ! event.request.socket.encrypted ){
 			throw { message: "Cannot access over insecure protocol. Please use HTTPS", code: "app.security.insecure" };
 		}
 

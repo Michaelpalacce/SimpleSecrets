@@ -24,7 +24,6 @@ module.exports	= {
 				usePolling: true
 			},
 			env: {
-				INSECURE: true
 			}
 		},
 	]
