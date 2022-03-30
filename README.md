@@ -40,7 +40,7 @@ heavy? Well look no further!
 - [ ] Dynamic secrets
 - [ ] External secrets
 - [ ] Watch secret annotation to restart deployments when a secret is changed
-- [ ] Api Documentation
+- [x] Api Documentation
 - [ ] Better Helm Chart
 
 ## Supported DBs:
@@ -161,12 +161,10 @@ data:
 2. Run `helm install simplesecrets simplesecrets -n simplesecrets --create-namespace`
 3. in the main directory run `tsc --watch`
 4. In the `./dist` directory run `nodemon index.js`
-5. Run: `export INSECURE=1` to enable insecure requests ( WIP )
 
 ## Testing
-1. Run: `export INSECURE=1` to enable insecure requests ( WIP )
-2. Run: `npm run test`
-3. Run: `npm run coverage` for test coverage
+1. Run: `npm run test`
+2. Run: `npm run coverage` for test coverage
 
 
 

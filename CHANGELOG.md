@@ -1,3 +1,7 @@
+## [2.1.0]
+* Completely removed INSECURE
+* Added API Documentation
+
 ## [2.0.2]
 * Removed INSECURE
 

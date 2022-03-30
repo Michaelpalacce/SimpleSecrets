@@ -6,8 +6,6 @@ name: CI/CD
 on:
     push:
         branches: main
-env:
-    INSECURE: 1
 
 jobs:
     build:

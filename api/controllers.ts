@@ -5,20 +5,6 @@ const app		= App();
 
 const apiRouter	= app.Router();
 
-// We cannot test this....
-/* istanbul ignore next */
-if ( ! process.env.INSECURE ){
-	apiRouter.add( ( event ) => {
-		console.log( `Encrypted: ${event.request.socket.encrypted}` );
-		console.log( `Encrypted: ${event.request.connection.encrypted}` );
-		// if ( ! event.request.socket.encrypted ){
-		// 	throw { message: "Cannot access over insecure protocol. Please use HTTPS", code: "app.security.insecure" };
-		// }
-
-		event.next();
-	});
-}
-
 apiRouter.add( require( "./simplesecrets/controller/add" ) );
 apiRouter.add( require( "./simplesecrets/controller/backup" ) );
 apiRouter.add( require( "./simplesecrets/controller/get" ) );
