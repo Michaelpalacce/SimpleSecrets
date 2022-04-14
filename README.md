@@ -41,6 +41,7 @@ heavy? Well look no further!
 - [ ] External secrets
 - [ ] Watch secret annotation to restart deployments when a secret is changed
 - [x] Api Documentation
+- [ ] GitOps centric approach? 
 - [ ] Better Helm Chart
 
 ## Supported DBs:
