@@ -43,6 +43,7 @@ heavy? Well look no further!
 - [x] Api Documentation
 - [ ] GitOps centric approach? 
 - [ ] Better Helm Chart
+- [ ] Preserve annotations from SimpleSecret when creating the secret 
 
 ## Supported DBs:
 | db            | Supported          | Comments                                                                                        |
