@@ -34,14 +34,15 @@ heavy? Well look no further!
 - [x] Docker images with other database dependencies
 - [x] 100% Test coverage ( I mean not exactly 100% but... I'll take it! )
 - [x] Fingerprint in database for extra security
-- [ ] Cli tool for decryption on demand and restoring backups
-- [ ] Kubernetes native way of storing backups ( ETCD perhaps, or an object that can be created? )
-- [ ] Authentication -> By supplying the encryption key
+- [x] Api Documentation
+- [x] Authentication -> Should be handled by a third party solution like authelia/authentik
+- [ ] Better Backup & Restore procedure
+- [ ] Kubernetes native way of storing backups -> using CRDs
 - [ ] Dynamic secrets
 - [ ] External secrets
 - [ ] Watch secret annotation to restart deployments when a secret is changed
-- [x] Api Documentation
 - [ ] Better Helm Chart
+- [ ] Preserve annotations from SimpleSecret when creating the secret 
 
 ## Supported DBs:
 | db            | Supported          | Comments                                                                                        |
