@@ -1,3 +1,7 @@
+## [2.2.0]
+* Added badges
+* Api Communication restriction
+
 ## [2.1.0]
 * Completely removed INSECURE
 * Added API Documentation
