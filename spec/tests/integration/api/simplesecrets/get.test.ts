@@ -47,7 +47,7 @@ describe( "Get Secrets", () => {
 		expect( body.length ).toBe( 1 );
 		expect( body[0].name ).toBe( name );
 		expect( body[0].namespace ).toBe( namespace );
-		expect( decrypt( body[0].data ) ).toEqual( JSON.stringify( { 1: data } ) );
+		expect( typeof body[0].data ).toBe( "undefined" );
 	});
 
 	it("should getAll secrets in namespace", async function () {
@@ -77,37 +77,7 @@ describe( "Get Secrets", () => {
 		expect( body.length ).toBe( 1 );
 		expect( body[0].name ).toBe( name );
 		expect( body[0].namespace ).toBe( namespace );
-		expect( decrypt( body[0].data ) ).toEqual( JSON.stringify( { 1: data } ) );
-	});
-
-	it("should getAll secrets in namespace", async function () {
-		const name		= "test";
-		const namespace	= "test";
-		const data		= {
-			"user": "testUser123",
-			"password": "testPass123"
-		};
-
-		// Remove If exists
-		await SecretsHelper.ensureSecretIsMissing( name, namespace );
-		await SimpleSecretsHelper.ensureSimpleSecretIsMissing( name, namespace );
-
-		await sendServerRequest( "/api/simplesecrets", "POST", {
-			namespace,
-			name,
-			"type": "Opaque",
-			data
-		});
-
-		const response	= await sendServerRequest( "/api/simplesecrets/test", "GET" );
-
-		const body	= JSON.parse( response.body.toString() );
-		expect( response.statusCode ).toEqual( 200 );
-		expect( Array.isArray( body ) ).toBeTrue();
-		expect( body.length ).toBe( 1 );
-		expect( body[0].name ).toBe( name );
-		expect( body[0].namespace ).toBe( namespace );
-		expect( decrypt( body[0].data ) ).toEqual( JSON.stringify( { 1: data } ) );
+		expect( typeof body[0].data ).toBe( "undefined" );
 	});
 
 	it("should get specific secret", async function () {
@@ -151,8 +121,8 @@ describe( "Get Secrets", () => {
 
 		const body		= JSON.parse( response.body.toString() );
 		expect( response.statusCode ).toEqual( 404 );
-		expect( body.error.code ).toEqual( "app.general" );
-		expect( body.error.message ).toEqual( "Not Found" );
+		expect( body.error.code ).toEqual( "app.general.simplesecret.notFound" );
+		expect( body.error.message ).toEqual( `Secret ${name} not found in namespace: ( ${namespace} )` );
 	});
 
 	it("should get specific secret returns all versions", async function () {

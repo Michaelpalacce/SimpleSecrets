@@ -58,7 +58,9 @@ export default class SecretsHelper {
 	} | null> {
 		await new Promise( resolve => setTimeout( resolve, time ) );
 
-		return await apiClient.readNamespacedSecret( name, namespace ).catch( e => null );
+		return await apiClient.readNamespacedSecret( name, namespace ).catch( e => {
+			throw e.body;
+		} );
 	}
 
 	/**

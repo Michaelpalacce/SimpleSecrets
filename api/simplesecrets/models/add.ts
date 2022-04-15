@@ -2,7 +2,7 @@ import { decrypt, encrypt }	from "../../main/utils/encryption/encrypt";
 import SimpleSecretsManager	from "../../main/operator/SimpleSecretsManager";
 import { Secret }			from "../../main/database/models/Secret";
 import SecretsManager		from "../../main/operator/SecretsManager";
-import logger from "../../main/utils/logger";
+import logger				from "../../main/utils/logger";
 
 /**
  * @brief	Adds a new secret to the database
@@ -30,18 +30,15 @@ export default async function add( event ) {
 
 	if ( ! search ) {
 		const encryptedData	= encrypt( JSON.stringify( { 1: data } ) );
-		const secret		= await Secret.create({
+
+		event.send(await Secret.create({
 			data: encryptedData,
 			version: "1",
 			type,
 			namespace,
 			name,
 			inUse: await SecretsManager.getSecret( name, namespace ) !== null
-		});
-
-		secret.data	= undefined;
-
-		event.send( secret );
+		}));
 		return;
 	}
 
@@ -61,6 +58,5 @@ export default async function add( event ) {
 		if ( ! simpleSecret.spec?.version || simpleSecret.spec?.version === 0 )
 			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, newVersion.toString() ).catch( logger.log );
 
-	search.data	= undefined;
 	event.send( search );
 }

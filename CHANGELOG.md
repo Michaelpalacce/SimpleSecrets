@@ -1,7 +1,7 @@
 ## [2.1.0]
 * Completely removed INSECURE
 * Added API Documentation
-* Removed sending of encrypted data for specific API calls ( get/post )
+* Removed sending of encrypted data for specific API calls ( get )
 * Removed Delete All api call
 
 ## [2.0.2]
