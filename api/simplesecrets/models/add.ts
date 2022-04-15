@@ -30,17 +30,18 @@ export default async function add( event ) {
 
 	if ( ! search ) {
 		const encryptedData	= encrypt( JSON.stringify( { 1: data } ) );
+		const secret		= await Secret.create({
+			data: encryptedData,
+			version: "1",
+			type,
+			namespace,
+			name,
+			inUse: await SecretsManager.getSecret( name, namespace ) !== null
+		});
 
-		event.send(
-			await Secret.create({
-				data: encryptedData,
-				version: "1",
-				type,
-				namespace,
-				name,
-				inUse: await SecretsManager.getSecret( name, namespace ) !== null
-			})
-		);
+		secret.data	= undefined;
+
+		event.send( secret );
 		return;
 	}
 
@@ -60,5 +61,6 @@ export default async function add( event ) {
 		if ( ! simpleSecret.spec?.version || simpleSecret.spec?.version === 0 )
 			await SimpleSecretsManager.patchSimpleSecretVersionAnnotation( simpleSecret, newVersion.toString() ).catch( logger.log );
 
+	search.data	= undefined;
 	event.send( search );
 }
