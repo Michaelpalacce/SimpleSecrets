@@ -25,9 +25,9 @@ async function doMigration( migrationName: string ) {
 
 	logger.log( `Performing migration : ${migrationName}` );
 
-	await migration.up( sequelize, migrationName ).catch( async () => {
+	await migration.up( sequelize, migrationName ).catch( async ( reason ) => {
 		await migration.down( sequelize, migrationName );
-		throw new Error( `Error while executing migration ${migrationName}` );
+		throw new Error( `Error while executing migration ${migrationName}. Reason: ${reason}` );
 	});
 }
 

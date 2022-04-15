@@ -12,26 +12,24 @@ let fingerprint					= null;
  * @return	void
  */
 export async function ensureFingerprintExists(): Promise<void>{
-	const foundFingerprint	= await Fingerprint.findOne<Fingerprint>({
+	let dbFingerprint	= await Fingerprint.findOne<Fingerprint>({
 		where: {
 			name: FINGERPRINT_NAME
 		}
 	});
 
-	if ( foundFingerprint === null ) {
+	/* istanbul ignore next */
+	if ( dbFingerprint === null ) {
 		const data	= getRandomString( 32 );
-		await Fingerprint.create({
+		dbFingerprint	= await Fingerprint.create({
 			data,
 			name: FINGERPRINT_NAME
 		});
 
-		fingerprint	= data;
 		logger.log( "Fingerprint generated!" );
-		return;
 	}
 
-	logger.log( "Existing Fingerprint found!" );
-	fingerprint	= foundFingerprint.data;
+	fingerprint	= dbFingerprint.data;
 }
 
 /**

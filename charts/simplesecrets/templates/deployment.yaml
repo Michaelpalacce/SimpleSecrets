@@ -79,24 +79,14 @@ metadata:
     name: simplesecrets
     namespace: {{ $.Release.Namespace }}
 spec:
-    {{- with .web.nodePort }}
-    type: NodePort
-    {{- end }}
+    type: LoadBalancer
     selector:
         app: simplesecrets
     ports:
         - name: web
           protocol: TCP
           port: {{ .web.port }}
-          {{- with .web.nodePort }}
-          nodePort: {{ . }}
-          {{- end }}
-        - name: api
-          protocol: TCP
-          port: {{ .api.port }}
-          {{- with .api.nodePort }}
-          nodePort: {{ . }}
-          {{- end }}
+
 ---
 
 apiVersion: v1
@@ -105,10 +95,12 @@ metadata:
     name: simplesecrets-api
     namespace: {{ $.Release.Namespace }}
 spec:
+    type: LoadBalancer
     selector:
         app: simplesecrets
     ports:
         - name: api
           protocol: TCP
           port: {{ .api.port }}
+
 {{- end }}

@@ -188,7 +188,7 @@ describe( "Adding New Secrets", () => {
 		});
 
 		await SimpleSecretsHelper.createSimpleSecret( name, namespace );
-		const initialSecret	= await SecretsHelper.getSecretAfterTime( name, namespace, 5000 );
+		const initialSecret	= await SecretsHelper.getSecretAfterTime( name, namespace );
 
 		const secondVersion	= await sendServerRequest( "/api/simplesecrets", "POST", {
 			"namespace": "test",
@@ -200,7 +200,7 @@ describe( "Adding New Secrets", () => {
 			}
 		});
 
-		const afterChangeSecret	= await SecretsHelper.getSecretAfterTime( name, namespace, 5000 );
+		const afterChangeSecret	= await SecretsHelper.getSecretAfterTime( name, namespace );
 
 		const firstBody		= JSON.parse( firstVersion.body.toString() );
 		const secondBody	= JSON.parse( secondVersion.body.toString() );
@@ -219,7 +219,7 @@ describe( "Adding New Secrets", () => {
 
 		await SecretsHelper.ensureSecretIsMissing( name, namespace );
 		await new Promise( resolve => setTimeout( resolve, 100 ) );
-	}, 20000);
+	}, 10000);
 
 	it("should add new secret version if secret exists and change existing secret if version is set to 0", async function () {
 		// Variables
@@ -241,7 +241,7 @@ describe( "Adding New Secrets", () => {
 		});
 
 		await SimpleSecretsHelper.createSimpleSecret( name, namespace, 0 );
-		const initialSecret	= await SecretsHelper.getSecretAfterTime( name, namespace, 5000 );
+		const initialSecret	= await SecretsHelper.getSecretAfterTime( name, namespace );
 
 		const secondVersion	= await sendServerRequest( "/api/simplesecrets", "POST", {
 			"namespace": "test",
@@ -253,7 +253,7 @@ describe( "Adding New Secrets", () => {
 			}
 		});
 
-		const afterChangeSecret	= await SecretsHelper.getSecretAfterTime( name, namespace, 5000 );
+		const afterChangeSecret	= await SecretsHelper.getSecretAfterTime( name, namespace );
 
 		const firstBody		= JSON.parse( firstVersion.body.toString() );
 		const secondBody	= JSON.parse( secondVersion.body.toString() );
@@ -272,7 +272,7 @@ describe( "Adding New Secrets", () => {
 
 		await SecretsHelper.ensureSecretIsMissing( name, namespace );
 		await new Promise( resolve => setTimeout( resolve, 100 ) );
-	}, 20000);
+	}, 10000);
 
 	it("should add new secret version if secret exists and not change existing secret if version is set", async function () {
 		// Variables

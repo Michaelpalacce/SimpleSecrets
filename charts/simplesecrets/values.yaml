@@ -1,8 +1,7 @@
 simplesecrets:
     api:
         image: stefangenov/simplesecrets
-        tag: 2.0.1
-        nodePort: 30001
+        tag: 2.1.0
         port: 80
         resources:
             requests:
@@ -13,8 +12,7 @@ simplesecrets:
                 memory: 512Mi
     web:
         image: stefangenov/simplesecrets-frontend
-        tag: 0.9.0
-        nodePort: 30000
+        tag: 0.10.0
         port: 3000
         resources:
             requests:

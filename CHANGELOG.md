@@ -3,6 +3,7 @@
 * Added API Documentation
 * Removed sending of encrypted data for specific API calls ( get )
 * Removed Delete All api call
+* Added extra tests
 
 ## [2.0.2]
 * Removed INSECURE
