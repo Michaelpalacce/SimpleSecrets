@@ -4,7 +4,6 @@
 A K8S secrets manager operator.
 
 [![Tests](https://github.com/Michaelpalacce/SimpleSecrets/actions/workflows/Tests.yml/badge.svg)](https://github.com/Michaelpalacce/SimpleSecrets/actions/workflows/Tests.yml)
-[![Publish to DockerHub](https://github.com/Michaelpalacce/SimpleSecrets/actions/workflows/Publish%20To%20DockerHub.yml/badge.svg)](https://github.com/Michaelpalacce/SimpleSecrets/actions/workflows/Publish%20To%20DockerHub.yml)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/7583adec8aca4c0a868fbf92ccd05706)](https://www.codacy.com/gh/Michaelpalacce/SimpleSecrets/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Michaelpalacce/SimpleSecrets&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://app.codacy.com/project/badge/Coverage/7583adec8aca4c0a868fbf92ccd05706)](https://www.codacy.com/gh/Michaelpalacce/SimpleSecrets/dashboard?utm_source=github.com&utm_medium=referral&utm_content=Michaelpalacce/SimpleSecrets&utm_campaign=Badge_Coverage)
