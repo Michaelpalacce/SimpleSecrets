@@ -1,3 +1,3 @@
 import start from "./api/main/server/server";
 
-start().then(r => null);
+start().then(r => {});

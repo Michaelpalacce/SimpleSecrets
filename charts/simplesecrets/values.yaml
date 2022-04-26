@@ -5,19 +5,13 @@ simplesecrets:
         port: 80
         resources:
             requests:
-                cpu: 10m
-                memory: 100Mi
-            limits:
-                cpu: 100m
-                memory: 512Mi
+                cpu: 200m
+                memory: 200Mi
     web:
         image: stefangenov/simplesecrets-frontend
-        tag: 0.10.0
+        tag: 1.0.0
         port: 3000
         resources:
             requests:
-                cpu: 10m
+                cpu: 100m
                 memory: 100Mi
-            limits:
-                cpu: 200m
-                memory: 1Gi

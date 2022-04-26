@@ -1,6 +1,8 @@
 ## [2.2.0]
 * Added badges
-* Api Communication restriction
+* Securing the services documentation
+* Improvements to the helm chart
+* Added network policy to allow traffic ONLY from the frontend
 
 ## [2.1.0]
 * Completely removed INSECURE

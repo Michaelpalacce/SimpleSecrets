@@ -1,25 +1,24 @@
-{{- with .Values.simplesecrets }}
+{{- with .Values.simplesecrets.api }}
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-    name: simplesecrets
+    name: simplesecrets-api
     namespace: {{ $.Release.Namespace }}
     labels:
-        app: simplesecrets
+        app: simplesecrets-api
 spec:
     replicas: 1
     selector:
         matchLabels:
-            app: simplesecrets
+            app: simplesecrets-api
     template:
         metadata:
             labels:
-                app: simplesecrets
+                app: simplesecrets-api
         spec:
             serviceAccountName: k8s-101-role
             containers:
-{{- with .api }}
                 - name: api
                   image: {{ .image }}:{{ .tag }}
                   imagePullPolicy: IfNotPresent
@@ -45,47 +44,12 @@ spec:
                       timeoutSeconds: 5
                       tcpSocket:
                           port: {{ .port }}
-{{- end }}
-{{- with .web }}
-                - name: web
-                  image: {{ .image }}:{{ .tag }}
-                  imagePullPolicy: IfNotPresent
-{{- if .resources }}
-                  resources:
-{{ toYaml .resources | indent 22 }}
-{{- end }}
-                  ports:
-                      - name: web
-                        containerPort: {{ .port }}
-                  livenessProbe:
-                      failureThreshold: 2
-                      initialDelaySeconds: 120
-                      periodSeconds: 120
-                      timeoutSeconds: 5
-                      tcpSocket:
-                          port: {{ .port }}
-{{- end }}
             restartPolicy: Always
             volumes:
                 - name: data-config
                   hostPath:
                       path: /mnt/ss/data
 
----
-
-apiVersion: v1
-kind: Service
-metadata:
-    name: simplesecrets
-    namespace: {{ $.Release.Namespace }}
-spec:
-    type: LoadBalancer
-    selector:
-        app: simplesecrets
-    ports:
-        - name: web
-          protocol: TCP
-          port: {{ .web.port }}
 
 ---
 
@@ -95,12 +59,11 @@ metadata:
     name: simplesecrets-api
     namespace: {{ $.Release.Namespace }}
 spec:
-    type: LoadBalancer
     selector:
-        app: simplesecrets
+        app: simplesecrets-api
     ports:
         - name: api
           protocol: TCP
-          port: {{ .api.port }}
+          port: {{ .port }}
 
 {{- end }}
