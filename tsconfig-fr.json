@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es6",
-    "moduleResolution": "node",
-    "sourceMap": true,
+    "target": "esnext",
+    "module": "esnext",
+    "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
+    "moduleResolution": "node",
     "skipLibCheck": true,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "dist",
+    "sourceMap": true,
     "baseUrl": ".",
     "types": [
       "webpack-env",
@@ -37,8 +37,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-  "lib": [
-    "es2015"
   ]
 }
