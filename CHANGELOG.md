@@ -1,8 +1,9 @@
-## [2.2.0]
+## [3.0.0]
 * Added badges
 * Securing the services documentation
 * Improvements to the helm chart
-* Added network policy to allow traffic ONLY from the frontend
+* Moved the Frontend to the API
+* Security of the api/frontend
 
 ## [2.1.0]
 * Completely removed INSECURE
