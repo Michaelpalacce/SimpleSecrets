@@ -1,4 +1,5 @@
-import { randomBytes, createCipheriv, createDecipheriv }	from "crypto";
+import {randomBytes, createCipheriv, createDecipheriv, CipherGCMOptions, DecipherGCM, CipherGCM} from "crypto";
+import {TransformOptions} from "stream";
 
 const ALGORITHM = {
 	/**
@@ -44,13 +45,17 @@ function getFingerprint(): Buffer { return Buffer.from( process.env.FINGERPRINT 
 function _encrypt( toEncrypt: string, key: Buffer = getKey() ): string {
 	const messageText	= Buffer.from( toEncrypt );
 	const iv			= getIV();
-	// @ts-ignore
+
+	const options: CipherGCMOptions = {
+		authTagLength: ALGORITHM.AUTH_TAG_BYTE_LEN
+	};
+
 	const cipher		= createCipheriv(
 		ALGORITHM.BLOCK_CIPHER,
 		key,
 		iv,
-		{ "authTagLength": ALGORITHM.AUTH_TAG_BYTE_LEN }
-	);
+		options
+	) as CipherGCM;
 	let encryptedMessage	= cipher.update( messageText );
 	encryptedMessage		= Buffer.concat( [encryptedMessage, cipher.final()] );
 
@@ -67,13 +72,17 @@ function _decrypt( toDecrypt:string, key: Buffer = getKey() ): string {
 	const authTag			= ciphertext.slice( -16 );
 	const iv				= ciphertext.slice( 0, ALGORITHM.IV_BYTE_LEN );
 	const encryptedMessage	= ciphertext.slice( ALGORITHM.IV_BYTE_LEN, -16 );
-	// @ts-ignore
+
+	const options: CipherGCMOptions = {
+		authTagLength: ALGORITHM.AUTH_TAG_BYTE_LEN
+	};
+
 	const decipher			= createDecipheriv(
 		ALGORITHM.BLOCK_CIPHER,
 		key,
 		iv,
-		{ "authTagLength": ALGORITHM.AUTH_TAG_BYTE_LEN }
-	);
+		options
+	) as DecipherGCM;
 	decipher.setAuthTag( authTag );
 	let messageText	= decipher.update(encryptedMessage);
 	messageText		= Buffer.concat([messageText, decipher.final()]);

@@ -2,6 +2,6 @@
 
 The data is stored in an SQLite database ( by default ) and all data is encrypted at rest.
 
-# Securing the Backend
+# Securing the app ( WIP )
 
-**WIP** This is the next major focus
+For now there is no security for the app. You can use third party tools like authentik or authelia.

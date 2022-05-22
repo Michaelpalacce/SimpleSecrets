@@ -7,7 +7,7 @@
     "test": "ts-node node_modules/jasmine/bin/jasmine",
     "coverage": "nyc --reporter=lcov --reporter=text-summary --require ts-node/register jasmine",
     "build": "tsc",
-    "run": "node dist/index.js",
+    "serve": "nodemon index.ts",
 
     "fr-serve": "vue-cli-service serve",
     "fr-build": "vue-cli-service build"

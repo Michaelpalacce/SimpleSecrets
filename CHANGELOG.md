@@ -3,7 +3,6 @@
 * Securing the services documentation
 * Improvements to the helm chart
 * Moved the Frontend to the API
-* Security of the api/frontend
 
 ## [2.1.0]
 * Completely removed INSECURE
