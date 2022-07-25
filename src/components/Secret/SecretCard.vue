@@ -8,16 +8,14 @@
 					:class="`${inUse ? 'bg-green-400' : 'bg-red-500'}`"
 				></div>
 			</div>
-			<p class="text-gray-700 font-semibold">
-				{{ namespace }}
-			</p>
 		</div>
 		<div class="flex">
 			<div class="px-6 pb-2 w-7/12">
-				<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Version: {{ version }}</span>
+				<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">V:{{ version }}</span>
 			</div>
 			<div class="px-6 pb-2 w-5/12">
-				<span class="inline-block bg-red-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 text-center delete-button" @click="onDelete">Delete</span>
+				<TrashIcon class="text-red-500 h-8" @click="onDelete"/>
+<!--				<span class="inline-block bg-red-500 text-white rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 text-center delete-button" @click="onDelete">Delete</span>-->
 			</div>
 		</div>
 
@@ -26,9 +24,11 @@
 
 <script lang="ts">
 import { defineComponent }	from 'vue';
+import { TrashIcon }		from '@heroicons/vue/solid'
 
 export default defineComponent({
 	name: 'SecretCard',
+	components: { TrashIcon },
 	props: {
 		name: String,
 		namespace: String,

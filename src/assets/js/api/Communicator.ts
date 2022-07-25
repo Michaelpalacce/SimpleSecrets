@@ -2,10 +2,10 @@ import axios, { AxiosResponse }	from "axios";
 import SimpleSecrets			from "@/store/interfaces/simpleSecret";
 
 /**
- * @brief	Communicator with a variable base URL that is used to communicate with the simple secrets api
+ * @brief	Communicator that is used to communicate with the simple secrets api
  */
 export default class Communicator {
-	constructor( private url: string ) {
+	constructor() {
 	}
 
 	/**
@@ -15,22 +15,6 @@ export default class Communicator {
 		const response	= await this.getAllSecrets().catch( e => e );
 
 		return response.status === 200;
-	}
-
-	/**
-	 * @brief	Sets a new url to use as base
-	 *
-	 * @param	newUrl
-	 */
-	setUrl( newUrl: string ) {
-		this.url	= newUrl;
-	}
-
-	/**
-	 * @brief	Gets the currently set url
-	 */
-	getURL() {
-		return "";
 	}
 
 	/**

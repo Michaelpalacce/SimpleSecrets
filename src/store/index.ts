@@ -4,7 +4,6 @@ import SimpleSecrets from "@/store/interfaces/simpleSecret";
 import Communicator from "@/assets/js/api/Communicator";
 
 interface State {
-	currentUrl: string;
 	currentNamespace: string;
 	namespaces: string[];
 	secrets: {
@@ -13,23 +12,15 @@ interface State {
 }
 export const key: InjectionKey<Store<State>>	= Symbol()
 
-const STORAGE_URL_EKY	= "URL";
-const currentUrl		= localStorage.getItem( STORAGE_URL_EKY ) || window.location.origin;
-const communicator		= new Communicator( currentUrl );
+const communicator		= new Communicator();
 
 export const store		= createStore<State>({
 	state: {
-		currentUrl: currentUrl,
 		currentNamespace: 'default',
 		namespaces: [],
 		secrets: {}
 	},
 	mutations: {
-		updateCurrentUrl( state, { newUrl } ) {
-			newUrl	= newUrl.replace( /\/+$/, '' );
-			localStorage.setItem( STORAGE_URL_EKY, newUrl );
-			communicator.setUrl( newUrl );
-		},
 		updateNamespaces( state, { namespaces } ) { state.namespaces = namespaces; },
 		changeCurrentNamespace( state, { newNamespace } ) { state.currentNamespace = newNamespace; },
 		storeNamespacedSecrets( state, { namespace, secrets } ) { state.secrets[namespace]	= secrets; },
