@@ -13,6 +13,7 @@ apiRouter.add( require( "./simplesecrets/controller/add" ) );
 apiRouter.add( require( "./simplesecrets/controller/backup" ) );
 apiRouter.add( require( "./simplesecrets/controller/get" ) );
 apiRouter.add( require( "./simplesecrets/controller/delete" ) );
+apiRouter.add( require( "./simplesecrets/controller/version" ) );
 
 app.add( "/api", apiRouter );
 

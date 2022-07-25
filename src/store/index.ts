@@ -3,7 +3,14 @@ import { InjectionKey } from "vue";
 import SimpleSecrets from "@/store/interfaces/simpleSecret";
 import Communicator from "@/assets/js/api/Communicator";
 
+/**
+ * One day in MS
+ */
+const DEFAULT_CHECK_INTERVAL_MS	= 86400000;
+
 interface State {
+	latestVersion: string;
+	currentVersion: string;
 	currentNamespace: string;
 	namespaces: string[];
 	secrets: {
@@ -16,6 +23,8 @@ const communicator		= new Communicator();
 
 export const store		= createStore<State>({
 	state: {
+		latestVersion: "",
+		currentVersion: "",
 		currentNamespace: 'default',
 		namespaces: [],
 		secrets: {}
@@ -57,6 +66,17 @@ export const store		= createStore<State>({
 			commit( "changeCurrentNamespace", { newNamespace } );
 			if ( typeof state.secrets[newNamespace] === 'undefined' )
 				dispatch( "fetchSecrets", newNamespace );
+		},
+
+		async updateVersions({ state, commit, dispatch } ) {
+			if ( ! localStorage.latestCheck || localStorage.latestCheck < Date.now() - DEFAULT_CHECK_INTERVAL_MS ) {
+				const latestResponse	= await communicator.getLatestVersion();
+				const currentResponse	= await communicator.getCurrentVersion();
+				if ( latestResponse.status === 200 && currentResponse.status === 200 ) {
+					state.latestVersion		= localStorage.latestVersion	= latestResponse.data;
+					state.currentVersion	= localStorage.currentVersion	= currentResponse.data;
+				}
+			}
 		},
 
 		async fetchSecrets({ state, commit }, namespace ) {

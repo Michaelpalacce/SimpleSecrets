@@ -3,51 +3,29 @@
 		<!-- Sidebar starts -->
 		<!-- Remove class [ hidden ] and replace [ sm:flex ] with [ flex ] -->
 		<div style="min-height: 716px"
-			 class="top-0 bottom-0 w-64 absolute  bg-gray-800 shadow md:h-full flex-col justify-between hidden sm:flex">
+			 class="top-0 bottom-0 w-64 absolute  bg-gray-800 shadow md:h-full flex-col justify-between hidden md:flex">
 			<div class="px-8">
 				<Logo/>
 				<ul class="mt-12">
-					<li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center">
-						<a href="javascript:void(0)"
-						   class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
-							<PlusCircleIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-
-							<button
-								class="text-sm ml-2"
-								@click="createModalVisible = true">New Secret
-							</button>
-
-						</a>
+					<li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center"
+						@click="createModalVisible = true"
+					>
+						<NewSecret/>
 					</li>
 				</ul>
 			</div>
-			<!--      <div class="px-8 border-t border-gray-700">-->
-			<!--        <ul class="w-full flex items-center justify-between bg-gray-800">-->
-			<!--          <li class="cursor-pointer text-white pt-5 pb-3">-->
-			<!--            <button aria-label="show notifications" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-			<!--              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg3.svg" alt="notifications">-->
-			<!--            </button>-->
-			<!--          </li>-->
-			<!--          <li class="cursor-pointer text-white pt-5 pb-3">-->
-			<!--            <button aria-label="open chats" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-			<!--              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg4.svg" alt="chat">-->
-			<!--            </button>-->
-			<!--          </li>-->
-			<!--          <li class="cursor-pointer text-white pt-5 pb-3">-->
-			<!--            <button aria-label="open settings" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-			<!--              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg5.svg" alt="settings">-->
-			<!--            </button>-->
-			<!--          </li>-->
-			<!--          <li class="cursor-pointer text-white pt-5 pb-3">-->
-			<!--            <button aria-label="open logs" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-			<!--              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg6.svg" alt="drawer">-->
-			<!--            </button>-->
-			<!--          </li>-->
-			<!--        </ul>-->
-			<!--      </div>-->
+			<div class="px-8 border-t border-gray-700">
+				<ul class="w-full flex items-center justify-between bg-gray-800">
+					<li class="text-white pt-5 pb-3">
+						<Version/>
+					</li>
+				</ul>
+			</div>
 		</div>
+
+		<!--		Mobile Sidebar Starts-->
 		<div
-			class="w-64 z-40 top-0 bottom-0 absolute bg-gray-800 shadow md:h-full flex-col justify-between sm:hidden transition duration-150 ease-in-out"
+			class="top-0 bottom-0 w-64 absolute bg-gray-800 shadow md:h-full flex-col justify-between flex md:hidden transition duration-150 ease-in-out z-20"
 			id="mobile-nav">
 			<button aria-label="toggle sidebar" id="openSideBar"
 					class="h-10 w-10 bg-gray-800 absolute right-0 mt-16 -mr-10 flex items-center shadow rounded-tr rounded-br justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 rounded focus:ring-gray-800"
@@ -64,50 +42,29 @@
 			<div class="px-8">
 				<Logo/>
 				<ul class="mt-12">
-					<li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center">
-						<a href="javascript:void(0)"
-						   class="flex items-center focus:outline-none focus:ring-2 focus:ring-white">
-							<PlusCircleIcon class="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-							<button
-								class="text-sm ml-2"
-								@click="createModalVisible = true">New Secret
-							</button>
-						</a>
+					<li class="flex w-full justify-between text-gray-400 hover:text-gray-300 cursor-pointer items-center"
+						@click="createModalVisible = true"
+					>
+						<NewSecret/>
 					</li>
 				</ul>
 			</div>
-<!--			      <div class="px-8 border-t border-gray-700">-->
-<!--			        <ul class="w-full flex items-center justify-between bg-gray-800">-->
-<!--			          <li class="cursor-pointer text-white pt-5 pb-3">-->
-<!--			            <button aria-label="show notifications" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-<!--			              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg3.svg" alt="notifications">-->
-<!--			            </button>-->
-<!--			          </li>-->
-<!--			          <li class="cursor-pointer text-white pt-5 pb-3">-->
-<!--			            <button aria-label="open chats" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-<!--			              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg4.svg" alt="chat">-->
-<!--			            </button>-->
-<!--			          </li>-->
-<!--			          <li class="cursor-pointer text-white pt-5 pb-3">-->
-<!--			            <button aria-label="open settings" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-<!--			              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg5.svg" alt="settings">-->
-<!--			            </button>-->
-<!--			          </li>-->
-<!--			          <li class="cursor-pointer text-white pt-5 pb-3">-->
-<!--			            <button aria-label="open logs" class="focus:outline-none focus:ring-2 rounded focus:ring-gray-300">-->
-<!--			              <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/light_with_icons_at_bottom-svg6.svg" alt="drawer">-->
-<!--			            </button>-->
-<!--			          </li>-->
-<!--			        </ul>-->
-<!--			      </div>-->
+			<div class="px-8 border-t border-gray-700">
+				<ul class="w-full flex items-center justify-between bg-gray-800">
+					<li class="text-white pt-5 pb-3">
+						<Version/>
+					</li>
+				</ul>
+			</div>
 		</div>
 		<!-- Sidebar ends -->
+
 		<!-- Remove class [ h-64 ] when adding a card block -->
-		<div class="container sm:ml-72 py-10 px-6">
+		<div class="container md:ml-72 py-10 px-6 mx-auto">
 			<!-- Remove class [ border-dashed border-2 border-gray-300 ] to remove dotted border -->
-			<div class="w-full h-full rounded border-dashed border-2 border-gray-300">
+			<div class="w-full h-full rounded border-dashed border-2 border-gray-300 p-2">
 				<div class="mt-2 w-full">
-					<Namespace class="inline-block" :namespaces="namespaces"></Namespace>
+					<Namespace class="inline-block z-10" :namespaces="namespaces"></Namespace>
 				</div>
 				<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
 					<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -127,9 +84,10 @@
 					</tr>
 					</thead>
 					<tbody>
-
 					<tr class="bg-white dark:bg-gray-800" v-for="secret in secrets">
-						<th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer" @click="getSecret(secret)">
+						<th scope="row"
+							class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white cursor-pointer"
+							@click="getSecret(secret)">
 							{{ secret.name }}
 						</th>
 						<td class="py-4 px-6">
@@ -142,24 +100,18 @@
 							></div>
 						</td>
 						<td class="py-4 px-6">
-							<TrashIcon class="text-red-500 h-7 inline-block cursor-pointer" @click="deleteSecret( secret )"/>
-							<PencilIcon class="text-green-500 h-7 inline-block cursor-pointer" @click="getSecret( secret )"/>
+							<TrashIcon class="text-red-500 h-7 inline-block cursor-pointer"
+									   @click="deleteSecret( secret )"/>
+							<PencilIcon class="text-green-500 h-7 inline-block cursor-pointer"
+										@click="getSecret( secret )"/>
 						</td>
 					</tr>
 					</tbody>
 				</table>
 
-<!--				<div-->
-<!--					class="grid grid-cols-1 gap-2  lg:grid-cols-4 lg:gap-4 md:grid-cols-2 md:gap-4 mt-32 md:mt-12 p-2">-->
-<!--&lt;!&ndash;					<SecretCard v-for="secret in secrets"&ndash;&gt;-->
-<!--&lt;!&ndash;								:name="secret.name" :namespace="secret.namespace" :version="secret.version"&ndash;&gt;-->
-<!--&lt;!&ndash;								:inUse="secret.inUse"&ndash;&gt;-->
-<!--&lt;!&ndash;								@clicked="getSecret" @onDelete="deleteSecret"&ndash;&gt;-->
-<!--&lt;!&ndash;					/>&ndash;&gt;-->
-<!--				</div>-->
-
 				<UpdateModal v-if="modalVisible" :secret="modalSecret" @onClose="hideModal" @onSubmit="submitModal"/>
 				<CreateModal v-if="createModalVisible" :secret="modalSecret" @onClose="hideCreateModal"
+							 class="z-40"
 							 @onSubmit="submitCreateModal"/>
 			</div>
 		</div>
@@ -168,13 +120,14 @@
 
 <script>
 import {defineComponent} from 'vue';
-import SecretCard									from "@/components/Secret/SecretCard.vue";
-import Namespace									from '@/components/Dropdowns/Namespace.vue';
-import UpdateModal									from '@/components/Modal/UpdateModal.vue';
-import CreateModal									from '@/components/Modal/CreateModal.vue';
-import Logo											from "@/views/Components/Logo";
-import { PlusCircleIcon, TrashIcon, PencilIcon }	from '@heroicons/vue/solid'
-
+import SecretCard from "@/components/Secret/SecretCard.vue";
+import Namespace from '@/components/Dropdowns/Namespace.vue';
+import UpdateModal from '@/components/Modal/UpdateModal.vue';
+import CreateModal from '@/components/Modal/CreateModal.vue';
+import Logo from "@/components/Logo";
+import Version from "@/components/Version";
+import {PlusCircleIcon, TrashIcon, PencilIcon} from '@heroicons/vue/solid'
+import NewSecret from "@/components/Sidebar/NewSecret"
 
 export default defineComponent({
 	name: 'Home',
@@ -185,7 +138,11 @@ export default defineComponent({
 			modalSecret: {}
 		}
 	},
-	components: {TrashIcon, PencilIcon, PlusCircleIcon, Logo, SecretCard, Namespace, UpdateModal, CreateModal},
+	components: {
+		NewSecret, Version, TrashIcon, PencilIcon,
+		PlusCircleIcon, Logo, SecretCard, Namespace,
+		UpdateModal, CreateModal
+	},
 	async created() {
 		await this.refreshCurrent();
 
@@ -193,6 +150,8 @@ export default defineComponent({
 		this.openSidebar = document.getElementById("openSideBar");
 		this.closeSidebar = document.getElementById("closeSideBar");
 		this.sideBar.style.transform = "translateX(-260px)";
+
+		await this.$store.dispatch('updateVersions');
 	},
 	computed: {
 		namespaces() {
@@ -200,7 +159,13 @@ export default defineComponent({
 		},
 		secrets() {
 			return this.$store.state.secrets[this.$store.state.currentNamespace];
-		}
+		},
+		currentVersion() {
+			return this.$store.state.currentVersion;
+		},
+		latestVersion() {
+			return this.$store.state.latestVersion;
+		},
 	},
 	methods: {
 		sidebarHandler(flag) {

@@ -18,6 +18,28 @@ export default class Communicator {
 	}
 
 	/**
+	 * Gets the latest package version
+	 *
+	 * @return	{Promise<Object>}
+	 */
+	async getLatestVersion() {
+		return await axios.get( `/api/latest` ).catch( ( error ) => {
+			return error.response;
+		});
+	}
+
+	/**
+	 * Gets the latest package version
+	 *
+	 * @return	{Promise<Object>}
+	 */
+	async getCurrentVersion() {
+		return await axios.get( `/api/current` ).catch( ( error ) => {
+			return error.response;
+		});
+	}
+
+	/**
 	 * @brief	Gets secrets for a specific namespace
 	 *
 	 * @param	{String} namespace
