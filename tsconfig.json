@@ -5,16 +5,8 @@
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "jsx": "preserve",
-    "importHelpers": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
     "outDir": "dist",
     "baseUrl": ".",
-    "types": [
-      "webpack-env",
-      "node"
-    ],
     "paths": {
       "@/*": [
         "src/*"
@@ -27,17 +19,10 @@
       "scripthost"
     ]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "api/**/*.ts"
-  ],
   "exclude": [
     "node_modules",
     "spec",
+    "src"
   ],
   "lib": [
     "es2015"

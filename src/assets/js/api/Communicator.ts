@@ -30,7 +30,7 @@ export default class Communicator {
 	 * @brief	Gets the currently set url
 	 */
 	getURL() {
-		return this.url;
+		return "";
 	}
 
 	/**
@@ -39,7 +39,7 @@ export default class Communicator {
 	 * @param	{String} namespace
 	 */
 	async getSecretsForNamespace( namespace: string ): Promise<AxiosResponse<SimpleSecrets[]>> {
-		const response	= await axios.get( `${this.getURL()}/api/simplesecrets/${namespace}` ).catch( ( error ) => {
+		const response	= await axios.get( `/api/simplesecrets/${namespace}` ).catch( ( error ) => {
 			return error;
 		});
 
@@ -53,7 +53,7 @@ export default class Communicator {
 	 * @brief	Gets all secrets
 	 */
 	async getAllSecrets(): Promise<AxiosResponse<SimpleSecrets[]>> {
-		const response	= await axios.get( `${this.getURL()}/api/simplesecrets` ).catch( ( error ) => {
+		const response	= await axios.get( `/api/simplesecrets` ).catch( ( error ) => {
 			return error;
 		});
 
@@ -67,7 +67,7 @@ export default class Communicator {
 	 * @brief	Gets a specific secret
 	 */
 	async getSecret( namespace: string, name: string ): Promise<AxiosResponse<SimpleSecrets>> {
-		const response	= await axios.get( `${this.getURL()}/api/simplesecrets/${namespace}/${name}` ).catch( ( error ) => {
+		const response	= await axios.get( `/api/simplesecrets/${namespace}/${name}` ).catch( ( error ) => {
 			return error;
 		});
 
@@ -81,7 +81,7 @@ export default class Communicator {
 	 * @brief	Updates an existing secret
 	 */
 	async updateSecret( namespace: string, name: string, data: any ): Promise<AxiosResponse<SimpleSecrets>> {
-		const response	= await axios.post( `${this.getURL()}/api/simplesecrets`, { name, namespace, data } ).catch( ( error ) => {
+		const response	= await axios.post( `/api/simplesecrets`, { name, namespace, data } ).catch( ( error ) => {
 			return error;
 		});
 
@@ -95,7 +95,7 @@ export default class Communicator {
 	 * @brief	Creates a new secret
 	 */
 	async createSecret( secret: any ): Promise<AxiosResponse<SimpleSecrets>> {
-		const response	= await axios.post( `${this.getURL()}/api/simplesecrets`, secret ).catch( ( error ) => {
+		const response	= await axios.post( `/api/simplesecrets`, secret ).catch( ( error ) => {
 			return error;
 		});
 
@@ -109,7 +109,7 @@ export default class Communicator {
 	 * @brief	Deletes an existing secret
 	 */
 	async deleteSecret( namespace: string, name: string, ): Promise<AxiosResponse<SimpleSecrets>> {
-		const response	= await axios.delete( `${this.getURL()}/api/simplesecrets/${namespace}/${name}` ).catch( ( error ) => {
+		const response	= await axios.delete( `/api/simplesecrets/${namespace}/${name}` ).catch( ( error ) => {
 			return error;
 		});
 

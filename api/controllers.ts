@@ -17,10 +17,10 @@ apiRouter.add( require( "./simplesecrets/controller/delete" ) );
 app.add( "/api", apiRouter );
 
 // Serve Static Resources
-app.apply( app.er_static,	{ paths	: ['dist'], cache: { cacheControl: 'public', expirationDirectives: { 'max-age': 3600 } } } );
+app.apply( app.er_static,	{ paths	: ['src'], cache: { cacheControl: 'public', expirationDirectives: { 'max-age': 3600 } } } );
 
 // Frontend
 app.get(( event: any )=>{
     event.setResponseHeader( 'Content-Type', 'text/html' );
-    createReadStream( `${PROJECT_ROOT}/dist/index.html` ).pipe( event.response );
+    createReadStream( `${PROJECT_ROOT}/src/index.html` ).pipe( event.response );
 });
