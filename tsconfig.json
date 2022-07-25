@@ -36,7 +36,8 @@
     "api/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "spec",
   ],
   "lib": [
     "es2015"
