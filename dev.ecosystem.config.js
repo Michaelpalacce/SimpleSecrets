@@ -2,7 +2,7 @@ module.exports	= {
 	apps : [
 		{
 			name: 'simple-secrets',
-			script: 'dist/index.js',
+			script: 'npm run serve',
 			watch: true,
 			ignore_watch : [
 				"node_modules",

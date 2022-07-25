@@ -142,8 +142,8 @@
 							></div>
 						</td>
 						<td class="py-4 px-6">
-							<TrashIcon class="text-red-500 h-7 inline-block" @click="deleteSecret( secret )"/>
-							<PencilIcon class="text-green-500 h-7 inline-block" @click="getSecret( secret )"/>
+							<TrashIcon class="text-red-500 h-7 inline-block cursor-pointer" @click="deleteSecret( secret )"/>
+							<PencilIcon class="text-green-500 h-7 inline-block cursor-pointer" @click="getSecret( secret )"/>
 						</td>
 					</tr>
 					</tbody>

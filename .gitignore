@@ -8,3 +8,4 @@ kube
 coverage
 docker-data
 test
+db.sqlite
