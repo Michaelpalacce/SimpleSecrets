@@ -23,7 +23,7 @@ router.get( '/latest', async ( event ) => {
 	if ( response.status !== 200 ) {
 		await event.sendError({
 			code: 'app.general.version.error',
-			message: "Error while fetching latest version"
+			message: `Error while fetching latest version. Status was: ${response.status}`
 		});
 		return;
 	}

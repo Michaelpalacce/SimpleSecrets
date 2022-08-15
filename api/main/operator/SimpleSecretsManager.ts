@@ -16,29 +16,6 @@ export default class SimpleSecretsManager {
 	 * @brief	Patches annotations
 	 *
 	 * @param	{SimpleSecrets} simpleSecret
-	 * @param	{String} key
-	 * @param	{String} value
-	 *
-	 * @return	{Promise}
-	 */
-	static async patchSimpleSecretAnnotation ( simpleSecret: SimpleSecrets, key: string, value: string ): Promise<{
-		response: http.IncomingMessage;
-		body: object;
-	} | void> {
-		const patch	= [
-			{
-				"op": PatchDirectiveOperation.ADD,
-				"path": `/metadata/annotations/${key}`,
-				value
-			}
-		];
-
-		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( logger.error );
-	}
-	/**
-	 * @brief	Patches annotations
-	 *
-	 * @param	{SimpleSecrets} simpleSecret
 	 * @param	{V1Patch} patch
 	 *
 	 * @return	{Promise}
@@ -68,7 +45,25 @@ export default class SimpleSecretsManager {
 		response: http.IncomingMessage;
 		body: object;
 	} | void> {
-		return await SimpleSecretsManager.patchSimpleSecretAnnotation( simpleSecret, "currentVersion", version ).catch( logger.error );
+		const patch: V1Patch	= [
+			{
+				"op": PatchDirectiveOperation.ADD,
+				"path": `/metadata/annotations/currentVersion`,
+				value: version
+			}
+		];
+
+		if ( ! simpleSecret.metadata.annotations ){
+			patch.unshift(
+				{
+					op:PatchDirectiveOperation.ADD,
+					path:"/metadata/annotations",
+					value:{}
+				}
+			)
+		}
+
+		return await SimpleSecretsManager.patchSimpleSecret( simpleSecret, patch ).catch( logger.error );
 	}
 
 	/**

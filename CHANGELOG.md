@@ -1,3 +1,7 @@
+## [3.0.1]
+* Patching of SimpleSecrets that do not have any annotations now work as expected
+* Added a bit of a better message for versions
+
 ## [3.0.0]
 * Added badges
 * Securing the services documentation

@@ -156,8 +156,7 @@ data:
 ## Development
 1. Go to `./charts/`
 2. Run `helm install simplesecrets simplesecrets -n simplesecrets --create-namespace`
-3. in the main directory run `tsc --watch`
-4. In the `./dist` directory run `nodemon index.js`
+3. in the main directory run `pm2-runtime dev.ecosytem.config.js`
 
 ## Testing
 1. Run: `npm run test`

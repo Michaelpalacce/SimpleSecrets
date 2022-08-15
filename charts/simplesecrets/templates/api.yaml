@@ -1,4 +1,4 @@
-{{- with .Values.simplesecrets.api }}
+{{- with .Values.simplesecrets }}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -46,10 +46,15 @@ spec:
                           port: {{ .port }}
             restartPolicy: Always
             volumes:
+                {{- if .dataPvc }}
+                - name: data
+                  persistentVolumeClaim:
+                      claimName: {{ .dataPvc }}
+                {{- else }}
                 - name: data-config
                   hostPath:
-                      path: /mnt/ss/data
-
+                      path: /tmp/ss/data
+                {{- end }}
 
 ---
 
