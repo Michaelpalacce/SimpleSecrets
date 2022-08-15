@@ -32,13 +32,13 @@ heavy? Well look no further!
 - [x] Fingerprint in database for extra security
 - [x] Api Documentation
 - [x] Authentication -> Should be handled by a third party solution like authelia/authentik
+- [x] Preserve annotations from SimpleSecret when creating the secret
 - [ ] Better Backup & Restore procedure
 - [ ] Kubernetes native way of storing backups -> using CRDs
 - [ ] Dynamic secrets
 - [ ] External secrets
 - [ ] Watch secret annotation to restart deployments when a secret is changed
 - [ ] Better Helm Chart
-- [ ] Preserve annotations from SimpleSecret when creating the secret 
 
 ## Supported DBs:
 | db            | Supported          | Comments                                                                                        |
@@ -58,63 +58,7 @@ heavy? Well look no further!
 7. If you change a SimpleSecret Object, like patch a version, the change will be reflected in the Secret. 
 8. If you delete the SimpleSecret Resource, the Secret will also get deleted.
 
-## Example:
-After adding the SimpleSecret, create an empty SimpleSecret object:
-~~~yaml
-apiVersion: "simplesecrets.local/v1"
-kind: SimpleSecret
-metadata:
-    name: testsecret
-    namespace: simplesecrets
-~~~
-This will automatically resolve to:
-~~~yaml
-apiVersion: v1
-kind: Secret
-metadata:
-    name: testsecret
-    namespace: simplesecrets
-    annotations:
-        "simplesecrets.hash": {{HASH_VALUE}}
-data:
-    dataOne: {{BASE_64_VALUE}}
-    dataTwo: {{BASE_64_VALUE}}
-~~~
-
-## Versioning
-When creating a new secret with an api call, if that secret exists, a new version will be added. You can specify the version you want to use inside the SimpleSecret `spec`
-~~~yaml
-apiVersion: "simplesecrets.local/v1"
-kind: SimpleSecret
-metadata:
-    name: testsecret
-    namespace: simplesecrets
-spec:
-    version: 3 # The Operator will provision version 3 of the secret. If that version does not exist, a secret will not be created
-~~~
-If you want to use the latest version ALWAYS ( the K8S Secret will be recreated every time you create a new version with the API ),
-then do not specify a version at all, or specify 0:
-~~~yaml
-apiVersion: "simplesecrets.local/v1"
-kind: SimpleSecret
-metadata:
-    name: testsecret
-    namespace: simplesecrets
-
----
-
-apiVersion: "simplesecrets.local/v1"
-kind: SimpleSecret
-metadata:
-    name: testsecret
-    namespace: simplesecrets
-spec:
-    version: 0
-
-~~~
-
 ## Env Variables
-
 | Variable         | Description                                                                                                              | Default                     |
 |------------------|--------------------------------------------------------------------------------------------------------------------------|-----------------------------|
 | APP_PORT         | The Port on which the app will run                                                                                       | 3000                        |
@@ -127,23 +71,10 @@ spec:
 | PROD_DB_PORT     | Check the available options from sequelize                                                                               | undefined                   |
 | PROD_DB_DIALECT  | Check the available options from sequelize                                                                               | undefined                   |
 
-[//]: # (| INSECURE         | Should http requests to the API be accepted. Do not set this to true unless you know what you are doing                  | false                       |)
+## Documentation
+- [Installation](./docs/Installation.md)
+- [Working With SimpleSecrets](./docs/Working With SimpleSecrets.md)
 
-
-## Installation
-1. Create namespace simplesecrets
-2. (Optional) Create a new secret called `encryptionkey`. If you don't do this manually the secret will be generated for you.
-3. Apply the Helm charts in simplesecrets namespace
-~~~yaml
-apiVersion: v1
-kind: Secret
-metadata:
-    name: encryptionkey
-    namespace: simplesecrets
-data:
-    encryptionKey: {{BASE_64_VALUE}}
-~~~
-### Checkout: [Working installation with Longhorn](https://github.com/Michaelpalacce/HomeLab/tree/master/Helm/apps/simplesecrets)
 
 ## Backup and Restore
 * You can do a GET request to {{FQDN}}/api/simplesecrets/backup to get all the data needed for a backup

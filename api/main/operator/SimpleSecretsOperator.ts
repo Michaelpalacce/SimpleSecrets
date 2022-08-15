@@ -171,6 +171,10 @@ export default class SimpleSecretsOperator extends Operator {
 			logger.error( `Secret ${name} in ${namespace} does not have version ${version}` );
 			return;
 		}
+		const annotations	= {
+			[this.ANNOTATION]: hash,
+			... metadata.annotations || {}
+		}
 
 		const secret: V1Secret	= {
 			apiVersion: "v1",
@@ -178,9 +182,7 @@ export default class SimpleSecretsOperator extends Operator {
 			metadata: {
 				name,
 				namespace,
-				annotations: {
-					[this.ANNOTATION]: hash
-				}
+				annotations
 			},
 			type: dbSecret.type,
 			stringData: dbData[version]

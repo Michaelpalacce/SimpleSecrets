@@ -36,6 +36,8 @@ export default class SimpleSecretsManager {
 	/**
 	 * @brief	Patches the version annotation of the SimpleSecret
 	 *
+	 * @details	This will add /metadata/annotations if they are not set already. If this is skipped, the patch will fail, so we do it
+	 *
 	 * @param	{SimpleSecrets} simpleSecret
 	 * @param	{Number} version
 	 *
